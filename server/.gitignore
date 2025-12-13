@@ -1,0 +1,24 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+node_modules
+uploads
+
+# Environment variables (IMPORTANT: Never commit .env file)
+.env
+.env.local
+.env.production
+.env.development
+
+# Keep .env.example for reference
+!.env.example
+
+# OS
+.DS_Store
+Thumbs.db
+
