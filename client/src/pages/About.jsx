@@ -46,10 +46,10 @@ const About = () => {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
             >
-              <h2 className="text-4xl font-elegant font-bold mb-6 dark:text-white">
+              <h2 className="text-4xl font-elegant font-bold mb-6">
                 Welcome to RS Photography
               </h2>
-              <p className="text-gray-700 dark:text-gray-300 mb-4 text-lg leading-relaxed">
+              <p className="text-gray-700 mb-4 text-lg leading-relaxed">
                 Based in the beautiful city of Balaghat, Madhya Pradesh, RS Photography 
                 specializes in capturing the most precious moments of your special day. 
                 With over a decade of experience, we have been privileged to document 
@@ -73,7 +73,7 @@ const About = () => {
       </section>
 
       {/* Stats */}
-      <section className="py-20 bg-wedding-black dark:bg-gray-800 text-white transition-colors duration-300">
+      <section className="py-20 bg-wedding-black text-white">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {stats.map((stat, index) => (
@@ -97,11 +97,11 @@ const About = () => {
       </section>
 
       {/* Vision & Mission */}
-      <section className="py-20 bg-white dark:bg-gray-900 transition-colors duration-300">
+      <section className="py-20 bg-white">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
             <motion.div
-              className="bg-gray-50 dark:bg-gray-800 p-8 rounded-lg transition-colors duration-300"
+              className="bg-gray-50 p-8 rounded-lg"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -109,14 +109,14 @@ const About = () => {
               <h3 className="text-3xl font-elegant font-bold mb-4 text-wedding-gold">
                 Our Vision
               </h3>
-              <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
+              <p className="text-gray-700 leading-relaxed">
                 To be the most trusted and sought-after wedding photography service in 
                 Balaghat and surrounding regions, known for our artistic excellence, 
                 attention to detail, and commitment to capturing authentic emotions.
               </p>
             </motion.div>
             <motion.div
-              className="bg-gray-50 dark:bg-gray-800 p-8 rounded-lg transition-colors duration-300"
+              className="bg-gray-50 p-8 rounded-lg"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -125,7 +125,7 @@ const About = () => {
               <h3 className="text-3xl font-elegant font-bold mb-4 text-wedding-gold">
                 Our Mission
               </h3>
-              <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
+              <p className="text-gray-700 leading-relaxed">
                 To create stunning visual narratives that preserve the magic of your 
                 wedding day. We strive to blend traditional Indian wedding photography 
                 with contemporary techniques, ensuring every moment is captured with 
@@ -137,7 +137,7 @@ const About = () => {
       </section>
 
       {/* Location Focus */}
-      <section className="py-20 bg-gradient-to-br from-wedding-black dark:from-gray-800 to-wedding-gold text-white transition-colors duration-300">
+      <section className="py-20 bg-gradient-to-br from-wedding-black to-wedding-gold text-white">
         <div className="container mx-auto px-4 text-center">
           <motion.h2
             className="text-4xl md:text-5xl font-elegant font-bold mb-6"

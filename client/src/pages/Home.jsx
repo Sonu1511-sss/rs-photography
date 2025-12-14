@@ -114,7 +114,7 @@ const Home = () => {
       </section>
 
       {/* Featured Galleries */}
-      <section className="py-20 bg-white dark:bg-gray-900 transition-colors duration-300">
+      <section className="py-20 bg-white">
         <div className="container mx-auto px-4">
           <motion.div
             className="text-center mb-12"
@@ -122,10 +122,10 @@ const Home = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
-            <h2 className="text-4xl md:text-5xl font-elegant font-bold mb-4 dark:text-white">
+            <h2 className="text-4xl md:text-5xl font-elegant font-bold mb-4">
               Featured Galleries
             </h2>
-            <p className="text-gray-600 dark:text-gray-300 text-lg">
+            <p className="text-gray-600 text-lg">
               Explore our stunning collection of wedding moments
             </p>
           </motion.div>
@@ -160,7 +160,7 @@ const Home = () => {
       </section>
 
       {/* Services Preview */}
-      <section className="py-20 bg-wedding-black dark:bg-gray-800 text-white transition-colors duration-300">
+      <section className="py-20 bg-wedding-black text-white">
         <div className="container mx-auto px-4">
           <motion.div
             className="text-center mb-12"
@@ -221,7 +221,7 @@ const Home = () => {
 
       {/* Testimonials Preview */}
       {featuredTestimonials.length > 0 && (
-        <section className="py-20 bg-white dark:bg-gray-900 transition-colors duration-300">
+        <section className="py-20 bg-white">
           <div className="container mx-auto px-4">
             <motion.div
               className="text-center mb-12"
@@ -238,7 +238,7 @@ const Home = () => {
               {featuredTestimonials.slice(0, 3).map((testimonial, index) => (
               <motion.div
                 key={testimonial._id}
-                className="bg-gray-50 dark:bg-gray-800 p-6 rounded-lg shadow-lg transition-colors duration-300"
+                className="bg-gray-50 p-6 rounded-lg shadow-lg"
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
@@ -256,8 +256,8 @@ const Home = () => {
                       </span>
                     ))}
                   </div>
-                  <p className="text-gray-700 dark:text-gray-300 mb-4 italic">"{testimonial.review}"</p>
-                  <p className="font-semibold text-wedding-black dark:text-white">
+                  <p className="text-gray-700 mb-4 italic">"{testimonial.review}"</p>
+                  <p className="font-semibold text-wedding-black">
                     - {testimonial.coupleName}
                   </p>
                 </motion.div>

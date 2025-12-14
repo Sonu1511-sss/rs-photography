@@ -32,7 +32,7 @@ function App() {
           v7_relativeSplatPath: true
         }}
       >
-        <div className="min-h-screen flex flex-col bg-white dark:bg-gray-900 transition-colors duration-300">
+        <div className="min-h-screen flex flex-col bg-white">
           <Navbar />
           <main className="flex-grow">
             <Routes>

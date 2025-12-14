@@ -83,14 +83,14 @@ const Packages = () => {
       </section>
 
       {/* Packages */}
-      <section className="py-20 bg-white dark:bg-gray-900 transition-colors duration-300">
+      <section className="py-20 bg-white">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {packages.map((pkg, index) => (
               <motion.div
                 key={pkg.name}
-                className={`relative bg-white dark:bg-gray-800 rounded-lg shadow-xl overflow-hidden transition-colors duration-300 ${
-                  pkg.popular ? 'border-4 border-wedding-gold scale-105' : 'border border-gray-200 dark:border-gray-700'
+                className={`relative bg-white rounded-lg shadow-xl overflow-hidden ${
+                  pkg.popular ? 'border-4 border-wedding-gold scale-105' : 'border border-gray-200'
                 }`}
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -103,8 +103,8 @@ const Packages = () => {
                   </div>
                 )}
                 <div className="p-8">
-                  <h3 className="text-3xl font-elegant font-bold mb-2 dark:text-white">{pkg.name}</h3>
-                  <p className="text-gray-600 dark:text-gray-300 mb-4">{pkg.description}</p>
+                  <h3 className="text-3xl font-elegant font-bold mb-2">{pkg.name}</h3>
+                  <p className="text-gray-600 mb-4">{pkg.description}</p>
                   <div className="mb-6">
                     <span className="text-4xl font-bold text-wedding-gold">{pkg.price}</span>
                     <span className="text-gray-600 ml-2">Starting from</span>
@@ -120,7 +120,7 @@ const Packages = () => {
                       {pkg.deliverables.map((item, idx) => (
                         <li key={idx} className="flex items-start">
                           <FaCheck className="text-wedding-gold mr-2 mt-1 flex-shrink-0" />
-                          <span className="text-gray-700 dark:text-gray-300">{item}</span>
+                          <span className="text-gray-700">{item}</span>
                         </li>
                       ))}
                     </ul>
@@ -133,7 +133,7 @@ const Packages = () => {
                         {pkg.notIncluded.map((item, idx) => (
                           <li key={idx} className="flex items-start">
                             <FaTimes className="text-gray-400 mr-2 mt-1 flex-shrink-0" />
-                            <span className="text-gray-500 dark:text-gray-400">{item}</span>
+                            <span className="text-gray-500">{item}</span>
                           </li>
                         ))}
                       </ul>

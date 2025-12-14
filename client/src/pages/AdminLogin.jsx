@@ -52,24 +52,24 @@ const AdminLogin = () => {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-wedding-black via-wedding-gold to-wedding-black dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 pt-20 px-4">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-wedding-black via-wedding-gold to-wedding-black pt-20 px-4">
       <motion.div
-        className="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-2xl w-full max-w-md transition-colors duration-300"
+        className="bg-white p-8 rounded-lg shadow-2xl w-full max-w-md"
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
       >
         <div className="text-center mb-6">
-          <h1 className="text-3xl font-elegant font-bold dark:text-white mb-2">
+          <h1 className="text-3xl font-elegant font-bold mb-2">
             Admin Login
           </h1>
-          <p className="text-gray-600 dark:text-gray-300">
+          <p className="text-gray-600">
             RS Photography Admin Panel
           </p>
         </div>
 
         {error && (
           <motion.div
-            className="bg-red-100 dark:bg-red-900 border border-red-400 dark:border-red-600 text-red-700 dark:text-red-300 px-4 py-3 rounded mb-4"
+            className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4"
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
           >
@@ -79,7 +79,7 @@ const AdminLogin = () => {
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label htmlFor="username" className="block text-sm font-semibold mb-2 dark:text-gray-300">
+            <label htmlFor="username" className="block text-sm font-semibold mb-2">
               <FaUser className="inline mr-2" /> Username
             </label>
             <input
@@ -91,15 +91,15 @@ const AdminLogin = () => {
               className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 transition-colors ${
                 error && !formData.username
                   ? 'border-red-500 focus:ring-red-500'
-                  : 'border-gray-300 dark:border-gray-600 focus:border-wedding-gold focus:ring-wedding-gold'
-              } dark:bg-gray-700 dark:text-white`}
+                  : 'border-gray-300 focus:border-wedding-gold focus:ring-wedding-gold'
+              }`}
               placeholder="Enter username"
               autoComplete="username"
             />
           </div>
           
           <div>
-            <label htmlFor="password" className="block text-sm font-semibold mb-2 dark:text-gray-300">
+            <label htmlFor="password" className="block text-sm font-semibold mb-2">
               <FaLock className="inline mr-2" /> Password
             </label>
             <div className="relative">
@@ -112,15 +112,15 @@ const AdminLogin = () => {
                 className={`w-full px-4 py-3 pr-12 border rounded-lg focus:outline-none focus:ring-2 transition-colors ${
                   error && !formData.password
                     ? 'border-red-500 focus:ring-red-500'
-                    : 'border-gray-300 dark:border-gray-600 focus:border-wedding-gold focus:ring-wedding-gold'
-                } dark:bg-gray-700 dark:text-white`}
+                    : 'border-gray-300 focus:border-wedding-gold focus:ring-wedding-gold'
+                }`}
                 placeholder="Enter password"
                 autoComplete="current-password"
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-wedding-gold dark:text-gray-400"
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-wedding-gold"
                 aria-label="Toggle password visibility"
               >
                 {showPassword ? <FaEyeSlash /> : <FaEye />}
@@ -148,7 +148,7 @@ const AdminLogin = () => {
         </form>
 
         <div className="mt-6 text-center">
-          <p className="text-gray-600 dark:text-gray-400">
+          <p className="text-gray-600">
             Don't have an account?{' '}
             <Link
               to="/admin/signup"

@@ -1,15 +1,13 @@
 import { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { FaInstagram, FaYoutube, FaSun, FaMoon } from 'react-icons/fa'
+import { FaInstagram, FaYoutube } from 'react-icons/fa'
 import { HiMenu, HiX } from 'react-icons/hi'
-import { useTheme } from '../context/ThemeContext'
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const location = useLocation()
-  const { theme, toggleTheme } = useTheme()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -45,7 +43,7 @@ const Navbar = () => {
     <motion.nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled
-          ? 'bg-wedding-black dark:bg-gray-900 shadow-lg py-3 backdrop-blur-sm bg-opacity-95 dark:bg-opacity-95'
+          ? 'bg-wedding-black shadow-lg py-3 backdrop-blur-sm bg-opacity-95'
           : 'bg-transparent py-4'
       }`}
       initial={{ y: -100 }}
@@ -70,7 +68,9 @@ const Navbar = () => {
                   className={`px-3 py-2 text-sm font-medium transition-colors ${
                     location.pathname === link.path
                       ? 'text-wedding-gold'
-                      : 'text-white hover:text-wedding-gold'
+                      : isScrolled
+                        ? 'text-white hover:text-wedding-gold'
+                        : 'text-white hover:text-wedding-gold'
                   }`}
                 >
                   {link.label}
@@ -91,20 +91,17 @@ const Navbar = () => {
               </div>
             ))}
             
-            {/* Theme Toggle & Social Icons */}
+            {/* Social Icons */}
             <div className="flex items-center space-x-4 ml-4 pl-4 border-l border-wedding-gold/30">
-              <button
-                onClick={toggleTheme}
-                className="text-white hover:text-wedding-gold transition-all p-2 rounded-full hover:bg-white/10"
-                aria-label="Toggle theme"
-              >
-                {theme === 'dark' ? <FaSun size={20} /> : <FaMoon size={20} />}
-              </button>
               <a
                 href="https://instagram.com/rsp_photography"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-white hover:text-wedding-gold transition-colors"
+                className={`transition-colors ${
+                  isScrolled
+                    ? 'text-white hover:text-wedding-gold'
+                    : 'text-white hover:text-wedding-gold'
+                }`}
                 aria-label="Instagram"
               >
                 <FaInstagram size={20} />
@@ -113,7 +110,11 @@ const Navbar = () => {
                 href="https://youtube.com/@rsp_photography"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-white hover:text-wedding-gold transition-colors"
+                className={`transition-colors ${
+                  isScrolled
+                    ? 'text-white hover:text-wedding-gold'
+                    : 'text-white hover:text-wedding-gold'
+                }`}
                 aria-label="YouTube"
               >
                 <FaYoutube size={20} />
@@ -123,7 +124,11 @@ const Navbar = () => {
 
           {/* Mobile Menu Button */}
           <button
-            className="lg:hidden text-white"
+            className={`lg:hidden transition-colors ${
+              isScrolled
+                ? 'text-white'
+                : 'text-white'
+            }`}
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             aria-label="Toggle menu"
           >
@@ -163,13 +168,6 @@ const Navbar = () => {
               </div>
             ))}
             <div className="flex items-center justify-center space-x-4 mt-4 pt-4 border-t border-wedding-gold/30">
-              <button
-                onClick={toggleTheme}
-                className="text-white hover:text-wedding-gold transition-all p-2 rounded-full hover:bg-white/10"
-                aria-label="Toggle theme"
-              >
-                {theme === 'dark' ? <FaSun size={24} /> : <FaMoon size={24} />}
-              </button>
               <a
                 href="https://instagram.com/rsp_photography"
                 target="_blank"
