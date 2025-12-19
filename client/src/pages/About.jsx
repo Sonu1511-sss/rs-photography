@@ -47,13 +47,13 @@ const About = () => {
               viewport={{ once: true }}
             >
               <h2 className="text-4xl font-elegant font-bold mb-6">
-                Welcome to RS Photography
+                Welcome to RS Photography - Balaghat & Katangi
               </h2>
               <p className="text-gray-700 mb-4 text-lg leading-relaxed">
-                Based in the beautiful city of Balaghat, Madhya Pradesh, RS Photography 
-                specializes in capturing the most precious moments of your special day. 
+                RS Photography is the leading wedding photography service in Balaghat and Katangi, Madhya Pradesh. 
+                We specialize in capturing the most precious moments of your special day. 
                 With over a decade of experience, we have been privileged to document 
-                countless weddings, engagements, and pre-wedding celebrations.
+                countless weddings, engagements, and pre-wedding celebrations across Balaghat, Katangi, and surrounding areas.
               </p>
               <p className="text-gray-700 mb-4 text-lg leading-relaxed">
                 Our approach combines traditional Indian wedding aesthetics with modern 

@@ -14,12 +14,13 @@ const Footer = () => {
               RS Photography
             </h3>
             <p className="text-gray-300 mb-4">
-              Capturing Timeless Wedding Stories in Balaghat, Madhya Pradesh. 
-              Professional Indian Wedding Photography, Pre-Wedding, Engagement, and Wedding Films.
+              RS Photography - Best Wedding Photography Services in Balaghat and Katangi, Madhya Pradesh. 
+              Professional Indian Wedding Photography, Pre-Wedding Shoots, Engagement Photography, and Wedding Films. 
+              RS Photography Balaghat Katangi - Your trusted wedding photographer.
             </p>
             <div className="flex space-x-4">
               <a
-                href="https://instagram.com/rsp_photography"
+                href="https://www.instagram.com/rs____photography___/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-wedding-gold hover:text-white transition-colors"
@@ -28,7 +29,7 @@ const Footer = () => {
                 <FaInstagram size={24} />
               </a>
               <a
-                href="https://youtube.com/@rsp_photography"
+                href="https://youtube.com/@rs__photography?si=-dbc30qn6M_6xVQH"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-wedding-gold hover:text-white transition-colors"
@@ -108,8 +109,8 @@ const Footer = () => {
               </li>
               <li className="flex items-center space-x-3">
                 <FaPhone className="text-wedding-gold" />
-                <a href="tel:+919876543210" className="text-gray-300 hover:text-wedding-gold transition-colors">
-                  +91 98765 43210
+                <a href="tel:+916264620716" className="text-gray-300 hover:text-wedding-gold transition-colors">
+                  +91 62646 20716
                 </a>
               </li>
               <li className="flex items-center space-x-3">

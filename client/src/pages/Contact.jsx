@@ -47,7 +47,7 @@ const Contact = () => {
   }
 
   const handleWhatsApp = () => {
-    const phoneNumber = '919876543210'
+    const phoneNumber = '916264620716'
     const message = `Hello! I am interested in booking RS Photography.\n\nName: ${formData.name}\nPhone: ${formData.phone}\nEvent Date: ${formData.eventDate}\nCity: ${formData.city}`
     const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`
     window.open(url, '_blank')
@@ -217,8 +217,8 @@ const Contact = () => {
                   </div>
                   <div>
                     <h3 className="font-semibold text-lg mb-1">Phone</h3>
-                    <a href="tel:+919876543210" className="text-gray-600 hover:text-wedding-gold">
-                      +91 98765 43210
+                    <a href="tel:+916264620716" className="text-gray-600 hover:text-wedding-gold">
+                      +91 62646 20716
                     </a>
                   </div>
                 </div>

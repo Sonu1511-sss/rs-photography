@@ -76,7 +76,7 @@ const Home = () => {
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.4 }}
           >
-            Capturing Timeless Wedding Stories in Balaghat
+            Best Wedding Photography in Balaghat & Katangi | RS Photography
           </motion.p>
           <motion.div
             className="flex flex-col sm:flex-row gap-4 justify-center"
@@ -309,7 +309,7 @@ const Home = () => {
             transition={{ delay: 0.4 }}
           >
             <a
-              href="https://instagram.com/rsp_photography"
+              href="https://www.instagram.com/rs____photography___/"
               target="_blank"
               rel="noopener noreferrer"
               className="bg-white text-wedding-black px-8 py-4 rounded-lg font-semibold hover:bg-gray-100 transition-all flex items-center gap-2"
@@ -317,7 +317,7 @@ const Home = () => {
               <FaPlay /> Follow on Instagram
             </a>
             <a
-              href="https://youtube.com/@rsp_photography"
+              href="https://youtube.com/@rs__photography?si=-dbc30qn6M_6xVQH"
               target="_blank"
               rel="noopener noreferrer"
               className="bg-white text-wedding-black px-8 py-4 rounded-lg font-semibold hover:bg-gray-100 transition-all flex items-center gap-2"

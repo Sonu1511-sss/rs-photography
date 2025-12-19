@@ -2,7 +2,7 @@ import { FaWhatsapp } from 'react-icons/fa'
 import { motion } from 'framer-motion'
 
 const WhatsAppButton = () => {
-  const phoneNumber = '919876543210' // Replace with actual WhatsApp number
+  const phoneNumber = '916264620716' // WhatsApp number
   const message = 'Hello! I am interested in booking RS Photography for my wedding.'
 
   const handleClick = () => {
@@ -30,5 +30,7 @@ const WhatsAppButton = () => {
 }
 
 export default WhatsAppButton
+
+
 
 

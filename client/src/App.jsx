@@ -14,8 +14,6 @@ import Services from './pages/Services'
 import Packages from './pages/Packages'
 import Blog from './pages/Blog'
 import BlogPost from './pages/BlogPost'
-import Testimonials from './pages/Testimonials'
-import FAQ from './pages/FAQ'
 import Contact from './pages/Contact'
 import PrivacyPolicy from './pages/PrivacyPolicy'
 import AdminLogin from './pages/AdminLogin'
@@ -47,8 +45,6 @@ function App() {
               <Route path="/packages" element={<Packages />} />
               <Route path="/blog" element={<Blog />} />
               <Route path="/blog/:slug" element={<BlogPost />} />
-              <Route path="/testimonials" element={<Testimonials />} />
-              <Route path="/faq" element={<FAQ />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="/privacy-policy" element={<PrivacyPolicy />} />
             <Route path="/admin/login" element={<AdminLogin />} />

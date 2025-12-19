@@ -33,10 +33,7 @@ const Navbar = () => {
     { path: '/services', label: 'Services' },
     { path: '/packages', label: 'Packages' },
     { path: '/blog', label: 'Blog' },
-    { path: '/testimonials', label: 'Testimonials' },
-    { path: '/faq', label: 'FAQ' },
-    { path: '/contact', label: 'Contact' },
-    { path: '/privacy-policy', label: 'Privacy Policy' }
+    { path: '/contact', label: 'Contact' }
   ]
 
   return (
@@ -44,7 +41,7 @@ const Navbar = () => {
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled
           ? 'bg-wedding-black shadow-lg py-3 backdrop-blur-sm bg-opacity-95'
-          : 'bg-transparent py-4'
+          : 'bg-wedding-black/80 backdrop-blur-sm py-4'
       }`}
       initial={{ y: -100 }}
       animate={{ y: 0 }}
@@ -94,7 +91,7 @@ const Navbar = () => {
             {/* Social Icons */}
             <div className="flex items-center space-x-4 ml-4 pl-4 border-l border-wedding-gold/30">
               <a
-                href="https://instagram.com/rsp_photography"
+                href="https://www.instagram.com/rs____photography___/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className={`transition-colors ${
@@ -107,7 +104,7 @@ const Navbar = () => {
                 <FaInstagram size={20} />
               </a>
               <a
-                href="https://youtube.com/@rsp_photography"
+                href="https://youtube.com/@rs__photography?si=-dbc30qn6M_6xVQH"
                 target="_blank"
                 rel="noopener noreferrer"
                 className={`transition-colors ${
@@ -169,7 +166,7 @@ const Navbar = () => {
             ))}
             <div className="flex items-center justify-center space-x-4 mt-4 pt-4 border-t border-wedding-gold/30">
               <a
-                href="https://instagram.com/rsp_photography"
+                href="https://www.instagram.com/rs____photography___/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-white hover:text-wedding-gold transition-colors"
@@ -177,7 +174,7 @@ const Navbar = () => {
                 <FaInstagram size={24} />
               </a>
               <a
-                href="https://youtube.com/@rsp_photography"
+                href="https://youtube.com/@rs__photography?si=-dbc30qn6M_6xVQH"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-white hover:text-wedding-gold transition-colors"

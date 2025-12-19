@@ -141,7 +141,7 @@ const PrivacyPolicy = () => {
               <p className="text-gray-700 mb-2"><strong>RS Photography</strong></p>
               <p className="text-gray-700 mb-2">Balaghat, Madhya Pradesh, India</p>
               <p className="text-gray-700 mb-2">Email: info@rsphotography.com</p>
-              <p className="text-gray-700">Phone: +91 98765 43210</p>
+              <p className="text-gray-700">Phone: +91 62646 20716</p>
             </div>
           </motion.div>
         </div>
@@ -151,5 +151,7 @@ const PrivacyPolicy = () => {
 }
 
 export default PrivacyPolicy
+
+
 
 
