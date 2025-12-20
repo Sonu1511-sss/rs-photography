@@ -19,6 +19,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Routes
+app.use('/api/upload', require('./routes/upload'));
 app.use('/api/portfolio', require('./routes/portfolio'));
 app.use('/api/videos', require('./routes/videos'));
 app.use('/api/blogs', require('./routes/blogs'));

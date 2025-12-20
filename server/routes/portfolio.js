@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Portfolio = require('../models/Portfolio');
 const auth = require('../middleware/auth');
+const upload = require('../middleware/upload');
 
 // Get all portfolio items
 router.get('/', async (req, res) => {
@@ -39,9 +40,16 @@ router.get('/:id', async (req, res) => {
 });
 
 // Create portfolio item (Admin only)
-router.post('/', auth, async (req, res) => {
+router.post('/', auth, upload.single('image'), async (req, res) => {
   try {
-    const portfolio = new Portfolio(req.body);
+    const portfolioData = { ...req.body };
+    
+    // If image is uploaded, use the uploaded file URL
+    if (req.file) {
+      portfolioData.imageUrl = `/uploads/${req.file.filename}`;
+    }
+    
+    const portfolio = new Portfolio(portfolioData);
     await portfolio.save();
     res.status(201).json(portfolio);
   } catch (error) {
@@ -80,6 +88,7 @@ router.delete('/:id', auth, async (req, res) => {
 });
 
 module.exports = router;
+
 
 
 

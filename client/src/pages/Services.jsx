@@ -80,7 +80,12 @@ const Services = () => {
   return (
     <div className="pt-20">
       {/* Hero Section */}
-      <section className="relative h-96 flex items-center justify-center bg-gradient-to-r from-wedding-black to-wedding-gold text-white">
+      <section className="relative h-96 flex items-center justify-center text-white overflow-hidden">
+        <div 
+          className="absolute inset-0 bg-cover bg-center"
+          style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=1920&q=80)' }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-wedding-black/80 to-wedding-gold/60" />
         <div className="absolute inset-0 bg-black/50" />
         <div className="relative z-10 text-center px-4">
           <h1 className="text-5xl md:text-6xl font-elegant font-bold mb-4">
@@ -150,7 +155,7 @@ const Services = () => {
           </motion.p>
           <motion.a
             href="/contact"
-            className="inline-block bg-wedding-gold text-wedding-black px-8 py-4 rounded-lg font-semibold hover:bg-gold-400 transition-all"
+            className="inline-block bg-wedding-gold text-white px-8 py-4 rounded-lg font-semibold hover:bg-gold-400 transition-all"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}

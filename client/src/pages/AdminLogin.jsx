@@ -69,7 +69,7 @@ const AdminLogin = () => {
 
         {error && (
           <motion.div
-            className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4"
+            className="bg-red-100 border border-red-400 text-gold-400 px-4 py-3 rounded mb-4"
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
           >
@@ -131,7 +131,7 @@ const AdminLogin = () => {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-wedding-gold text-wedding-black px-8 py-4 rounded-lg font-semibold hover:bg-gold-400 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl"
+            className="w-full bg-wedding-gold text-white px-8 py-4 rounded-lg font-semibold hover:bg-gold-400 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl"
           >
             {loading ? (
               <span className="flex items-center justify-center">

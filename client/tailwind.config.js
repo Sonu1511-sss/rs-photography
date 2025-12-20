@@ -22,7 +22,7 @@ export default {
         },
         wedding: {
           black: '#1a1a1a',
-          gold: '#d4af37',
+          gold: '#d4af37', // Yellow/Gold color
           white: '#ffffff',
         }
       },

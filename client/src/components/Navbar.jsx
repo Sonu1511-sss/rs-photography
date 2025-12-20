@@ -40,15 +40,16 @@ const Navbar = () => {
     <motion.nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled
-          ? 'bg-wedding-black shadow-lg py-3 backdrop-blur-sm bg-opacity-95'
-          : 'bg-wedding-black/80 backdrop-blur-sm py-4'
+          ? 'bg-wedding-black shadow-lg backdrop-blur-sm bg-opacity-95'
+          : 'bg-wedding-black/80 backdrop-blur-sm'
       }`}
+      style={{ height: '80px', margin: 0 }}
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.5 }}
     >
-      <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between">
+      <div className="container mx-auto px-4 h-full">
+        <div className="flex items-center justify-between h-full">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2">
             <span className="text-2xl md:text-3xl font-elegant font-bold text-wedding-gold">
@@ -136,7 +137,7 @@ const Navbar = () => {
         {/* Mobile Menu */}
         {isMobileMenuOpen && (
           <motion.div
-            className="lg:hidden mt-4 pb-4 bg-wedding-black/95 rounded-lg"
+            className="lg:hidden absolute top-full left-0 right-0 mt-0 pb-4 bg-wedding-black/95 rounded-lg mx-4"
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
@@ -190,4 +191,3 @@ const Navbar = () => {
 }
 
 export default Navbar
-

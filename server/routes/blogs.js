@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Blog = require('../models/Blog');
 const auth = require('../middleware/auth');
+const upload = require('../middleware/upload');
 
 // Get all published blogs
 router.get('/', async (req, res) => {
@@ -50,9 +51,24 @@ router.get('/:id', async (req, res) => {
 });
 
 // Create blog (Admin only)
-router.post('/', auth, async (req, res) => {
+router.post('/', auth, upload.single('featuredImage'), async (req, res) => {
   try {
-    const blog = new Blog(req.body);
+    const blogData = { ...req.body };
+    
+    // If featured image is uploaded, use the uploaded file URL
+    if (req.file) {
+      blogData.featuredImage = `/uploads/${req.file.filename}`;
+    }
+    
+    // Generate slug from title if not provided
+    if (!blogData.slug && blogData.title) {
+      blogData.slug = blogData.title
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/(^-|-$)/g, '');
+    }
+    
+    const blog = new Blog(blogData);
     await blog.save();
     res.status(201).json(blog);
   } catch (error) {
@@ -91,6 +107,7 @@ router.delete('/:id', auth, async (req, res) => {
 });
 
 module.exports = router;
+
 
 
 

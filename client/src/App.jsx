@@ -30,7 +30,7 @@ function App() {
           v7_relativeSplatPath: true
         }}
       >
-        <div className="min-h-screen flex flex-col bg-white">
+        <div className="min-h-screen flex flex-col bg-gray-900">
           <Navbar />
           <main className="flex-grow">
             <Routes>

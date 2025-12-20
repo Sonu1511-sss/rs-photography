@@ -32,7 +32,7 @@ const Footer = () => {
                 href="https://youtube.com/@rs__photography?si=-dbc30qn6M_6xVQH"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-wedding-gold hover:text-white transition-colors"
+                className="text-red-700 hover:text-white transition-colors"
                 aria-label="YouTube"
               >
                 <FaYoutube size={24} />

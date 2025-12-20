@@ -1,16 +1,16 @@
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import api from '../utils/api'
+import SEO from '../components/SEO'
 
 const PortfolioPreWedding = () => {
-  const [images, setImages] = useState([])
-  const [selectedImage, setSelectedImage] = useState(null)
+  const [portfolio, setPortfolio] = useState([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     api.get('/portfolio?category=pre-wedding')
       .then(res => {
-        setImages(res.data)
+        setPortfolio(res.data)
         setLoading(false)
       })
       .catch(err => {
@@ -19,90 +19,89 @@ const PortfolioPreWedding = () => {
       })
   }, [])
 
-  if (loading) {
-    return (
-      <div className="pt-20 min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-wedding-gold mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading gallery...</p>
-        </div>
-      </div>
-    )
-  }
-
   return (
-    <div className="pt-20">
-      {/* Hero Section */}
-      <section className="relative h-64 flex items-center justify-center bg-gradient-to-r from-wedding-black to-wedding-gold text-white">
-        <div className="absolute inset-0 bg-black/50" />
-        <div className="relative z-10 text-center px-4">
-          <h1 className="text-4xl md:text-5xl font-elegant font-bold mb-4">
-            Pre-Wedding Photography
-          </h1>
-          <p className="text-lg text-wedding-gold">
-            Romantic pre-wedding shoots in stunning locations
-          </p>
-        </div>
-      </section>
-
-      {/* Gallery */}
-      <section className="py-20 bg-white">
-        <div className="container mx-auto px-4">
-          {images.length === 0 ? (
-            <div className="text-center py-20">
-              <p className="text-gray-600 text-lg">No images available yet. Check back soon!</p>
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {images.map((item, index) => (
-                <motion.div
-                  key={item._id}
-                  className="relative group overflow-hidden rounded-lg cursor-pointer aspect-square"
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.05 }}
-                  onClick={() => setSelectedImage(item)}
-                >
-                  <img
-                    src={item.imageUrl || 'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=800'}
-                    alt={item.title}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                    loading="lazy"
-                  />
-                  <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                    <p className="text-white text-lg font-semibold">{item.title}</p>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          )}
-        </div>
-      </section>
-
-      {/* Lightbox */}
-      {selectedImage && (
-        <div
-          className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4"
-          onClick={() => setSelectedImage(null)}
-        >
-          <button
-            className="absolute top-4 right-4 text-white text-4xl hover:text-wedding-gold transition-colors"
-            onClick={() => setSelectedImage(null)}
-          >
-            ×
-          </button>
-          <img
-            src={selectedImage.imageUrl}
-            alt={selectedImage.title}
-            className="max-w-full max-h-full object-contain"
-            onClick={(e) => e.stopPropagation()}
+    <>
+      <SEO 
+        title="Pre-Wedding Photography Gallery - RS Photography"
+        description="Explore our romantic pre-wedding photography gallery featuring beautiful couple shoots captured by RS Photography."
+        keywords="pre-wedding photography, pre-wedding photos, couple photography, pre-wedding gallery"
+      />
+      <div className="pt-20">
+        {/* Hero Section */}
+        <section className="relative h-96 flex items-center justify-center text-white overflow-hidden">
+          <div 
+            className="absolute inset-0 bg-cover bg-center"
+            style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=1920&q=80)' }}
           />
-        </div>
-      )}
-    </div>
+          <div className="absolute inset-0 bg-gradient-to-r from-wedding-black/80 to-wedding-gold/60" />
+          <div className="absolute inset-0 bg-black/50" />
+          <div className="relative z-10 text-center px-4">
+            <h1 className="text-5xl md:text-6xl font-elegant font-bold mb-4">
+              Pre-Wedding Gallery
+            </h1>
+            <p className="text-xl text-wedding-gold">
+              Romantic Moments Before the Big Day
+            </p>
+          </div>
+        </section>
+
+        {/* Gallery Grid */}
+        <section className="py-20 bg-white">
+          <div className="container mx-auto px-4">
+            {loading ? (
+              <div className="text-center py-20">
+                <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-wedding-gold mx-auto mb-4"></div>
+                <p className="text-gray-600">Loading gallery...</p>
+              </div>
+            ) : portfolio.length === 0 ? (
+              <div className="text-center py-20">
+                <h2 className="text-3xl font-elegant font-bold mb-4 text-wedding-black">
+                  No Photos Yet
+                </h2>
+                <p className="text-gray-600 text-lg">
+                  Check back soon for our pre-wedding photography gallery!
+                </p>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {portfolio.map((item, index) => (
+                  <motion.div
+                    key={item._id}
+                    className="relative group overflow-hidden rounded-lg shadow-lg"
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: index * 0.05 }}
+                  >
+                    <div className="aspect-[4/3] relative overflow-hidden">
+                      <img
+                        src={item.imageUrl?.startsWith('http') 
+                          ? item.imageUrl 
+                          : `/api${item.imageUrl}`
+                        }
+                        alt={item.title}
+                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                      <div className="absolute bottom-0 left-0 right-0 p-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+                        <h3 className="text-white font-elegant font-bold text-xl mb-1">
+                          {item.title}
+                        </h3>
+                        {item.description && (
+                          <p className="text-white/90 text-sm">
+                            {item.description}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+            )}
+          </div>
+        </section>
+      </div>
+    </>
   )
 }
 
 export default PortfolioPreWedding
-

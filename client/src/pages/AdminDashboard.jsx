@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { FaImages, FaVideo, FaBook, FaComments, FaEnvelope, FaSignOutAlt, FaPlus, FaEdit, FaTrash } from 'react-icons/fa'
+import { FaImages, FaVideo, FaBook, FaComments, FaEnvelope, FaSignOutAlt, FaPlus, FaEdit, FaTrash, FaTimes } from 'react-icons/fa'
 import api from '../utils/api'
 
 const AdminDashboard = () => {
@@ -13,7 +13,45 @@ const AdminDashboard = () => {
   const [testimonials, setTestimonials] = useState([])
   const [contacts, setContacts] = useState([])
   const [loading, setLoading] = useState(true)
+  const [showModal, setShowModal] = useState(false)
+  const [modalType, setModalType] = useState(null)
+  const [uploading, setUploading] = useState(false)
   const navigate = useNavigate()
+
+  // Form states
+  const [portfolioForm, setPortfolioForm] = useState({
+    title: '',
+    category: 'weddings',
+    description: '',
+    featured: false,
+    image: null
+  })
+
+  const [blogForm, setBlogForm] = useState({
+    title: '',
+    content: '',
+    excerpt: '',
+    featuredImage: null,
+    published: false
+  })
+
+  const [videoForm, setVideoForm] = useState({
+    title: '',
+    category: 'wedding-film',
+    videoUrl: '',
+    thumbnailUrl: '',
+    description: '',
+    featured: false,
+    thumbnail: null
+  })
+
+  const [testimonialForm, setTestimonialForm] = useState({
+    coupleName: '',
+    rating: 5,
+    review: '',
+    weddingDate: new Date().toISOString().split('T')[0],
+    featured: false
+  })
 
   useEffect(() => {
     const token = localStorage.getItem('adminToken')
@@ -69,26 +107,159 @@ const AdminDashboard = () => {
     }
   }
 
+  const openModal = (type) => {
+    setModalType(type)
+    setShowModal(true)
+    // Reset forms
+    if (type === 'portfolio') {
+      setPortfolioForm({ title: '', category: 'weddings', description: '', featured: false, image: null })
+    } else if (type === 'blog') {
+      setBlogForm({ title: '', content: '', excerpt: '', featuredImage: null, published: false })
+    } else if (type === 'video') {
+      setVideoForm({ title: '', category: 'wedding-film', videoUrl: '', thumbnailUrl: '', description: '', featured: false, thumbnail: null })
+    } else if (type === 'testimonial') {
+      setTestimonialForm({ coupleName: '', rating: 5, review: '', weddingDate: new Date().toISOString().split('T')[0], featured: false })
+    }
+  }
+
+  const closeModal = () => {
+    setShowModal(false)
+    setModalType(null)
+  }
+
+  const handlePortfolioSubmit = async (e) => {
+    e.preventDefault()
+    setUploading(true)
+    try {
+      const formData = new FormData()
+      formData.append('title', portfolioForm.title)
+      formData.append('category', portfolioForm.category)
+      formData.append('description', portfolioForm.description)
+      formData.append('featured', portfolioForm.featured)
+      if (portfolioForm.image) {
+        formData.append('image', portfolioForm.image)
+      }
+
+      await api.post('/portfolio', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      })
+      
+      alert('Portfolio item added successfully!')
+      closeModal()
+      loadDashboard()
+    } catch (error) {
+      alert('Failed to add portfolio item: ' + (error.response?.data?.message || error.message))
+    } finally {
+      setUploading(false)
+    }
+  }
+
+  const handleBlogSubmit = async (e) => {
+    e.preventDefault()
+    setUploading(true)
+    try {
+      const formData = new FormData()
+      formData.append('title', blogForm.title)
+      formData.append('content', blogForm.content)
+      formData.append('excerpt', blogForm.excerpt)
+      formData.append('published', blogForm.published)
+      if (blogForm.featuredImage) {
+        formData.append('featuredImage', blogForm.featuredImage)
+      }
+
+      await api.post('/blogs', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      })
+      
+      alert('Blog added successfully!')
+      closeModal()
+      loadDashboard()
+    } catch (error) {
+      alert('Failed to add blog: ' + (error.response?.data?.message || error.message))
+    } finally {
+      setUploading(false)
+    }
+  }
+
+  const handleVideoSubmit = async (e) => {
+    e.preventDefault()
+    setUploading(true)
+    try {
+      let thumbnailUrl = videoForm.thumbnailUrl
+      
+      // If thumbnail file is uploaded, upload it first
+      if (videoForm.thumbnail) {
+        const thumbnailFormData = new FormData()
+        thumbnailFormData.append('image', videoForm.thumbnail)
+        const uploadRes = await api.post('/upload/image', thumbnailFormData, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        })
+        thumbnailUrl = uploadRes.data.url
+      }
+
+      const videoData = {
+        title: videoForm.title,
+        category: videoForm.category,
+        videoUrl: videoForm.videoUrl,
+        thumbnailUrl: thumbnailUrl,
+        description: videoForm.description,
+        featured: videoForm.featured
+      }
+
+      await api.post('/videos', videoData)
+      
+      alert('Video added successfully!')
+      closeModal()
+      loadDashboard()
+    } catch (error) {
+      alert('Failed to add video: ' + (error.response?.data?.message || error.message))
+    } finally {
+      setUploading(false)
+    }
+  }
+
+  const handleTestimonialSubmit = async (e) => {
+    e.preventDefault()
+    setUploading(true)
+    try {
+      await api.post('/testimonials', testimonialForm)
+      
+      alert('Testimonial added successfully!')
+      closeModal()
+      loadDashboard()
+    } catch (error) {
+      alert('Failed to add testimonial: ' + (error.response?.data?.message || error.message))
+    } finally {
+      setUploading(false)
+    }
+  }
+
   if (loading) {
     return (
       <div className="pt-20 min-h-screen flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-wedding-gold mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading dashboard...</p>
+          <p className="text-gray-300">Loading dashboard...</p>
         </div>
       </div>
     )
   }
 
   return (
-    <div className="pt-20 min-h-screen bg-gray-50">
+    <div className="pt-20 min-h-screen bg-gray-800">
       <div className="container mx-auto px-4 py-8">
         {/* Header */}
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-4xl font-elegant font-bold">Admin Dashboard</h1>
           <button
             onClick={handleLogout}
-            className="flex items-center gap-2 bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600"
+            className="flex items-center gap-2 bg-wedding-gold text-white px-4 py-2 rounded-lg hover:bg-wedding-gold"
           >
             <FaSignOutAlt /> Logout
           </button>
@@ -97,39 +268,39 @@ const AdminDashboard = () => {
         {/* Stats */}
         {stats && (
           <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8">
-            <div className="bg-white p-6 rounded-lg shadow">
+            <div className="bg-gray-700 p-6 rounded-lg shadow">
               <FaEnvelope className="text-blue-500 text-2xl mb-2" />
               <div className="text-3xl font-bold">{stats.contacts}</div>
-              <div className="text-gray-600">Contacts</div>
+              <div className="text-gray-300">Contacts</div>
               {stats.newContacts > 0 && (
-                <div className="text-red-500 text-sm mt-1">{stats.newContacts} new</div>
+                <div className="text-wedding-gold text-sm mt-1">{stats.newContacts} new</div>
               )}
             </div>
-            <div className="bg-white p-6 rounded-lg shadow">
+            <div className="bg-gray-700 p-6 rounded-lg shadow">
               <FaImages className="text-purple-500 text-2xl mb-2" />
               <div className="text-3xl font-bold">{stats.portfolio}</div>
-              <div className="text-gray-600">Portfolio</div>
+              <div className="text-gray-300">Portfolio</div>
             </div>
-            <div className="bg-white p-6 rounded-lg shadow">
-              <FaVideo className="text-red-500 text-2xl mb-2" />
+            <div className="bg-gray-700 p-6 rounded-lg shadow">
+              <FaVideo className="text-wedding-gold text-2xl mb-2" />
               <div className="text-3xl font-bold">{stats.videos}</div>
-              <div className="text-gray-600">Videos</div>
+              <div className="text-gray-300">Videos</div>
             </div>
-            <div className="bg-white p-6 rounded-lg shadow">
+            <div className="bg-gray-700 p-6 rounded-lg shadow">
               <FaBook className="text-green-500 text-2xl mb-2" />
               <div className="text-3xl font-bold">{stats.blogs}</div>
-              <div className="text-gray-600">Blogs</div>
+              <div className="text-gray-300">Blogs</div>
             </div>
-            <div className="bg-white p-6 rounded-lg shadow">
+            <div className="bg-gray-700 p-6 rounded-lg shadow">
               <FaComments className="text-yellow-500 text-2xl mb-2" />
               <div className="text-3xl font-bold">{stats.testimonials}</div>
-              <div className="text-gray-600">Testimonials</div>
+              <div className="text-gray-300">Testimonials</div>
             </div>
           </div>
         )}
 
         {/* Tabs */}
-        <div className="bg-white rounded-lg shadow mb-8">
+        <div className="bg-gray-700 rounded-lg shadow mb-8">
           <div className="flex border-b">
             {['dashboard', 'portfolio', 'videos', 'blogs', 'testimonials', 'contacts'].map((tab) => (
               <button
@@ -138,7 +309,7 @@ const AdminDashboard = () => {
                 className={`px-6 py-4 font-semibold capitalize ${
                   activeTab === tab
                     ? 'border-b-2 border-wedding-gold text-wedding-gold'
-                    : 'text-gray-600 hover:text-wedding-black'
+                    : 'text-gray-300 hover:text-wedding-black'
                 }`}
               >
                 {tab}
@@ -152,7 +323,10 @@ const AdminDashboard = () => {
               <div>
                 <div className="flex justify-between mb-4">
                   <h2 className="text-2xl font-bold">Portfolio</h2>
-                  <button className="bg-wedding-gold text-wedding-black px-4 py-2 rounded-lg flex items-center gap-2">
+                  <button 
+                    onClick={() => openModal('portfolio')}
+                    className="bg-wedding-gold text-wedding-black px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-wedding-gold/90"
+                  >
                     <FaPlus /> Add New
                   </button>
                 </div>
@@ -176,7 +350,7 @@ const AdminDashboard = () => {
                             </button>
                             <button
                               onClick={() => handleDelete('portfolio', item._id)}
-                              className="text-red-500"
+                              className="text-wedding-gold"
                             >
                               <FaTrash />
                             </button>
@@ -194,7 +368,10 @@ const AdminDashboard = () => {
               <div>
                 <div className="flex justify-between mb-4">
                   <h2 className="text-2xl font-bold">Videos</h2>
-                  <button className="bg-wedding-gold text-wedding-black px-4 py-2 rounded-lg flex items-center gap-2">
+                  <button 
+                    onClick={() => openModal('video')}
+                    className="bg-wedding-gold text-wedding-black px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-wedding-gold/90"
+                  >
                     <FaPlus /> Add New
                   </button>
                 </div>
@@ -218,7 +395,7 @@ const AdminDashboard = () => {
                             </button>
                             <button
                               onClick={() => handleDelete('videos', video._id)}
-                              className="text-red-500"
+                              className="text-wedding-gold"
                             >
                               <FaTrash />
                             </button>
@@ -236,7 +413,10 @@ const AdminDashboard = () => {
               <div>
                 <div className="flex justify-between mb-4">
                   <h2 className="text-2xl font-bold">Blogs</h2>
-                  <button className="bg-wedding-gold text-wedding-black px-4 py-2 rounded-lg flex items-center gap-2">
+                  <button 
+                    onClick={() => openModal('blog')}
+                    className="bg-wedding-gold text-wedding-black px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-wedding-gold/90"
+                  >
                     <FaPlus /> Add New
                   </button>
                 </div>
@@ -264,7 +444,7 @@ const AdminDashboard = () => {
                             </button>
                             <button
                               onClick={() => handleDelete('blogs', blog._id)}
-                              className="text-red-500"
+                              className="text-wedding-gold"
                             >
                               <FaTrash />
                             </button>
@@ -282,7 +462,10 @@ const AdminDashboard = () => {
               <div>
                 <div className="flex justify-between mb-4">
                   <h2 className="text-2xl font-bold">Testimonials</h2>
-                  <button className="bg-wedding-gold text-wedding-black px-4 py-2 rounded-lg flex items-center gap-2">
+                  <button 
+                    onClick={() => openModal('testimonial')}
+                    className="bg-wedding-gold text-wedding-black px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-wedding-gold/90"
+                  >
                     <FaPlus /> Add New
                   </button>
                 </div>
@@ -306,7 +489,7 @@ const AdminDashboard = () => {
                             </button>
                             <button
                               onClick={() => handleDelete('testimonials', testimonial._id)}
-                              className="text-red-500"
+                              className="text-wedding-gold"
                             >
                               <FaTrash />
                             </button>
@@ -358,7 +541,7 @@ const AdminDashboard = () => {
                             </button>
                             <button
                               onClick={() => handleDelete('contact', contact._id)}
-                              className="text-red-500"
+                              className="text-wedding-gold"
                             >
                               <FaTrash />
                             </button>
