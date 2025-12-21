@@ -1,16 +1,26 @@
 import axios from 'axios'
 
+// Create axios instance with base configuration
 const api = axios.create({
   baseURL: '/api',
+  headers: {
+    'Content-Type': 'application/json',
+  },
 })
 
-// Add token to requests if available
+// Request interceptor to add auth token if available
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('adminToken')
     if (token) {
       config.headers.Authorization = `Bearer ${token}`
     }
+    
+    // If FormData, let browser set Content-Type with boundary
+    if (config.data instanceof FormData) {
+      delete config.headers['Content-Type']
+    }
+    
     return config
   },
   (error) => {
@@ -18,27 +28,23 @@ api.interceptors.request.use(
   }
 )
 
-// Handle 401 errors
-// NOTE: We DON'T auto-logout on 401 errors because we're using static credentials
-// The user should only be logged out when they explicitly click the logout button
-// API errors are handled gracefully in the components
+// Response interceptor to handle errors
 api.interceptors.response.use(
-  (response) => response,
+  (response) => {
+    return response
+  },
   (error) => {
-    // Don't auto-logout on 401 errors - let components handle it
-    // This prevents automatic logout when using static credentials
-    console.log('API Error:', error.response?.status, error.message)
+    // Handle 401 Unauthorized - redirect to login
+    if (error.response?.status === 401) {
+      localStorage.removeItem('adminToken')
+      localStorage.removeItem('adminData')
+      // Only redirect if not already on login page
+      if (window.location.pathname !== '/admin/login') {
+        window.location.href = '/admin/login'
+      }
+    }
     return Promise.reject(error)
   }
 )
 
 export default api
-
-
-
-
-
-
-
-
-

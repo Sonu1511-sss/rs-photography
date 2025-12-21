@@ -1,12 +1,9 @@
-import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useState, useEffect } from 'react'
+import { useNavigate, Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { FaUser, FaLock, FaEye, FaEyeSlash } from 'react-icons/fa'
-import { toast } from 'react-toastify'
-
-// Static credentials
-const ADMIN_EMAIL = 'rsphotography0@gmail.com'
-const ADMIN_PASSWORD = 'Rsphoto@321'
+import toast from 'react-hot-toast'
+import api from '../utils/api'
 
 const AdminLogin = () => {
   const [formData, setFormData] = useState({
@@ -16,7 +13,22 @@ const AdminLogin = () => {
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
+  const [apiConnected, setApiConnected] = useState(null)
   const navigate = useNavigate()
+
+  // Test API connection on mount
+  useEffect(() => {
+    const testConnection = async () => {
+      try {
+        const response = await api.get('/health')
+        setApiConnected(true)
+      } catch (err) {
+        setApiConnected(false)
+        console.warn('API connection test failed:', err)
+      }
+    }
+    testConnection()
+  }, [])
 
   const handleChange = (e) => {
     setFormData({
@@ -26,24 +38,24 @@ const AdminLogin = () => {
     setError('')
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
     
     // Basic validation
     const trimmedEmail = formData.email.trim()
     if (!trimmedEmail) {
       setError('Email is required')
-      toast.warning('Please enter your email address', {
+      toast.error('Please enter your email address', {
         position: 'top-right',
-        autoClose: 2000,
+        duration: 2000,
       })
       return
     }
     if (!formData.password) {
       setError('Password is required')
-      toast.warning('Please enter your password', {
+      toast.error('Please enter your password', {
         position: 'top-right',
-        autoClose: 2000,
+        duration: 2000,
       })
       return
     }
@@ -51,68 +63,59 @@ const AdminLogin = () => {
     setLoading(true)
     setError('')
 
-    // Simulate API call delay for better UX
-    setTimeout(() => {
-      // Strict credential check - exact match required
-      const emailMatch = trimmedEmail.toLowerCase() === ADMIN_EMAIL.toLowerCase()
-      // Password must match exactly (case-sensitive)
-      const passwordMatch = formData.password === ADMIN_PASSWORD
+    try {
+      // Call actual API endpoint
+      const response = await api.post('/admin/login', {
+        email: trimmedEmail,
+        password: formData.password
+      })
+
+      // Store token and admin data
+      const { token, admin } = response.data
+      localStorage.setItem('adminToken', token)
+      localStorage.setItem('adminData', JSON.stringify(admin))
       
-      if (emailMatch && passwordMatch) {
-        // Store admin data in localStorage
-        const adminData = {
-          email: ADMIN_EMAIL,
-          name: 'RS Photography Admin',
-          role: 'admin'
-        }
-        const token = 'admin-token-' + Date.now()
-        localStorage.setItem('adminToken', token)
-        localStorage.setItem('adminData', JSON.stringify(adminData))
-        
-        // Show success toast
-        toast.success('Login successful! Redirecting to dashboard...', {
-          position: 'top-right',
-          autoClose: 2000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-        })
-        
-        // Navigate to dashboard after a short delay
-        setTimeout(() => {
-          console.log('Navigating to dashboard...')
-          console.log('Token:', localStorage.getItem('adminToken'))
-          console.log('AdminData:', localStorage.getItem('adminData'))
-          
-          // Use window.location as fallback if navigate doesn't work
-          try {
-            navigate('/admin/dashboard', { replace: true })
-            // Double check after navigation
-            setTimeout(() => {
-              if (window.location.pathname !== '/admin/dashboard') {
-                console.log('Navigation failed, using window.location')
-                window.location.href = '/admin/dashboard'
-              }
-            }, 100)
-          } catch (navError) {
-            console.error('Navigation error:', navError)
-            window.location.href = '/admin/dashboard'
-          }
-        }, 500)
+      console.log('Login successful, token stored')
+      
+      // Show success toast
+      toast.success('Login successful! Redirecting to dashboard...', {
+        position: 'top-right',
+        duration: 2000,
+      })
+      
+      // Navigate to dashboard
+      setTimeout(() => {
+        navigate('/admin/dashboard', { replace: true })
+      }, 500)
+    } catch (err) {
+      console.error('Login error:', err)
+      console.error('Error details:', {
+        message: err.message,
+        response: err.response?.data,
+        status: err.response?.status,
+        statusText: err.response?.statusText
+      })
+      
+      let errorMessage = 'Login failed. Please check your credentials and try again.'
+      
+      if (err.response) {
+        // Server responded with error
+        errorMessage = err.response.data?.message || `Server error: ${err.response.status} ${err.response.statusText}`
+      } else if (err.request) {
+        // Request made but no response (network error)
+        errorMessage = 'Network error: Unable to connect to server. Please check if the server is running.'
       } else {
-        setError('Invalid email or password. Please check your credentials.')
-        toast.error('Invalid email or password. Please check your credentials.', {
-          position: 'top-right',
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-        })
-        setLoading(false)
+        // Something else happened
+        errorMessage = err.message || 'An unexpected error occurred'
       }
-    }, 500)
+      
+      setError(errorMessage)
+      toast.error(errorMessage, {
+        position: 'top-right',
+        duration: 5000,
+      })
+      setLoading(false)
+    }
   }
 
   return (
@@ -129,6 +132,11 @@ const AdminLogin = () => {
           <p className="text-gray-600">
             RS Photography Admin Panel
           </p>
+          {apiConnected === false && (
+            <div className="mt-3 bg-yellow-50 border border-yellow-200 text-yellow-800 px-3 py-2 rounded text-sm">
+              ⚠️ Server connection issue. Please ensure the server is running.
+            </div>
+          )}
         </div>
 
         {error && (
@@ -210,6 +218,18 @@ const AdminLogin = () => {
             )}
           </button>
         </form>
+
+        <div className="mt-6 text-center">
+          <p className="text-gray-600 text-sm mb-2">
+            Don't have an admin account?
+          </p>
+          <Link
+            to="/admin/signup"
+            className="text-wedding-gold hover:text-wedding-black font-semibold text-sm transition-colors"
+          >
+            Create Admin Account
+          </Link>
+        </div>
 
       </motion.div>
     </div>

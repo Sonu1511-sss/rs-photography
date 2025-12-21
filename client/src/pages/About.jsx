@@ -259,7 +259,7 @@ const About = () => {
       <section className="relative py-20 bg-gradient-to-br text-white overflow-hidden">
         {/* Camera Lens Background Image */}
         <div 
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-30"
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat "
           style={{ 
             backgroundImage: 'url(https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=1920&q=80)',
             backgroundSize: 'cover',

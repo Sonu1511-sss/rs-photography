@@ -5,21 +5,30 @@ import { FaCalendar, FaUser, FaArrowLeft } from 'react-icons/fa'
 import api from '../utils/api'
 
 const BlogPost = () => {
-  const { slug } = useParams()
+  const { id } = useParams()
   const [blog, setBlog] = useState(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    api.get(`/blogs/slug/${slug}`)
+    // Try by ID first, then by slug if needed
+    api.get(`/blogs/${id}`)
       .then(res => {
         setBlog(res.data)
         setLoading(false)
       })
       .catch(err => {
-        console.error(err)
-        setLoading(false)
+        // Fallback to slug if ID doesn't work
+        api.get(`/blogs/slug/${id}`)
+          .then(res => {
+            setBlog(res.data)
+            setLoading(false)
+          })
+          .catch(err => {
+            console.error(err)
+            setLoading(false)
+          })
       })
-  }, [slug])
+  }, [id])
 
   const formatDate = (dateString) => {
     const date = new Date(dateString)

@@ -65,11 +65,6 @@ const Footer = () => {
                 </Link>
               </li>
               <li>
-                <Link to="/testimonials" className="text-gray-300 hover:text-wedding-gold transition-colors">
-                  Testimonials
-                </Link>
-              </li>
-              <li>
                 <Link to="/contact" className="text-gray-300 hover:text-wedding-gold transition-colors">
                   Contact
                 </Link>
@@ -114,14 +109,9 @@ const Footer = () => {
               </li>
               <li className="flex items-center space-x-3">
                 <FaPhone className="text-wedding-gold" />
-                <div className="flex flex-col space-y-1">
-                  <a href="tel:+916262620716" className="text-gray-300 hover:text-wedding-gold transition-colors">
-                    +91 62626 20716
-                  </a>
-                  <a href="tel:+919893356211" className="text-gray-300 hover:text-wedding-gold transition-colors">
-                    +91 98933 56211
-                  </a>
-                </div>
+                <a href="tel:+916264620716" className="text-gray-300 hover:text-wedding-gold transition-colors">
+                  +91 62646 20716
+                </a>
               </li>
               <li className="flex items-center space-x-3">
                 <FaEnvelope className="text-wedding-gold" />

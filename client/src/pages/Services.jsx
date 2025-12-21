@@ -1,7 +1,21 @@
+import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { FaCamera, FaVideo, FaPlane, FaBook, FaHeart, FaImages } from 'react-icons/fa'
+import { FaCamera, FaVideo, FaPlane, FaBook, FaHeart, FaImages, FaStar, FaComment } from 'react-icons/fa'
+import SEO from '../components/SEO'
+import api from '../utils/api'
 
 const Services = () => {
+  const [comments, setComments] = useState({})
+  const [showCommentForm, setShowCommentForm] = useState(null)
+  const [commentForm, setCommentForm] = useState({
+    serviceName: '',
+    userName: '',
+    userEmail: '',
+    comment: '',
+    rating: 5
+  })
+  const [submitting, setSubmitting] = useState(false)
+  const [success, setSuccess] = useState(false)
   const services = [
     {
       icon: FaCamera,
@@ -77,8 +91,73 @@ const Services = () => {
     }
   ]
 
+  useEffect(() => {
+    // Load comments for all services
+    api.get('/comments')
+      .then(res => {
+        const commentsByService = {}
+        res.data.forEach(comment => {
+          if (!commentsByService[comment.serviceName]) {
+            commentsByService[comment.serviceName] = []
+          }
+          commentsByService[comment.serviceName].push(comment)
+        })
+        setComments(commentsByService)
+      })
+      .catch(err => console.error('Failed to load comments:', err))
+  }, [])
+
+  const handleCommentSubmit = async (e, serviceName) => {
+    e.preventDefault()
+    setSubmitting(true)
+    setSuccess(false)
+
+    try {
+      await api.post('/comments', {
+        ...commentForm,
+        serviceName
+      })
+      setSuccess(true)
+      setCommentForm({
+        serviceName: '',
+        userName: '',
+        userEmail: '',
+        comment: '',
+        rating: 5
+      })
+      setShowCommentForm(null)
+      
+      // Reload comments
+      const res = await api.get('/comments')
+      const commentsByService = {}
+      res.data.forEach(comment => {
+        if (!commentsByService[comment.serviceName]) {
+          commentsByService[comment.serviceName] = []
+        }
+        commentsByService[comment.serviceName].push(comment)
+      })
+      setComments(commentsByService)
+      
+      setTimeout(() => setSuccess(false), 5000)
+    } catch (error) {
+      toast.error('Failed to submit comment: ' + (error.response?.data?.message || error.message))
+    } finally {
+      setSubmitting(false)
+    }
+  }
+
+  const getServiceComments = (serviceName) => {
+    return comments[serviceName] || []
+  }
+
   return (
-    <div className="pt-20">
+    <>
+      <SEO
+        title="Services - Wedding Photography & Videography | RS Photography"
+        description="Comprehensive wedding photography and videography services in Balaghat and Katangi. Pre-wedding shoots, engagement photography, wedding cinematography, drone coverage, and more."
+        keywords="wedding photography services, wedding videography, pre-wedding photography, engagement photography, drone coverage, wedding cinematography balaghat"
+      />
+      <div className="pt-20">
       {/* Hero Section */}
       <section className="relative h-96 flex items-center justify-center text-white overflow-hidden">
         <div 
@@ -119,7 +198,7 @@ const Services = () => {
                 <p className="text-gray-600 mb-6 leading-relaxed">
                   {service.description}
                 </p>
-                <ul className="space-y-2">
+                <ul className="space-y-2 mb-6">
                   {service.features.map((feature, idx) => (
                     <li key={idx} className="flex items-start">
                       <span className="text-wedding-gold mr-2">✓</span>
@@ -127,6 +206,107 @@ const Services = () => {
                     </li>
                   ))}
                 </ul>
+
+                {/* Comments Section */}
+                <div className="border-t pt-4 mt-4">
+                  <div className="flex items-center justify-between mb-3">
+                    <h4 className="font-semibold flex items-center gap-2">
+                      <FaComment className="text-wedding-gold" />
+                      Comments ({getServiceComments(service.title).length})
+                    </h4>
+                    <button
+                      onClick={() => setShowCommentForm(showCommentForm === service.title ? null : service.title)}
+                      className="text-sm text-wedding-gold hover:underline"
+                    >
+                      {showCommentForm === service.title ? 'Cancel' : 'Add Comment'}
+                    </button>
+                  </div>
+
+                  {/* Comment Form */}
+                  {showCommentForm === service.title && (
+                    <form onSubmit={(e) => handleCommentSubmit(e, service.title)} className="mb-4 space-y-3 p-4 bg-gray-50 rounded-lg">
+                      {success && (
+                        <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-2 rounded text-sm">
+                          Comment submitted! It will be reviewed before publishing.
+                        </div>
+                      )}
+                      <div>
+                        <input
+                          type="text"
+                          placeholder="Your Name *"
+                          value={commentForm.userName}
+                          onChange={(e) => setCommentForm({ ...commentForm, userName: e.target.value })}
+                          required
+                          className="w-full px-3 py-2 border rounded-lg text-sm"
+                        />
+                      </div>
+                      <div>
+                        <input
+                          type="email"
+                          placeholder="Your Email *"
+                          value={commentForm.userEmail}
+                          onChange={(e) => setCommentForm({ ...commentForm, userEmail: e.target.value })}
+                          required
+                          className="w-full px-3 py-2 border rounded-lg text-sm"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm mb-1">Rating</label>
+                        <div className="flex gap-1">
+                          {[1, 2, 3, 4, 5].map((star) => (
+                            <button
+                              key={star}
+                              type="button"
+                              onClick={() => setCommentForm({ ...commentForm, rating: star })}
+                              className="text-2xl"
+                            >
+                              <FaStar className={star <= commentForm.rating ? 'text-yellow-400' : 'text-gray-300'} />
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                      <div>
+                        <textarea
+                          placeholder="Your Comment *"
+                          value={commentForm.comment}
+                          onChange={(e) => setCommentForm({ ...commentForm, comment: e.target.value })}
+                          required
+                          rows="3"
+                          className="w-full px-3 py-2 border rounded-lg text-sm"
+                        />
+                      </div>
+                      <button
+                        type="submit"
+                        disabled={submitting}
+                        className="w-full bg-wedding-gold text-wedding-black px-4 py-2 rounded-lg font-semibold hover:bg-wedding-gold/90 disabled:opacity-50 text-sm"
+                      >
+                        {submitting ? 'Submitting...' : 'Submit Comment'}
+                      </button>
+                    </form>
+                  )}
+
+                  {/* Display Comments */}
+                  {getServiceComments(service.title).length > 0 && (
+                    <div className="space-y-3 max-h-60 overflow-y-auto">
+                      {getServiceComments(service.title).map((comment) => (
+                        <div key={comment._id} className="bg-gray-50 p-3 rounded-lg">
+                          <div className="flex items-center justify-between mb-2">
+                            <div className="font-semibold text-sm">{comment.userName}</div>
+                            <div className="flex items-center gap-1">
+                              {[...Array(5)].map((_, i) => (
+                                <FaStar key={i} className={i < comment.rating ? 'text-yellow-400' : 'text-gray-300'} size={12} />
+                              ))}
+                            </div>
+                          </div>
+                          <p className="text-sm text-gray-700">{comment.comment}</p>
+                          <p className="text-xs text-gray-500 mt-1">
+                            {new Date(comment.createdAt).toLocaleDateString()}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
               </motion.div>
             ))}
           </div>
@@ -166,6 +346,7 @@ const Services = () => {
         </div>
       </section>
     </div>
+    </>
   )
 }
 
