@@ -1,6 +1,7 @@
 import { Link, useLocation } from 'react-router-dom'
 import { useState } from 'react'
 import { FaBars, FaTimes } from 'react-icons/fa'
+import logo from '../pages/images/logo.png'
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false)
@@ -25,8 +26,12 @@ const Navbar = () => {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
-          <Link to="/" className="text-2xl font-elegant font-bold text-wedding-gold">
-            RS Photography
+          <Link to="/" className="flex items-center">
+            <img 
+              src={logo} 
+              alt="RS Photography" 
+              className="h-12 md:h-14 w-auto object-contain"
+            />
           </Link>
 
           {/* Desktop Navigation */}
