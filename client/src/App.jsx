@@ -1,5 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { ThemeProvider } from './context/ThemeContext'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import WhatsAppButton from './components/WhatsAppButton'
@@ -15,6 +17,7 @@ import Packages from './pages/Packages'
 import Blog from './pages/Blog'
 import BlogPost from './pages/BlogPost'
 import Contact from './pages/Contact'
+import Testimonials from './pages/Testimonials'
 import PrivacyPolicy from './pages/PrivacyPolicy'
 import AdminLogin from './pages/AdminLogin'
 import AdminSignup from './pages/AdminSignup'
@@ -46,6 +49,7 @@ function App() {
               <Route path="/blog" element={<Blog />} />
               <Route path="/blog/:slug" element={<BlogPost />} />
               <Route path="/contact" element={<Contact />} />
+              <Route path="/testimonials" element={<Testimonials />} />
               <Route path="/privacy-policy" element={<PrivacyPolicy />} />
             <Route path="/admin/login" element={<AdminLogin />} />
             <Route path="/admin/signup" element={<AdminSignup />} />
@@ -61,6 +65,18 @@ function App() {
           </main>
           <Footer />
           <WhatsAppButton />
+          <ToastContainer
+            position="top-right"
+            autoClose={3000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="light"
+          />
         </div>
       </Router>
     </ThemeProvider>

@@ -1,12 +1,16 @@
 import { useState } from 'react'
-import { useNavigate, Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { FaUser, FaLock, FaEye, FaEyeSlash } from 'react-icons/fa'
-import api from '../utils/api'
+import { toast } from 'react-toastify'
+
+// Static credentials
+const ADMIN_EMAIL = 'rsphotography0@gmail.com'
+const ADMIN_PASSWORD = 'Rsphoto@321'
 
 const AdminLogin = () => {
   const [formData, setFormData] = useState({
-    username: '',
+    email: '',
     password: ''
   })
   const [error, setError] = useState('')
@@ -22,33 +26,93 @@ const AdminLogin = () => {
     setError('')
   }
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault()
     
     // Basic validation
-    if (!formData.username.trim()) {
-      setError('Username is required')
+    const trimmedEmail = formData.email.trim()
+    if (!trimmedEmail) {
+      setError('Email is required')
+      toast.warning('Please enter your email address', {
+        position: 'top-right',
+        autoClose: 2000,
+      })
       return
     }
     if (!formData.password) {
       setError('Password is required')
+      toast.warning('Please enter your password', {
+        position: 'top-right',
+        autoClose: 2000,
+      })
       return
     }
 
     setLoading(true)
     setError('')
 
-    try {
-      const res = await api.post('/admin/login', formData)
-      localStorage.setItem('adminToken', res.data.token)
-      localStorage.setItem('adminData', JSON.stringify(res.data.admin))
-      // Direct navigation to dashboard after successful login
-      navigate('/admin/dashboard', { replace: true })
-    } catch (err) {
-      setError(err.response?.data?.message || 'Login failed. Please check your credentials.')
-    } finally {
-      setLoading(false)
-    }
+    // Simulate API call delay for better UX
+    setTimeout(() => {
+      // Strict credential check - exact match required
+      const emailMatch = trimmedEmail.toLowerCase() === ADMIN_EMAIL.toLowerCase()
+      // Password must match exactly (case-sensitive)
+      const passwordMatch = formData.password === ADMIN_PASSWORD
+      
+      if (emailMatch && passwordMatch) {
+        // Store admin data in localStorage
+        const adminData = {
+          email: ADMIN_EMAIL,
+          name: 'RS Photography Admin',
+          role: 'admin'
+        }
+        const token = 'admin-token-' + Date.now()
+        localStorage.setItem('adminToken', token)
+        localStorage.setItem('adminData', JSON.stringify(adminData))
+        
+        // Show success toast
+        toast.success('Login successful! Redirecting to dashboard...', {
+          position: 'top-right',
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        })
+        
+        // Navigate to dashboard after a short delay
+        setTimeout(() => {
+          console.log('Navigating to dashboard...')
+          console.log('Token:', localStorage.getItem('adminToken'))
+          console.log('AdminData:', localStorage.getItem('adminData'))
+          
+          // Use window.location as fallback if navigate doesn't work
+          try {
+            navigate('/admin/dashboard', { replace: true })
+            // Double check after navigation
+            setTimeout(() => {
+              if (window.location.pathname !== '/admin/dashboard') {
+                console.log('Navigation failed, using window.location')
+                window.location.href = '/admin/dashboard'
+              }
+            }, 100)
+          } catch (navError) {
+            console.error('Navigation error:', navError)
+            window.location.href = '/admin/dashboard'
+          }
+        }, 500)
+      } else {
+        setError('Invalid email or password. Please check your credentials.')
+        toast.error('Invalid email or password. Please check your credentials.', {
+          position: 'top-right',
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        })
+        setLoading(false)
+      }
+    }, 500)
   }
 
   return (
@@ -69,32 +133,32 @@ const AdminLogin = () => {
 
         {error && (
           <motion.div
-            className="bg-red-100 border border-red-400 text-gold-400 px-4 py-3 rounded mb-4"
+            className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4"
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
           >
-            {error}
+            <p className="font-semibold">{error}</p>
           </motion.div>
         )}
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label htmlFor="username" className="block text-sm font-semibold mb-2">
-              <FaUser className="inline mr-2" /> Username
+            <label htmlFor="email" className="block text-sm font-semibold mb-2">
+              <FaUser className="inline mr-2" /> Email
             </label>
             <input
-              type="text"
-              id="username"
-              name="username"
-              value={formData.username}
+              type="email"
+              id="email"
+              name="email"
+              value={formData.email}
               onChange={handleChange}
               className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 transition-colors ${
-                error && !formData.username
+                error && !formData.email
                   ? 'border-red-500 focus:ring-red-500'
                   : 'border-gray-300 focus:border-wedding-gold focus:ring-wedding-gold'
               }`}
-              placeholder="Enter username"
-              autoComplete="username"
+              placeholder="Enter email"
+              autoComplete="email"
             />
           </div>
           
@@ -147,17 +211,6 @@ const AdminLogin = () => {
           </button>
         </form>
 
-        <div className="mt-6 text-center">
-          <p className="text-gray-600">
-            Don't have an account?{' '}
-            <Link
-              to="/admin/signup"
-              className="text-wedding-gold hover:underline font-semibold"
-            >
-              Sign up here
-            </Link>
-          </p>
-        </div>
       </motion.div>
     </div>
   )

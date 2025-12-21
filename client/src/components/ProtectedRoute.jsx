@@ -1,23 +1,35 @@
-import { useEffect } from 'react'
 import { Navigate } from 'react-router-dom'
-import api from '../utils/api'
 
 const ProtectedRoute = ({ children }) => {
+  // Check if admin token exists in localStorage (static credentials)
   const token = localStorage.getItem('adminToken')
+  const adminData = localStorage.getItem('adminData')
 
-  useEffect(() => {
-    // Verify token on mount
-    if (token) {
-      api.get('/admin/verify')
-        .catch(() => {
-          // If token is invalid, remove it
-          localStorage.removeItem('adminToken')
-          localStorage.removeItem('adminData')
-        })
+  console.log('ProtectedRoute check:', { token: !!token, adminData: !!adminData })
+
+  // If no token or admin data, redirect to login
+  if (!token || !adminData) {
+    console.log('ProtectedRoute: No token or adminData, redirecting to login')
+    return <Navigate to="/admin/login" replace />
+  }
+
+  // Verify admin data is valid
+  try {
+    const admin = JSON.parse(adminData)
+    console.log('ProtectedRoute: Admin email check:', admin.email)
+    if (admin.email !== 'rsphotography0@gmail.com') {
+      // Invalid admin data, clear and redirect
+      console.log('ProtectedRoute: Invalid admin email, redirecting to login')
+      localStorage.removeItem('adminToken')
+      localStorage.removeItem('adminData')
+      return <Navigate to="/admin/login" replace />
     }
-  }, [token])
-
-  if (!token) {
+    console.log('ProtectedRoute: Access granted')
+  } catch (error) {
+    // Invalid admin data format, clear and redirect
+    console.log('ProtectedRoute: Error parsing adminData:', error)
+    localStorage.removeItem('adminToken')
+    localStorage.removeItem('adminData')
     return <Navigate to="/admin/login" replace />
   }
 

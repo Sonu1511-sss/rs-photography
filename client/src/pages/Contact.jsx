@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { FaPhone, FaEnvelope, FaMapMarkerAlt, FaCalendar, FaUser, FaCity, FaPaperPlane } from 'react-icons/fa'
+import { toast } from 'react-toastify'
 import api from '../utils/api'
 import SEO from '../components/SEO'
 
@@ -14,47 +15,89 @@ const Contact = () => {
     message: ''
   })
   const [loading, setLoading] = useState(false)
-  const [success, setSuccess] = useState(false)
-  const [error, setError] = useState('')
 
   const handleChange = (e) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value
     })
-    setError('')
   }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    setError('')
-    setSuccess(false)
 
     // Validation
     if (!formData.name || !formData.phone || !formData.email || !formData.eventDate || !formData.city) {
-      setError('Please fill in all required fields')
+      toast.error('कृपया सभी आवश्यक फ़ील्ड भरें (Please fill in all required fields)', {
+        position: 'top-right',
+        autoClose: 4000,
+      })
+      return
+    }
+
+    // Name validation
+    if (formData.name.trim().length < 2) {
+      toast.error('कृपया वैध नाम दर्ज करें (Please enter a valid name)', {
+        position: 'top-right',
+        autoClose: 4000,
+      })
       return
     }
 
     // Email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
     if (!emailRegex.test(formData.email)) {
-      setError('Please enter a valid email address')
+      toast.error('कृपया वैध ईमेल पता दर्ज करें (Please enter a valid email address)', {
+        position: 'top-right',
+        autoClose: 4000,
+      })
       return
     }
 
     // Phone validation
     const phoneRegex = /^[0-9]{10}$/
-    if (!phoneRegex.test(formData.phone.replace(/\D/g, ''))) {
-      setError('Please enter a valid 10-digit phone number')
+    const cleanPhone = formData.phone.replace(/\D/g, '')
+    if (!phoneRegex.test(cleanPhone)) {
+      toast.error('कृपया 10 अंकों का वैध फ़ोन नंबर दर्ज करें (Please enter a valid 10-digit phone number)', {
+        position: 'top-right',
+        autoClose: 4000,
+      })
+      return
+    }
+
+    // Event date validation
+    const eventDate = new Date(formData.eventDate)
+    const today = new Date()
+    today.setHours(0, 0, 0, 0)
+    if (eventDate < today) {
+      toast.error('कृपया भविष्य की तारीख चुनें (Please select a future date)', {
+        position: 'top-right',
+        autoClose: 4000,
+      })
+      return
+    }
+
+    // City validation
+    if (formData.city.trim().length < 2) {
+      toast.error('कृपया वैध शहर का नाम दर्ज करें (Please enter a valid city name)', {
+        position: 'top-right',
+        autoClose: 4000,
+      })
       return
     }
 
     setLoading(true)
 
     try {
-      await api.post('/contact', formData)
-      setSuccess(true)
+      const response = await api.post('/contact', formData)
+      
+      // Success notification
+      toast.success('धन्यवाद! आपका संदेश सफलतापूर्वक भेजा गया। हम जल्द ही आपसे संपर्क करेंगे। (Thank you! Your message has been sent successfully. We will contact you soon.)', {
+        position: 'top-right',
+        autoClose: 6000,
+      })
+      
+      // Reset form
       setFormData({
         name: '',
         phone: '',
@@ -63,9 +106,27 @@ const Contact = () => {
         city: '',
         message: ''
       })
-      setTimeout(() => setSuccess(false), 5000)
     } catch (err) {
-      setError(err.response?.data?.message || 'Failed to send message. Please try again.')
+      console.error('Contact form error:', err)
+      
+      // Show detailed error messages
+      if (err.response) {
+        const errorMessage = err.response.data?.message || err.response.data?.error || 'Failed to send message'
+        toast.error(`त्रुटि: ${errorMessage} (Error: ${errorMessage})`, {
+          position: 'top-right',
+          autoClose: 5000,
+        })
+      } else if (err.request) {
+        toast.error('सर्वर से कनेक्ट नहीं हो सका। कृपया इंटरनेट कनेक्शन जांचें। (Could not connect to server. Please check your internet connection.)', {
+          position: 'top-right',
+          autoClose: 5000,
+        })
+      } else {
+        toast.error('कुछ गलत हुआ। कृपया पुनः प्रयास करें। (Something went wrong. Please try again.)', {
+          position: 'top-right',
+          autoClose: 5000,
+        })
+      }
     } finally {
       setLoading(false)
     }
@@ -111,17 +172,6 @@ const Contact = () => {
                   Send Us a Message
                 </h2>
                 
-                {success && (
-                  <div className="mb-6 p-4 bg-green-100 border border-green-400 text-green-700 rounded-lg">
-                    Thank you for your enquiry! We will contact you soon.
-                  </div>
-                )}
-
-                {error && (
-                  <div className="mb-6 p-4 bg-red-100 border border-red-400 text-gold-400 rounded-lg">
-                    {error}
-                  </div>
-                )}
 
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div>
@@ -287,9 +337,14 @@ const Contact = () => {
                     </div>
                     <div>
                       <h3 className="font-semibold text-lg mb-1 text-wedding-black">Phone</h3>
-                      <a href="tel:+919876543210" className="text-gray-700 hover:text-wedding-gold transition-colors">
-                        +91 98765 43210
-                      </a>
+                      <div className="space-y-2">
+                        <a href="tel:+916262620716" className="block text-gray-700 hover:text-wedding-gold transition-colors">
+                          +91 62626 20716
+                        </a>
+                        <a href="tel:+919893356211" className="block text-gray-700 hover:text-wedding-gold transition-colors">
+                          +91 98933 56211
+                        </a>
+                      </div>
                     </div>
                   </motion.div>
 
@@ -389,16 +444,26 @@ const Contact = () => {
               viewport={{ once: true }}
             >
               <iframe
-                src="https://www.google.com/maps?q=21.6383572,79.8604831&hl=en&z=15&output=embed"
+                src="https://www.google.com/maps?q=21.8134,80.1834&hl=en&z=15&output=embed"
                 width="100%"
                 height="450"
                 style={{ border: 0 }}
                 allowFullScreen=""
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
-                title="RS Photography Location - Tekadighat Post, Miragpur, Jila Balaghat, MP"
+                title="RS Photography Location - Sukdighat Post, Miragpur, District Balaghat, Madhya Pradesh"
                 className="w-full"
               ></iframe>
+              <div className="p-4 bg-gray-50 text-center">
+                <a
+                  href="https://www.google.com/maps/search/?api=1&query=21.8134,80.1834"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-wedding-gold hover:text-wedding-black font-semibold transition-colors"
+                >
+                  View on Google Maps →
+                </a>
+              </div>
             </motion.div>
           </div>
         </section>

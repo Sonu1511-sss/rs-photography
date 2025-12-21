@@ -33,6 +33,7 @@ const Navbar = () => {
     { path: '/services', label: 'Services' },
     { path: '/packages', label: 'Packages' },
     { path: '/blog', label: 'Blog' },
+    { path: '/testimonials', label: 'Testimonials' },
     { path: '/contact', label: 'Contact' }
   ]
 
@@ -89,7 +90,7 @@ const Navbar = () => {
               </div>
             ))}
             
-            {/* Social Icons */}
+            {/* Social Icons & Admin */}
             <div className="flex items-center space-x-4 ml-4 pl-4 border-l border-wedding-gold/30">
               <a
                 href="https://www.instagram.com/rs____photography___/"
@@ -117,6 +118,17 @@ const Navbar = () => {
               >
                 <FaYoutube size={20} />
               </a>
+              <Link
+                to="/admin/login"
+                className={`px-3 py-1.5 text-xs font-semibold rounded transition-colors ${
+                  isScrolled
+                    ? 'text-wedding-gold border border-wedding-gold hover:bg-wedding-gold hover:text-wedding-black'
+                    : 'text-wedding-gold border border-wedding-gold hover:bg-wedding-gold hover:text-wedding-black'
+                }`}
+                aria-label="Admin Login"
+              >
+                Admin
+              </Link>
             </div>
           </div>
 
@@ -182,6 +194,13 @@ const Navbar = () => {
               >
                 <FaYoutube size={24} />
               </a>
+              <Link
+                to="/admin/login"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="px-3 py-1.5 text-xs font-semibold rounded text-wedding-gold border border-wedding-gold hover:bg-wedding-gold hover:text-wedding-black transition-colors"
+              >
+                Admin
+              </Link>
             </div>
           </motion.div>
         )}

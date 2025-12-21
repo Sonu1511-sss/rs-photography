@@ -1,0 +1,19 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://rsphotography.com/sitemap.xml
+
+# Disallow admin routes
+Disallow: /admin/
+
+# Allow all other pages
+Allow: /
+Allow: /portfolio
+Allow: /videos
+Allow: /blogs
+Allow: /testimonials
+Allow: /contact
+Allow: /about
+Allow: /packages
+

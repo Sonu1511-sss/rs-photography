@@ -19,20 +19,21 @@ api.interceptors.request.use(
 )
 
 // Handle 401 errors
+// NOTE: We DON'T auto-logout on 401 errors because we're using static credentials
+// The user should only be logged out when they explicitly click the logout button
+// API errors are handled gracefully in the components
 api.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response?.status === 401) {
-      localStorage.removeItem('adminToken')
-      if (window.location.pathname.startsWith('/admin')) {
-        window.location.href = '/admin/login'
-      }
-    }
+    // Don't auto-logout on 401 errors - let components handle it
+    // This prevents automatic logout when using static credentials
+    console.log('API Error:', error.response?.status, error.message)
     return Promise.reject(error)
   }
 )
 
 export default api
+
 
 
 
