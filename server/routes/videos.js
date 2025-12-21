@@ -18,7 +18,7 @@ router.get('/', async (req, res) => {
 // Get featured videos
 router.get('/featured', async (req, res) => {
   try {
-    const videos = await Video.find({ featured: true }).limit(4).sort({ createdAt: -1 });
+    const videos = await Video.find({ featured: true }).limit(6).sort({ createdAt: -1 });
     res.json(videos);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -80,11 +80,3 @@ router.delete('/:id', auth, async (req, res) => {
 });
 
 module.exports = router;
-
-
-
-
-
-
-
-

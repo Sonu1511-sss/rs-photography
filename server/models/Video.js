@@ -7,7 +7,7 @@ const videoSchema = new mongoose.Schema({
   },
   category: {
     type: String,
-    enum: ['wedding-film', 'pre-wedding-film'],
+    enum: ['wedding-film', 'pre-wedding-film', 'highlight-reel'],
     required: true
   },
   videoUrl: {
@@ -33,6 +33,9 @@ const videoSchema = new mongoose.Schema({
 });
 
 module.exports = mongoose.model('Video', videoSchema);
+
+
+
 
 
 

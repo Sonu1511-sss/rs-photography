@@ -25,6 +25,7 @@ app.use('/api/videos', require('./routes/videos'));
 app.use('/api/blogs', require('./routes/blogs'));
 app.use('/api/testimonials', require('./routes/testimonials'));
 app.use('/api/contact', require('./routes/contact'));
+app.use('/api/comments', require('./routes/comments'));
 app.use('/api/admin', require('./routes/admin'));
 
 // Health check

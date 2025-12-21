@@ -1,24 +1,29 @@
 const mongoose = require('mongoose');
 
-const portfolioSchema = new mongoose.Schema({
-  title: {
+const commentSchema = new mongoose.Schema({
+  serviceName: {
     type: String,
     required: true
   },
-  category: {
-    type: String,
-    enum: ['weddings', 'pre-wedding', 'engagement'],
-    required: true
-  },
-  imageUrl: {
+  userName: {
     type: String,
     required: true
   },
-  description: {
+  userEmail: {
     type: String,
-    default: ''
+    required: true
   },
-  featured: {
+  comment: {
+    type: String,
+    required: true
+  },
+  rating: {
+    type: Number,
+    min: 1,
+    max: 5,
+    default: 5
+  },
+  approved: {
     type: Boolean,
     default: false
   },
@@ -28,15 +33,5 @@ const portfolioSchema = new mongoose.Schema({
   }
 });
 
-module.exports = mongoose.model('Portfolio', portfolioSchema);
-
-
-
-
-
-
-
-
-
-
+module.exports = mongoose.model('Comment', commentSchema);
 

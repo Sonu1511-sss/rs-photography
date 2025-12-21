@@ -9,6 +9,7 @@ const Portfolio = require('../models/Portfolio');
 const Video = require('../models/Video');
 const Blog = require('../models/Blog');
 const Testimonial = require('../models/Testimonial');
+const Comment = require('../models/Comment');
 
 // Admin Register
 router.post('/register', async (req, res) => {
@@ -69,21 +70,29 @@ router.post('/register', async (req, res) => {
 // Admin Login
 router.post('/login', async (req, res) => {
   try {
-    const { username, password } = req.body;
+    const { username, email, password } = req.body;
     
-    // Validation
-    if (!username || !password) {
-      return res.status(400).json({ message: 'Username and password are required' });
+    // Validation - accept either username or email
+    if (!password) {
+      return res.status(400).json({ message: 'Password is required' });
     }
 
-    const admin = await Admin.findOne({ username });
+    if (!username && !email) {
+      return res.status(400).json({ message: 'Username or email is required' });
+    }
+
+    // Find admin by username or email
+    const admin = await Admin.findOne(
+      username ? { username } : { email: email.toLowerCase() }
+    );
+    
     if (!admin) {
-      return res.status(401).json({ message: 'Invalid username or password' });
+      return res.status(401).json({ message: 'Invalid credentials' });
     }
 
     const isMatch = await admin.comparePassword(password);
     if (!isMatch) {
-      return res.status(401).json({ message: 'Invalid username or password' });
+      return res.status(401).json({ message: 'Invalid credentials' });
     }
 
     const token = jwt.sign({ adminId: admin._id }, config.jwtSecret, { expiresIn: config.jwtExpiresIn });
@@ -97,6 +106,7 @@ router.post('/login', async (req, res) => {
       message: 'Login successful'
     });
   } catch (error) {
+    console.error('Login error:', error);
     res.status(500).json({ message: error.message || 'Login failed. Please try again.' });
   }
 });
@@ -104,15 +114,17 @@ router.post('/login', async (req, res) => {
 // Get admin dashboard stats
 router.get('/dashboard', auth, async (req, res) => {
   try {
-    const [contacts, portfolio, videos, blogs, testimonials] = await Promise.all([
+    const [contacts, portfolio, videos, blogs, testimonials, comments] = await Promise.all([
       Contact.countDocuments(),
       Portfolio.countDocuments(),
       Video.countDocuments(),
       Blog.countDocuments(),
-      Testimonial.countDocuments()
+      Testimonial.countDocuments(),
+      Comment.countDocuments()
     ]);
 
     const newContacts = await Contact.countDocuments({ status: 'new' });
+    const pendingComments = await Comment.countDocuments({ approved: false });
 
     res.json({
       stats: {
@@ -121,7 +133,9 @@ router.get('/dashboard', auth, async (req, res) => {
         videos,
         blogs,
         testimonials,
-        newContacts
+        comments,
+        newContacts,
+        pendingComments
       }
     });
   } catch (error) {

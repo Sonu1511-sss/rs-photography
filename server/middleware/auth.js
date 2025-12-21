@@ -1,27 +1,36 @@
 const jwt = require('jsonwebtoken');
 const config = require('../config/config');
+const Admin = require('../models/Admin');
 
-const auth = (req, res, next) => {
+const auth = async (req, res, next) => {
   try {
+    // Get token from header
     const token = req.header('Authorization')?.replace('Bearer ', '');
     
     if (!token) {
       return res.status(401).json({ message: 'No token, authorization denied' });
     }
 
-    const decoded = jwt.verify(token, config.jwtSecret);
-    req.adminId = decoded.adminId;
-    next();
+    try {
+      // Verify token
+      const decoded = jwt.verify(token, config.jwtSecret);
+      
+      // Check if admin exists
+      const admin = await Admin.findById(decoded.adminId);
+      if (!admin) {
+        return res.status(401).json({ message: 'Token is not valid' });
+      }
+
+      // Add admin to request
+      req.admin = admin;
+      req.adminId = decoded.adminId;
+      next();
+    } catch (error) {
+      res.status(401).json({ message: 'Token is not valid' });
+    }
   } catch (error) {
-    if (error.name === 'TokenExpiredError') {
-      return res.status(401).json({ message: 'Token has expired' });
-    }
-    if (error.name === 'JsonWebTokenError') {
-      return res.status(401).json({ message: 'Invalid token' });
-    }
-    res.status(401).json({ message: 'Token is not valid' });
+    res.status(500).json({ message: 'Server error in authentication' });
   }
 };
 
 module.exports = auth;
-
