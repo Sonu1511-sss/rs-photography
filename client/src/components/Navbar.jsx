@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { FaInstagram, FaYoutube } from 'react-icons/fa'
 import { HiMenu, HiX } from 'react-icons/hi'
+import logo from '../pages/images/Document.png'
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false)
@@ -53,9 +54,11 @@ const Navbar = () => {
         <div className="flex items-center justify-between h-full">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2">
-            <span className="text-2xl md:text-3xl font-elegant font-bold text-wedding-gold">
-              RS Photography
-            </span>
+            <img 
+              src={logo} 
+              alt="RS Photography Logo" 
+              className="h-12 md:h-16 w-auto object-contain"
+            />
           </Link>
 
           {/* Desktop Menu */}
