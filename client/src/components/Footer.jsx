@@ -14,9 +14,8 @@ const Footer = () => {
               RS Photography
             </h3>
             <p className="text-gray-300 mb-4">
-              RS Photography - Best Wedding Photography Services in Balaghat and Katangi, Madhya Pradesh. 
-              Professional Indian Wedding Photography, Pre-Wedding Shoots, Engagement Photography, and Wedding Films. 
-              RS Photography Balaghat Katangi - Your trusted wedding photographer.
+            RS Photography – Wedding Photography in Balaghat & Katangi.
+            Weddings | Pre-Wedding | Engagements | Films 📸
             </p>
             <div className="flex space-x-4">
               <a

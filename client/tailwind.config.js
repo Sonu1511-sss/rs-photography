@@ -21,9 +21,15 @@ export default {
           900: '#997a00',
         },
         wedding: {
-          black: '#1a1a1a',
-          gold: '#d4af37', // Yellow/Gold color
-          white: '#ffffff',
+          black: '#0B0B0B', // Deep Black - Primary Background
+          gold: '#D4AF37', // Wedding Gold - Primary Accent
+          'soft-gold': '#F4D03F', // Soft Gold - Secondary Gold
+          ivory: '#FAF9F6', // Ivory White - Light Background
+          charcoal: '#2C2C2C', // Charcoal - Dark Text
+          'champagne-gold': '#E6C77D', // Champagne Gold
+          'light-gold': '#EADFB4', // Light Gold Border
+          white: '#FFFFFF', // Pure White
+          'light-gray': '#B0B0B0', // Muted Text
         }
       },
       fontFamily: {

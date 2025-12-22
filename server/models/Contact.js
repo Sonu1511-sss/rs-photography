@@ -25,6 +25,10 @@ const contactSchema = new mongoose.Schema({
     type: String,
     default: ''
   },
+  imageUrl: {
+    type: String,
+    default: ''
+  },
   status: {
     type: String,
     enum: ['new', 'contacted', 'booked', 'archived'],
@@ -37,6 +41,9 @@ const contactSchema = new mongoose.Schema({
 });
 
 module.exports = mongoose.model('Contact', contactSchema);
+
+
+
 
 
 

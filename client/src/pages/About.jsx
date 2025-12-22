@@ -92,37 +92,37 @@ const About = () => {
 
               {/* Stats/Tags */}
               <div className="flex flex-wrap items-center gap-4">
-                <span className="text-white text-lg font-medium">10+</span>
-                <span className="bg-red-700 text-white px-4 py-2 rounded-md text-sm font-semibold">
-                  Experience
+                <span className="text-wedding-gold text-2xl font-bold">10+</span>
+                <span className="bg-gradient-to-r from-wedding-gold to-wedding-soft-gold text-wedding-black px-4 py-2 rounded-md text-sm font-semibold shadow-md">
+                  Years Experience
                 </span>
                 <div className="flex items-center gap-2 text-white">
-                  <span className="text-lg font-medium">500+</span>
-                  <FaCamera className="text-red-700" />
-                  <span className="text-sm">Weddings</span>
+                  <span className="text-wedding-gold text-2xl font-bold">500+</span>
+                  <FaCamera className="text-wedding-gold" />
+                  <span className="text-sm text-wedding-light-gray">Weddings</span>
                 </div>
               </div>
 
               {/* Main Content */}
-              <div className="space-y-6 text-white/90 text-lg leading-relaxed">
+              <div className="space-y-6 text-wedding-light-gray text-lg leading-relaxed">
                 <p>
-                  With over 10 years of wedding photography experience and countless happy couples, 
-                  we bring an extremely unique experience to our clients. Specializing in Indian 
-                  wedding photography, we understand the cultural significance and emotional depth 
+                  With over <span className="text-wedding-gold font-semibold">10 years</span> of wedding photography experience and countless happy couples, 
+                  we bring an extremely unique experience to our clients. Specializing in <span className="text-wedding-gold font-semibold">Indian 
+                  wedding photography</span>, we understand the cultural significance and emotional depth 
                   of every moment.
                 </p>
                 <p>
                   Evoking emotion through photography is our greatest passion. We provide our clients 
-                  a mix of cinematic shots, compelling storytelling, and current photography trends 
+                  a mix of <span className="text-wedding-gold font-semibold">cinematic shots</span>, compelling storytelling, and current photography trends 
                   that make our style stand out and is completely original. Every frame we capture 
-                  tells a story of love, joy, and celebration.
+                  tells a story of <span className="text-wedding-gold font-semibold">love, joy, and celebration</span>.
                 </p>
               </div>
 
               {/* CTA Button */}
               <motion.a
                 href="#vision"
-                className="inline-block bg-red-700 hover:bg-wedding-gold hover:text-black text-white px-8 py-4 rounded-md font-semibold transition-all duration-300 transform hover:scale-105"
+                className="inline-block bg-gradient-to-r from-wedding-gold to-wedding-soft-gold text-wedding-black px-8 py-4 rounded-lg font-semibold transition-all duration-300 shadow-lg hover:shadow-wedding-gold/50"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
@@ -153,7 +153,7 @@ const About = () => {
       </section>
 
       {/* Stats */}
-      <section className="py-20 bg-gradient-to-br from-wedding-black via-gray-900 to-wedding-black text-white">
+      <section className="py-20 bg-wedding-black text-white">
         <div className="container mx-auto px-4">
           <motion.div
             className="text-center mb-12"
@@ -164,7 +164,7 @@ const About = () => {
             <h2 className="text-4xl md:text-5xl font-elegant font-bold mb-4 text-wedding-gold">
               Our Achievements
             </h2>
-            <p className="text-gray-400 text-lg">
+            <p className="text-wedding-light-gray text-lg">
               Numbers that speak for our dedication and excellence
             </p>
           </motion.div>
@@ -172,7 +172,7 @@ const About = () => {
             {stats.map((stat, index) => (
               <motion.div
                 key={index}
-                className="text-center bg-white/5 backdrop-blur-sm p-6 rounded-xl border border-white/10 hover:bg-white/10 hover:border-wedding-gold/50 transition-all duration-300"
+                className="text-center bg-wedding-black/80 backdrop-blur-sm p-6 rounded-xl border-2 border-wedding-gold/30 hover:bg-wedding-black/90 hover:border-wedding-gold transition-all duration-300 shadow-lg"
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -185,7 +185,7 @@ const About = () => {
                 <h3 className="text-5xl md:text-6xl font-elegant font-bold mb-2 text-wedding-gold">
                   <Counter target={stat.number} suffix={stat.suffix} duration={2000} />
                 </h3>
-                <p className="text-gray-300 font-medium">{stat.label}</p>
+                <p className="text-wedding-light-gray font-medium">{stat.label}</p>
               </motion.div>
             ))}
           </div>
@@ -204,51 +204,51 @@ const About = () => {
             <h2 className="text-4xl md:text-5xl font-elegant font-bold mb-4 text-white">
               Our Vision & Mission
             </h2>
-            <p className="text-gray-400 text-lg max-w-2xl mx-auto">
+            <p className="text-wedding-light-gray text-lg max-w-2xl mx-auto">
               Committed to excellence in every frame we capture
             </p>
           </motion.div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <motion.div
-              className="bg-gradient-to-br from-gray-700 to-gray-800 p-8 rounded-xl shadow-lg border border-gray-600 hover:shadow-xl transition-all duration-300"
+              className="bg-wedding-black/80 backdrop-blur-sm p-8 rounded-xl shadow-lg border-2 border-wedding-gold/30 hover:border-wedding-gold hover:shadow-xl transition-all duration-300"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
             >
               <div className="flex items-center gap-3 mb-4">
-                <div className="bg-wedding-gold p-3 rounded-lg">
-                  <FaAward className="text-white text-2xl" />
+                <div className="bg-gradient-to-br from-wedding-gold to-wedding-soft-gold p-3 rounded-lg shadow-md">
+                  <FaAward className="text-wedding-black text-2xl" />
                 </div>
                 <h3 className="text-3xl font-elegant font-bold text-wedding-gold">
                   Our Vision
                 </h3>
               </div>
-              <p className="text-gray-300 leading-relaxed text-lg">
+              <p className="text-wedding-light-gray leading-relaxed text-lg">
                 To be the most trusted and sought-after wedding photography service in 
-                Balaghat and surrounding regions, known for our artistic excellence, 
-                attention to detail, and commitment to capturing authentic emotions.
+                Balaghat and surrounding regions, known for our <span className="text-wedding-gold font-semibold">artistic excellence</span>, 
+                attention to detail, and commitment to capturing <span className="text-wedding-gold font-semibold">authentic emotions</span>.
               </p>
             </motion.div>
             <motion.div
-              className="bg-gradient-to-br from-gray-700 to-gray-800 p-8 rounded-xl shadow-lg border border-gray-600 hover:shadow-xl transition-all duration-300"
+              className="bg-wedding-black/80 backdrop-blur-sm p-8 rounded-xl shadow-lg border-2 border-wedding-gold/30 hover:border-wedding-gold hover:shadow-xl transition-all duration-300"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.2 }}
             >
               <div className="flex items-center gap-3 mb-4">
-                <div className="bg-wedding-gold p-3 rounded-lg">
-                  <FaHeart className="text-white text-2xl" />
+                <div className="bg-gradient-to-br from-wedding-gold to-wedding-soft-gold p-3 rounded-lg shadow-md">
+                  <FaHeart className="text-wedding-black text-2xl" />
                 </div>
-                <h3 className="text-3xl font-elegant font-bold text-white">
+                <h3 className="text-3xl font-elegant font-bold text-wedding-gold">
                   Our Mission
                 </h3>
               </div>
-              <p className="text-gray-300 leading-relaxed text-lg">
-                To create stunning visual narratives that preserve the magic of your 
-                wedding day. We strive to blend traditional Indian wedding photography 
+              <p className="text-wedding-light-gray leading-relaxed text-lg">
+                To create stunning visual narratives that preserve the <span className="text-wedding-gold font-semibold">magic of your 
+                wedding day</span>. We strive to blend traditional Indian wedding photography 
                 with contemporary techniques, ensuring every moment is captured with 
-                elegance and emotion.
+                <span className="text-wedding-gold font-semibold"> elegance and emotion</span>.
               </p>
             </motion.div>
           </div>
@@ -256,21 +256,21 @@ const About = () => {
       </section>
 
       {/* Location Focus */}
-      <section className="relative py-20 bg-gradient-to-br text-white overflow-hidden">
+      <section className="relative py-20 bg-wedding-black text-white overflow-hidden">
         {/* Camera Lens Background Image */}
         <div 
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat "
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-30"
           style={{ 
             backgroundImage: 'url(https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=1920&q=80)',
             backgroundSize: 'cover',
             backgroundPosition: 'center',
-            filter: 'blur(1px)'
+            filter: 'blur(2px)'
           }}
         />
-        {/* <div className="absolute inset-0 bg-gradient-to-br from-wedding-black/70 to-wedding-gold/70" /> */}
+        <div className="absolute inset-0 bg-gradient-to-r from-wedding-black/90 to-wedding-gold/20" />
         <div className="relative z-10 container mx-auto px-4 text-center">
           <motion.h2
-            className="text-4xl md:text-5xl font-elegant font-bold mb-6"
+            className="text-4xl md:text-5xl font-elegant font-bold mb-6 text-wedding-gold"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -278,29 +278,27 @@ const About = () => {
             Serving Balaghat & Nearby Areas
           </motion.h2>
           <motion.p
-            className="text-xl mb-8 max-w-3xl mx-auto"
+            className="text-xl mb-8 max-w-3xl mx-auto text-wedding-light-gray"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.2 }}
           >
-            RS Photography proudly serves couples in Balaghat, Katangi (Kattangi), Madhya Pradesh, and surrounding regions. 
+            RS Photography proudly serves couples in <span className="text-wedding-gold font-semibold">Balaghat, Katangi (Kattangi), Madhya Pradesh</span>, and surrounding regions. 
             Our deep understanding of local traditions and customs allows us to capture 
             your wedding in a way that honors your heritage while creating modern, 
             timeless memories. RS Photography is your trusted wedding photographer in Balaghat and Katangi.
           </motion.p>
           <motion.div
-            className="flex items-center justify-center gap-2 text-wedding-gold mb-8"
+            className="flex flex-col md:flex-row items-center justify-center gap-3 text-wedding-gold mb-8 bg-wedding-black/60 backdrop-blur-sm px-6 py-4 rounded-lg border border-wedding-gold/30 max-w-4xl mx-auto"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
             transition={{ delay: 0.4 }}
           >
-            <FaMapMarkerAlt size={24} />
-            <span className="text-xl font-semibold">RS Photography, Sukdighat Post, Miragpur, Jila Balaghat, Madhya Pradesh, India</span>
+            <FaMapMarkerAlt size={24} className="text-wedding-gold" />
+            <span className="text-lg md:text-xl font-semibold text-center">RS Photography, Sukdighat Post, Miragpur, Jila Balaghat, Madhya Pradesh, India</span>
           </motion.div>
-          
-          
         </div>
       </section>
     </div>

@@ -2,11 +2,19 @@ const express = require('express');
 const router = express.Router();
 const Contact = require('../models/Contact');
 const auth = require('../middleware/auth');
+const upload = require('../middleware/upload');
 
-// Create contact enquiry
-router.post('/', async (req, res) => {
+// Create contact enquiry (with optional image upload)
+router.post('/', upload.single('image'), async (req, res) => {
   try {
-    const contact = new Contact(req.body);
+    const contactData = { ...req.body };
+    
+    // If image uploaded, add imageUrl
+    if (req.file) {
+      contactData.imageUrl = `/uploads/${req.file.filename}`;
+    }
+    
+    const contact = new Contact(contactData);
     await contact.save();
     res.status(201).json({ message: 'Thank you for your enquiry! We will contact you soon.', contact });
   } catch (error) {
@@ -68,6 +76,9 @@ router.delete('/:id', auth, async (req, res) => {
 });
 
 module.exports = router;
+
+
+
 
 
 

@@ -1,244 +1,387 @@
-import { useState, useEffect } from 'react'
-import { motion } from 'framer-motion'
-import { FaStar, FaQuoteLeft, FaQuoteRight } from 'react-icons/fa'
-import api from '../utils/api'
-import SEO from '../components/SEO'
+import { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
+import api from '../utils/api';
+import SEO from '../components/SEO';
 
 const Testimonials = () => {
-  const [testimonials, setTestimonials] = useState([])
-  const [loading, setLoading] = useState(true)
-  const [filter, setFilter] = useState('all') // all, featured
+  const [testimonials, setTestimonials] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [form, setForm] = useState({
+    coupleName: '',
+    rating: 5,
+    review: '',
+    weddingDate: '',
+  });
+  const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
-    const endpoint = filter === 'featured' ? '/testimonials/featured' : '/testimonials'
-    api.get(endpoint)
-      .then(res => {
-        const data = res.data && res.data.length > 0 ? res.data : getSampleTestimonials()
-        setTestimonials(data)
-        setLoading(false)
+    api
+      .get('/testimonials')
+      .then((res) => {
+        setTestimonials(res.data || []);
+        setLoading(false);
       })
-      .catch(err => {
-        console.error(err)
-        setTestimonials(getSampleTestimonials())
-        setLoading(false)
-      })
-  }, [filter])
+      .catch(() => {
+        setLoading(false);
+      });
+  }, []);
 
-  const getSampleTestimonials = () => {
-    return [
-      {
-        _id: 'sample-1',
-        coupleName: 'Rajesh & Priya',
-        rating: 5,
-        review: 'RS Photography captured our wedding beautifully! Every moment was perfectly framed. The team was professional, punctual, and made us feel so comfortable. Highly recommended!',
-        weddingDate: '2024-01-15',
-        featured: true
-      },
-      {
-        _id: 'sample-2',
-        coupleName: 'Amit & Sneha',
-        rating: 5,
-        review: 'Amazing experience with RS Photography! The pre-wedding shoot was absolutely stunning. They understood our vision and delivered beyond expectations. Thank you for making our special day even more memorable!',
-        weddingDate: '2023-12-20',
-        featured: true
-      },
-      {
-        _id: 'sample-3',
-        coupleName: 'Vikram & Anjali',
-        rating: 5,
-        review: 'Best wedding photographer in Balaghat! The photos are incredible and the service was outstanding. They captured every emotion perfectly. We couldn\'t be happier with our wedding album.',
-        weddingDate: '2024-02-10',
-        featured: true
-      },
-      {
-        _id: 'sample-4',
-        coupleName: 'Rohit & Kavya',
-        rating: 5,
-        review: 'RS Photography exceeded all our expectations! The team was creative, professional, and very accommodating. Our wedding photos are absolutely beautiful. Worth every penny!',
-        weddingDate: '2023-11-05',
-        featured: false
-      },
-      {
-        _id: 'sample-5',
-        coupleName: 'Suresh & Meera',
-        rating: 5,
-        review: 'Outstanding photography services! They made our engagement ceremony so special with their beautiful captures. The editing quality is top-notch. Highly recommend RS Photography!',
-        weddingDate: '2024-03-22',
-        featured: false
-      },
-      {
-        _id: 'sample-6',
-        coupleName: 'Karan & Divya',
-        rating: 5,
-        review: 'Professional, creative, and amazing results! RS Photography captured our wedding in the most beautiful way. The highlight reel was incredible. Thank you for preserving our memories so beautifully!',
-        weddingDate: '2023-10-18',
-        featured: true
-      }
-    ]
-  }
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
 
-  const formatDate = (dateString) => {
-    const date = new Date(dateString)
-    return date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
-  }
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setSubmitting(true);
+    try {
+      const payload = {
+        coupleName: form.coupleName,
+        rating: Number(form.rating) || 5,
+        review: form.review,
+        weddingDate: form.weddingDate || new Date(),
+        featured: false,
+      };
+      await api.post('/testimonials', payload);
+      const res = await api.get('/testimonials');
+      setTestimonials(res.data || []);
+      setForm({ coupleName: '', rating: 5, review: '', weddingDate: '' });
+      alert('Thank you for your feedback!');
+    } catch (err) {
+      alert('Failed to submit testimonial');
+    } finally {
+      setSubmitting(false);
+    }
+  };
 
-  if (loading) {
-    return (
-      <div className="pt-20 min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-wedding-gold mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading testimonials...</p>
-        </div>
-      </div>
-    )
-  }
+  // Carousel navigation functions
+  const nextSlide = () => {
+    if (testimonials.length <= 3) return;
+    setCurrentIndex((prev) => (prev + 1) % Math.max(1, testimonials.length - 2));
+  };
+
+  const prevSlide = () => {
+    if (testimonials.length <= 3) return;
+    setCurrentIndex((prev) => (prev - 1 + Math.max(1, testimonials.length - 2)) % Math.max(1, testimonials.length - 2));
+  };
+
+  const goToSlide = (index) => {
+    setCurrentIndex(index);
+  };
+
+  // Get testimonials to display (3 at a time for desktop, 1 for mobile)
+  const getDisplayTestimonials = () => {
+    if (testimonials.length <= 3) {
+      return testimonials;
+    }
+    // For desktop: show 3 cards (current, current+1, current+2)
+    // For mobile: show only current
+    const maxIndex = Math.max(0, testimonials.length - 3);
+    const safeIndex = Math.min(currentIndex, maxIndex);
+    return testimonials.slice(safeIndex, safeIndex + 3);
+  };
+
+  const displayTestimonials = getDisplayTestimonials();
+  const totalSlides = Math.max(1, testimonials.length - 2);
 
   return (
     <>
       <SEO
-        title="Testimonials - Client Reviews | RS Photography"
-        description="Read what our clients say about RS Photography. Real reviews and testimonials from couples who trusted us with their wedding photography in Balaghat and Katangi."
-        keywords="wedding photography reviews, photographer testimonials, RS photography reviews, wedding photographer balaghat reviews, client testimonials"
+        title="Client Testimonials - RS Photography"
+        description="Read reviews and testimonials from couples who trusted RS Photography for their wedding memories."
+        keywords="rs photography reviews, client testimonials, wedding photographer feedback"
       />
-      <div className="pt-20">
-        {/* Hero Section */}
-        <section className="relative h-96 flex items-center justify-center text-white overflow-hidden">
-          <div
-            className="absolute inset-0 bg-cover bg-center"
-            style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=1920&q=80)' }}
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-wedding-black/80 to-wedding-gold/60" />
-          <div className="absolute inset-0 bg-black/50" />
-          <div className="relative z-10 text-center px-4">
+      <div className="pt-20 min-h-screen">
+        {/* Hero Section - Light Theme */}
+        <section className="relative py-20 overflow-hidden bg-gradient-to-br from-wedding-ivory via-white to-wedding-ivory">
+          <div className="absolute inset-0 bg-gradient-to-br from-wedding-ivory/50 to-wedding-gold/5" />
+          <div className="relative z-10 container mx-auto px-4 text-center">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
             >
-              <h1 className="text-5xl md:text-6xl font-elegant font-bold mb-4">
-                Client Testimonials
+              <p className="text-sm md:text-base text-wedding-gold mb-3 font-medium tracking-wider uppercase">
+                Client Stories
+              </p>
+              <h1 className="text-4xl md:text-6xl lg:text-7xl font-elegant font-bold mb-4">
+                <span className="text-wedding-charcoal">What Our </span>
+                <span className="text-wedding-gold">Couples Say</span>
               </h1>
-              <p className="text-xl text-wedding-gold">
-                What Our Happy Couples Say About Us
+              <p className="text-wedding-light-gray text-lg md:text-xl max-w-2xl mx-auto">
+                Real experiences from couples who trusted us to capture their most precious moments
               </p>
             </motion.div>
           </div>
         </section>
 
-        {/* Filter Section */}
-        <section className="py-8 bg-gray-50 border-b">
-          <div className="container mx-auto px-4">
-            <div className="flex justify-center gap-4">
-              <button
-                onClick={() => setFilter('all')}
-                className={`px-6 py-2 rounded-lg font-semibold transition-all ${
-                  filter === 'all'
-                    ? 'bg-wedding-gold text-wedding-black'
-                    : 'bg-white text-gray-700 hover:bg-gray-100'
-                }`}
-              >
-                All Testimonials
-              </button>
-              <button
-                onClick={() => setFilter('featured')}
-                className={`px-6 py-2 rounded-lg font-semibold transition-all ${
-                  filter === 'featured'
-                    ? 'bg-wedding-gold text-wedding-black'
-                    : 'bg-white text-gray-700 hover:bg-gray-100'
-                }`}
-              >
-                Featured Only
-              </button>
-            </div>
-          </div>
-        </section>
+        {/* Testimonials Section - Dark Theme */}
+        <section className="w-full py-12 pb-20 bg-gradient-to-br from-wedding-black via-gray-900 to-wedding-black">
+          <div className="mx-auto px-4 max-w-7xl">
 
-        {/* Testimonials Grid */}
-        <section className="py-20 bg-white">
-          <div className="container mx-auto px-4">
-            {testimonials.length === 0 ? (
+            {/* 3-card highlight layout */}
+            {loading ? (
               <div className="text-center py-20">
-                <p className="text-gray-600 text-lg">No testimonials found.</p>
+                <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-wedding-gold mx-auto mb-4"></div>
+                <p className="text-wedding-light-gray">Loading testimonials...</p>
+              </div>
+            ) : testimonials.length === 0 ? (
+              <div className="text-center py-20 bg-wedding-black/80 backdrop-blur-sm rounded-3xl border-2 border-wedding-gold/30 shadow-xl p-12">
+                <div className="text-6xl mb-4">💬</div>
+                <h3 className="text-2xl font-elegant font-bold text-wedding-gold mb-2">
+                  No Testimonials Yet
+                </h3>
+                <p className="text-wedding-light-gray text-lg">
+                  Be the first to share your experience with RS Photography!
+                </p>
               </div>
             ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {testimonials.map((testimonial, index) => (
-                  <motion.div
-                    key={testimonial._id}
-                    className="bg-white border border-gray-200 rounded-lg p-6 shadow-lg hover:shadow-2xl transition-all relative"
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: index * 0.1 }}
-                  >
-                    {testimonial.featured && (
-                      <div className="absolute top-4 right-4 bg-wedding-gold text-wedding-black px-3 py-1 rounded-full text-xs font-bold">
-                        Featured
-                      </div>
-                    )}
+              <div className="bg-wedding-black/80 backdrop-blur-sm rounded-3xl shadow-2xl border-2 border-wedding-gold/20 px-4 md:px-10 py-12 relative overflow-hidden">
+                {/* Decorative background elements */}
+                <div className="absolute top-0 right-0 w-64 h-64 bg-wedding-gold/5 rounded-full blur-3xl"></div>
+                <div className="absolute bottom-0 left-0 w-64 h-64 bg-wedding-gold/5 rounded-full blur-3xl"></div>
+                {/* Navigation Arrows - Only show if more than 3 testimonials */}
+                {testimonials.length > 3 && (
+                  <>
+                    <button
+                      onClick={prevSlide}
+                      className="hidden md:flex absolute left-4 top-1/2 -translate-y-1/2 z-20 h-12 w-12 rounded-full bg-white hover:bg-wedding-gold/10 border-2 border-wedding-gold/30 hover:border-wedding-gold items-center justify-center text-wedding-gold text-2xl font-bold transition-all shadow-lg hover:scale-110"
+                      aria-label="Previous testimonials"
+                    >
+                      ‹
+                    </button>
+                    <button
+                      onClick={nextSlide}
+                      className="hidden md:flex absolute right-4 top-1/2 -translate-y-1/2 z-20 h-12 w-12 rounded-full bg-white hover:bg-wedding-gold/10 border-2 border-wedding-gold/30 hover:border-wedding-gold items-center justify-center text-wedding-gold text-2xl font-bold transition-all shadow-lg hover:scale-110"
+                      aria-label="Next testimonials"
+                    >
+                      ›
+                    </button>
+                  </>
+                )}
+                
+                <div className="grid gap-6 md:gap-8 md:grid-cols-3 relative z-10">
+                  {displayTestimonials.map((t, displayIndex) => {
+                    const isCenter = displayIndex === 1; // middle card highlight
+                    const cardBase =
+                      'rounded-3xl shadow-xl flex flex-col items-center text-center px-6 py-10 transition-all duration-300';
+                    const primary =
+                      'bg-gradient-to-br from-wedding-gold via-wedding-soft-gold to-wedding-gold text-wedding-black shadow-2xl scale-105 border-2 border-wedding-gold/50';
+                    const secondary =
+                      'bg-wedding-ivory text-wedding-charcoal border-2 border-wedding-light-gold/30 hover:border-wedding-gold/50 hover:shadow-2xl';
 
-                    <div className="flex mb-4">
-                      {[...Array(5)].map((_, i) => (
-                        <FaStar
-                          key={i}
-                          className={`${
-                            i < testimonial.rating
-                              ? 'text-wedding-gold'
-                              : 'text-gray-300'
+                    return (
+                      <motion.div
+                        key={t._id || displayIndex}
+                        className={`${cardBase} ${
+                          isCenter ? primary : secondary
+                        }`}
+                        initial={{ opacity: 0, y: 30, scale: 0.9 }}
+                        animate={{ opacity: 1, y: 0, scale: isCenter ? 1.05 : 1 }}
+                        transition={{ duration: 0.5, delay: displayIndex * 0.15 }}
+                        whileHover={{ scale: isCenter ? 1.08 : 1.05 }}
+                      >
+                        {/* Avatar circle with colored border ring */}
+                        <div className="mb-6 relative">
+                          <div
+                            className={`h-24 w-24 rounded-full border-4 flex items-center justify-center text-2xl font-bold overflow-hidden shadow-lg ${
+                              isCenter
+                                ? 'border-wedding-black/30 bg-gradient-to-br from-wedding-black/20 to-wedding-black/10 text-wedding-black'
+                                : displayIndex === 0
+                                ? 'border-wedding-gold/50 bg-gradient-to-br from-wedding-gold/20 to-wedding-soft-gold/10 text-wedding-charcoal'
+                                : 'border-wedding-gold/50 bg-gradient-to-br from-wedding-gold/20 to-wedding-soft-gold/10 text-wedding-charcoal'
+                            }`}
+                          >
+                            <span className="text-3xl">
+                              {t.coupleName?.[0]?.toUpperCase() || t.name?.[0]?.toUpperCase() || 'R'}
+                            </span>
+                          </div>
+                          {/* Decorative ring */}
+                          {isCenter && (
+                            <div className="absolute inset-0 rounded-full border-2 border-wedding-black/20 animate-pulse"></div>
+                          )}
+                        </div>
+
+                        {/* Stars */}
+                        <div className="flex justify-center mb-4 gap-1">
+                          {[...Array(5)].map((_, i) => (
+                            <span
+                              key={i}
+                              className={`text-xl ${
+                                i < (t.rating || 5)
+                                  ? isCenter
+                                    ? 'text-wedding-black'
+                                    : 'text-wedding-gold'
+                                  : 'text-gray-300'
+                              }`}
+                            >
+                              ★
+                            </span>
+                          ))}
+                        </div>
+
+                        {/* Name & role */}
+                        <h3 className="text-lg md:text-xl font-elegant font-bold mb-1">
+                          {t.coupleName || t.name || 'Happy Couple'}
+                        </h3>
+                        <p
+                          className={`text-xs md:text-sm mb-4 font-medium ${
+                            isCenter ? 'text-wedding-black/70' : 'text-wedding-light-gray'
                           }`}
-                        />
-                      ))}
-                    </div>
-
-                    <div className="mb-4">
-                      <FaQuoteLeft className="text-wedding-gold text-2xl mb-2" />
-                      <p className="text-gray-700 italic leading-relaxed mb-2">
-                        {testimonial.review}
-                      </p>
-                      <FaQuoteRight className="text-wedding-gold text-2xl ml-auto" />
-                    </div>
-
-                    <div className="border-t border-gray-200 pt-4">
-                      <p className="font-semibold text-wedding-black text-lg">
-                        - {testimonial.coupleName}
-                      </p>
-                      {testimonial.weddingDate && (
-                        <p className="text-gray-500 text-sm mt-1">
-                          {formatDate(testimonial.weddingDate)}
+                        >
+                          {t.weddingDate ? new Date(t.weddingDate).getFullYear() + ' Wedding' : 'Wedding Client'}
                         </p>
-                      )}
-                    </div>
-                  </motion.div>
-                ))}
+
+                        {/* Quote icon */}
+                        <div className="mb-3">
+                          <span
+                            className={`text-5xl md:text-6xl font-serif ${
+                              isCenter ? 'text-wedding-black/20' : 'text-wedding-gold/20'
+                            }`}
+                          >
+                            "
+                          </span>
+                        </div>
+
+                        {/* Quote text */}
+                        <p
+                          className={`text-sm md:text-base leading-relaxed italic ${
+                            isCenter ? 'text-wedding-black/90' : 'text-wedding-charcoal'
+                          }`}
+                        >
+                          {t.review || t.message}
+                        </p>
+                      </motion.div>
+                    );
+                  })}
+                </div>
+
+                {/* Pagination Dots - Only show if more than 3 testimonials */}
+                {testimonials.length > 3 && (
+                  <div className="flex justify-center gap-3 mt-8 relative z-10">
+                    {Array.from({ length: totalSlides }).map((_, idx) => (
+                      <button
+                        key={idx}
+                        onClick={() => goToSlide(idx)}
+                        className={`h-2.5 rounded-full transition-all duration-300 ${
+                          currentIndex === idx
+                            ? 'bg-wedding-gold w-10 shadow-lg shadow-wedding-gold/50'
+                            : 'bg-wedding-light-gold/40 w-2.5 hover:bg-wedding-gold/50 hover:w-6'
+                        }`}
+                        aria-label={`Go to slide ${idx + 1}`}
+                      />
+                    ))}
+                  </div>
+                )}
               </div>
             )}
-          </div>
-        </section>
 
-        {/* CTA Section */}
-        <section className="py-20 bg-wedding-black text-white">
-          <div className="container mx-auto px-4 text-center">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-            >
-              <h2 className="text-4xl md:text-5xl font-elegant font-bold mb-6 text-wedding-gold">
-                Ready to Create Your Own Story?
-              </h2>
-              <p className="text-xl mb-8 text-gray-300 max-w-2xl mx-auto">
-                Join our family of happy couples and let us capture your special moments
-              </p>
-              <a
-                href="/contact"
-                className="inline-block bg-wedding-gold text-wedding-black px-8 py-4 rounded-lg font-semibold hover:bg-gold-400 transition-all"
+            {/* Share your experience form below slider */}
+            <div className="max-w-4xl mx-auto mt-16">
+              <motion.div
+                className="bg-white rounded-3xl shadow-2xl border-2 border-wedding-light-gold/30 p-8 md:p-12 relative overflow-hidden"
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
               >
-                Book Your Date
-              </a>
-            </motion.div>
+                {/* Decorative background */}
+                <div className="absolute top-0 right-0 w-48 h-48 bg-wedding-gold/10 rounded-full blur-3xl"></div>
+                <div className="absolute bottom-0 left-0 w-48 h-48 bg-wedding-gold/10 rounded-full blur-3xl"></div>
+                
+                <div className="relative z-10">
+                  <div className="text-center mb-8">
+                    <h2 className="text-2xl md:text-3xl font-elegant font-bold mb-3 text-wedding-charcoal">
+                      Share Your <span className="text-wedding-gold">Experience</span>
+                    </h2>
+                    <p className="text-wedding-light-gray text-base md:text-lg">
+                      Your words help future couples trust our work. It only takes a minute.
+                    </p>
+                  </div>
+                  <form
+                    onSubmit={handleSubmit}
+                    className="grid gap-5 md:grid-cols-2 text-sm md:text-base"
+                  >
+                  <div className="md:col-span-1">
+                    <label className="block font-semibold mb-2 text-wedding-charcoal">
+                      Couple Name *
+                    </label>
+                    <input
+                      type="text"
+                      name="coupleName"
+                      value={form.coupleName}
+                      onChange={handleChange}
+                      className="w-full bg-wedding-ivory border-2 border-wedding-light-gold/30 rounded-lg px-4 py-3 text-wedding-charcoal placeholder-wedding-light-gray focus:outline-none focus:ring-2 focus:ring-wedding-gold focus:border-wedding-gold transition-all"
+                      placeholder="Enter couple name"
+                      required
+                    />
+                  </div>
+                  <div className="md:col-span-1">
+                    <label className="block font-semibold mb-2 text-wedding-charcoal">
+                      Wedding Date
+                    </label>
+                    <input
+                      type="date"
+                      name="weddingDate"
+                      value={form.weddingDate}
+                      onChange={handleChange}
+                      className="w-full bg-wedding-ivory border-2 border-wedding-light-gold/30 rounded-lg px-4 py-3 text-wedding-charcoal focus:outline-none focus:ring-2 focus:ring-wedding-gold focus:border-wedding-gold transition-all"
+                    />
+                  </div>
+                  <div className="md:col-span-1">
+                    <label className="block font-semibold mb-2 text-wedding-charcoal">
+                      Rating *
+                    </label>
+                    <select
+                      name="rating"
+                      value={form.rating}
+                      onChange={handleChange}
+                      className="w-full bg-wedding-ivory border-2 border-wedding-light-gold/30 rounded-lg px-4 py-3 text-wedding-charcoal focus:outline-none focus:ring-2 focus:ring-wedding-gold focus:border-wedding-gold transition-all"
+                    >
+                      {[5, 4, 3, 2, 1].map((r) => (
+                        <option key={r} value={r} className="bg-white text-wedding-charcoal">
+                          {r} {r === 1 ? 'Star' : 'Stars'}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <div className="md:col-span-2">
+                    <label className="block font-semibold mb-2 text-wedding-charcoal">
+                      Your Review *
+                    </label>
+                    <textarea
+                      name="review"
+                      value={form.review}
+                      onChange={handleChange}
+                      className="w-full bg-wedding-ivory border-2 border-wedding-light-gold/30 rounded-lg px-4 py-3 h-32 resize-none text-wedding-charcoal placeholder-wedding-light-gray focus:outline-none focus:ring-2 focus:ring-wedding-gold focus:border-wedding-gold transition-all"
+                      placeholder="Share your experience with RS Photography..."
+                      required
+                    />
+                  </div>
+                  <div className="md:col-span-2 flex justify-center mt-2">
+                    <button
+                      type="submit"
+                      disabled={submitting}
+                      className="px-10 py-4 rounded-full bg-gradient-to-r from-wedding-gold to-wedding-soft-gold text-wedding-black font-bold text-base md:text-lg hover:shadow-xl hover:shadow-wedding-gold/50 disabled:opacity-60 shadow-lg transition-all transform hover:scale-105 active:scale-95"
+                    >
+                      {submitting ? (
+                        <span className="flex items-center gap-2">
+                          <span className="animate-spin">⏳</span> Sending...
+                        </span>
+                      ) : (
+                        'Submit Your Review'
+                      )}
+                    </button>
+                  </div>
+                  </form>
+                </div>
+              </motion.div>
+            </div>
           </div>
         </section>
       </div>
     </>
-  )
-}
+  );
+};
 
-export default Testimonials
+export default Testimonials;
+

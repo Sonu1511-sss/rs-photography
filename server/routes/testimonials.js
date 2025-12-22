@@ -3,7 +3,7 @@ const router = express.Router();
 const Testimonial = require('../models/Testimonial');
 const auth = require('../middleware/auth');
 
-// Get all testimonials
+// Public: get all testimonials
 router.get('/', async (req, res) => {
   try {
     const testimonials = await Testimonial.find().sort({ createdAt: -1 });
@@ -13,30 +13,19 @@ router.get('/', async (req, res) => {
   }
 });
 
-// Get featured testimonials
+// Public: get featured testimonials (for home page etc.)
 router.get('/featured', async (req, res) => {
   try {
-    const testimonials = await Testimonial.find({ featured: true }).sort({ createdAt: -1 });
+    const testimonials = await Testimonial.find({ featured: true })
+      .sort({ createdAt: -1 })
+      .limit(6);
     res.json(testimonials);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 });
 
-// Get single testimonial
-router.get('/:id', async (req, res) => {
-  try {
-    const testimonial = await Testimonial.findById(req.params.id);
-    if (!testimonial) {
-      return res.status(404).json({ message: 'Testimonial not found' });
-    }
-    res.json(testimonial);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-});
-
-// Create testimonial (Admin only)
+// Admin: create testimonial
 router.post('/', auth, async (req, res) => {
   try {
     const testimonial = new Testimonial(req.body);
@@ -47,7 +36,7 @@ router.post('/', auth, async (req, res) => {
   }
 });
 
-// Update testimonial (Admin only)
+// Admin: update testimonial
 router.put('/:id', auth, async (req, res) => {
   try {
     const testimonial = await Testimonial.findByIdAndUpdate(
@@ -64,7 +53,7 @@ router.put('/:id', auth, async (req, res) => {
   }
 });
 
-// Delete testimonial (Admin only)
+// Admin: delete testimonial
 router.delete('/:id', auth, async (req, res) => {
   try {
     const testimonial = await Testimonial.findByIdAndDelete(req.params.id);
@@ -78,3 +67,5 @@ router.delete('/:id', auth, async (req, res) => {
 });
 
 module.exports = router;
+
+

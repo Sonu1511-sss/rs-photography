@@ -53,97 +53,50 @@ router.get('/:id', async (req, res) => {
 // Create blog (Admin only)
 router.post('/', auth, upload.single('featuredImage'), async (req, res) => {
   try {
-    console.log('Blog create request:', {
-      body: req.body,
-      file: req.file ? req.file.filename : 'no file'
-    });
-
-    const blogData = {
-      title: req.body.title,
-      content: req.body.content,
-      excerpt: req.body.excerpt || '',
-      published: req.body.published === 'true' || req.body.published === true
-    };
+    const blogData = { ...req.body };
     
     // If featured image is uploaded, use the uploaded file URL
     if (req.file) {
       blogData.featuredImage = `/uploads/${req.file.filename}`;
     }
-    // If featuredImageUrl is provided in body (for URL input), use it
-    else if (req.body.featuredImageUrl && req.body.featuredImageUrl.trim()) {
-      blogData.featuredImage = req.body.featuredImageUrl.trim();
-    }
     
     // Generate slug from title if not provided
-    if (blogData.title) {
+    if (!blogData.slug && blogData.title) {
       blogData.slug = blogData.title
         .toLowerCase()
         .replace(/[^a-z0-9]+/g, '-')
         .replace(/(^-|-$)/g, '');
     }
     
-    console.log('Creating blog with data:', blogData);
-    
     const blog = new Blog(blogData);
     await blog.save();
-    console.log('Blog created successfully:', blog._id);
     res.status(201).json(blog);
   } catch (error) {
-    console.error('Blog create error:', error);
-    res.status(400).json({ message: error.message || 'Failed to create blog' });
+    res.status(400).json({ message: error.message });
   }
 });
 
 // Update blog (Admin only)
 router.put('/:id', auth, upload.single('featuredImage'), async (req, res) => {
   try {
-    // Get existing blog first
-    const existingBlog = await Blog.findById(req.params.id);
-    if (!existingBlog) {
-      return res.status(404).json({ message: 'Blog not found' });
-    }
-
-    const blogData = { ...req.body };
+    const blogData = { ...req.body, updatedAt: Date.now() };
     
     // If new featured image is uploaded, use the uploaded file URL
     if (req.file) {
-      blogData.featuredImage = `/uploads/${req.file.filename}`;
+      blogData.featuredImageUrl = `/uploads/${req.file.filename}`;
     }
-    // If featuredImageUrl is provided in body (for URL input), use it
-    else if (req.body.featuredImageUrl) {
-      blogData.featuredImage = req.body.featuredImageUrl;
-    }
-    // If no new image and no featuredImageUrl provided, keep existing featuredImage
-    else {
-      blogData.featuredImage = existingBlog.featuredImage;
-    }
-    
-    // Convert published string to boolean if needed
-    if (typeof blogData.published === 'string') {
-      blogData.published = blogData.published === 'true';
-    }
-    
-    // Update slug if title changed
-    if (blogData.title && blogData.title !== existingBlog.title) {
-      blogData.slug = blogData.title
-        .toLowerCase()
-        .replace(/[^a-z0-9]+/g, '-')
-        .replace(/(^-|-$)/g, '');
-    } else {
-      blogData.slug = existingBlog.slug;
-    }
-    
-    blogData.updatedAt = Date.now();
     
     const blog = await Blog.findByIdAndUpdate(
       req.params.id,
       blogData,
       { new: true, runValidators: true }
     );
+    if (!blog) {
+      return res.status(404).json({ message: 'Blog not found' });
+    }
     res.json(blog);
   } catch (error) {
-    console.error('Blog update error:', error);
-    res.status(400).json({ message: error.message || 'Failed to update blog' });
+    res.status(400).json({ message: error.message });
   }
 });
 

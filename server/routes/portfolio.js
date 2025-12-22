@@ -42,79 +42,46 @@ router.get('/:id', async (req, res) => {
 // Create portfolio item (Admin only)
 router.post('/', auth, upload.single('image'), async (req, res) => {
   try {
-    console.log('Portfolio create request:', {
-      body: req.body,
-      file: req.file ? req.file.filename : 'no file'
-    });
-
-    const portfolioData = {
-      title: req.body.title,
-      category: req.body.category,
-      description: req.body.description || '',
-      featured: req.body.featured === 'true' || req.body.featured === true
-    };
+    const portfolioData = { ...req.body };
     
     // If image is uploaded, use the uploaded file URL
     if (req.file) {
       portfolioData.imageUrl = `/uploads/${req.file.filename}`;
+    } else if (!portfolioData.imageUrl) {
+      // If no image provided, return error
+      return res.status(400).json({ message: 'Image is required' });
     }
-    // If imageUrl is provided in body (for URL input), use it
-    else if (req.body.imageUrl && req.body.imageUrl.trim()) {
-      portfolioData.imageUrl = req.body.imageUrl.trim();
-    } else {
-      return res.status(400).json({ message: 'Image is required. Please upload an image or provide an image URL.' });
-    }
-    
-    console.log('Creating portfolio with data:', portfolioData);
     
     const portfolio = new Portfolio(portfolioData);
     await portfolio.save();
-    console.log('Portfolio created successfully:', portfolio._id);
     res.status(201).json(portfolio);
   } catch (error) {
-    console.error('Portfolio create error:', error);
-    res.status(400).json({ message: error.message || 'Failed to create portfolio item' });
+    res.status(400).json({ message: error.message });
   }
 });
 
 // Update portfolio item (Admin only)
 router.put('/:id', auth, upload.single('image'), async (req, res) => {
   try {
-    // Get existing portfolio first
-    const existingPortfolio = await Portfolio.findById(req.params.id);
-    if (!existingPortfolio) {
-      return res.status(404).json({ message: 'Portfolio item not found' });
-    }
-
     const portfolioData = { ...req.body };
     
     // If new image is uploaded, use the uploaded file URL
     if (req.file) {
       portfolioData.imageUrl = `/uploads/${req.file.filename}`;
     }
-    // If imageUrl is provided in body (for URL input), use it
-    else if (req.body.imageUrl) {
-      portfolioData.imageUrl = req.body.imageUrl;
-    }
-    // If no new image and no imageUrl provided, keep existing imageUrl
-    else {
-      portfolioData.imageUrl = existingPortfolio.imageUrl;
-    }
-    
-    // Convert featured string to boolean if needed
-    if (typeof portfolioData.featured === 'string') {
-      portfolioData.featured = portfolioData.featured === 'true';
-    }
+    // If no new image and no existing imageUrl in body, keep the existing one
     
     const portfolio = await Portfolio.findByIdAndUpdate(
       req.params.id,
       portfolioData,
       { new: true, runValidators: true }
     );
+    if (!portfolio) {
+      return res.status(404).json({ message: 'Portfolio item not found' });
+    }
     res.json(portfolio);
   } catch (error) {
-    console.error('Portfolio update error:', error);
-    res.status(400).json({ message: error.message || 'Failed to update portfolio item' });
+    res.status(400).json({ message: error.message });
   }
 });
 

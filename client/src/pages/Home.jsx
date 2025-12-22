@@ -28,16 +28,16 @@ const Home = () => {
       .catch(err => console.error(err))
   }, [])
 
+  // Hero images – 3 images rotate automatically
+  // 1: Weddings, 2: Pre-Wedding, 3: Engagements
   const heroImages = [
-    'https://i.pinimg.com/1200x/83/da/4a/83da4aab6a972a7efb1cfcdfb321a5bc.jpg',
-    'https://i.pinimg.com/736x/8f/99/8d/8f998d95f46091f9167b171994ab8b6f.jpg',
-    'https://i.pinimg.com/736x/0e/f8/16/0ef81696f7176a03b459c25c819f5bd2.jpg'
+    'https://media.istockphoto.com/id/866987706/photo/indian-wedding-hands.jpg?s=612x612&w=0&k=20&c=6L-u9qhFPv9MjDnF4UK4AqjVbDKM4_8Xad72IHhwPZE=', 
   ]
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % heroImages.length)
-    }, 5000)
+      setCurrentSlide(prev => (prev + 1) % heroImages.length)
+    }, 6000) // 6 seconds per slide
     return () => clearInterval(timer)
   }, [])
 
@@ -49,87 +49,91 @@ const Home = () => {
         keywords="rsphotography, rs photography, balaghat, kattangi, katangi, photographer, wedding photographer, wedding photography balaghat, wedding photographer balaghat, wedding photography katangi, wedding photographer katangi, wedding photography kattangi, wedding photographer kattangi"
       />
       <div className="pt-20">
-      {/* Hero Slider */}
-      <section className="relative h-screen  flex items-center justify-center overflow-hidden">
+      {/* Hero – slider with 3 images */}
+      <section className="relative h-[70vh] md:h-[80vh] flex items-center justify-center overflow-hidden">
+        {/* Background images */}
         {heroImages.map((img, index) => (
           <motion.div
-            key={index}
+            key={img}
             className="absolute inset-0 w-full h-full"
             initial={{ opacity: 0 }}
-            animate={{ 
-              opacity: currentSlide === index ? 1 : 0,
-              scale: currentSlide === index ? 1 : 1.1
+            animate={{
+              opacity: currentSlide === index ? 1 : 0
             }}
-            transition={{ duration: 1.5, ease: "easeInOut" }}
-            style={{ zIndex: currentSlide === index ? 1 : 0 }}
+            transition={{ duration: 1.2, ease: 'easeInOut' }}
           >
             <div
               className="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat"
-              style={{ 
+              style={{
                 backgroundImage: `url(${img})`,
                 backgroundSize: 'cover',
-                backgroundPosition: 'center center'
+                backgroundPosition: 'center center',
+                filter: 'blur(2px)'
               }}
             >
-              <div className="absolute inset-0 bg-black/50" />
+              <div className="absolute inset-0 bg-gradient-to-b from-wedding-black/65 via-wedding-black/50 to-wedding-black/65" />
             </div>
           </motion.div>
         ))}
-        
-        <div className="relative z-20 text-center text-white px-4">
+
+        <div className="relative z-20 text-center text-white px-4 max-w-4xl mx-auto">
           <motion.h1
-            className="text-4xl sm:text-4xl md:text-6xl lg:text-7xl xl:text-8xl font-bold mb-4 md:mb-6 uppercase tracking-tight px-2"
+            className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-3 md:mb-4 tracking-tight"
             style={{
-              color: '#dc2626',
-              textShadow: '2px 2px 4px rgba(0, 0, 0, 0.9), 0 0 15px rgba(0, 0, 0, 0.6)',
-              letterSpacing: '0.03em',
+              color: '#ffffff',
+              textShadow: '3px 3px 6px rgba(0, 0, 0, 0.8), 0 0 20px rgba(0, 0, 0, 0.5), 0 0 40px rgba(212, 175, 55, 0.3)',
+              letterSpacing: '0.02em',
               fontFamily: 'Arial, sans-serif',
-              fontWeight: '900',
-              lineHeight: '1.1'
+              fontWeight: '800',
+              lineHeight: '1.2'
             }}
-            initial={{ y: 50, opacity: 0 }}
+            initial={{ y: 30, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.2 }}
           >
-            RS PHOTOGRAPHY
+            RS Photography – Wedding Photography in Balaghat & Katangi
           </motion.h1>
           <motion.p
-            className="text-xl md:text-2xl mb-8 text-wedding-gold"
-            initial={{ y: 50, opacity: 0 }}
+            className="text-base md:text-lg lg:text-xl mb-4 md:mb-5 font-medium"
+            style={{
+              color: '#f4d03f',
+              textShadow: '2px 2px 4px rgba(0, 0, 0, 0.7), 0 0 10px rgba(244, 208, 63, 0.4)'
+            }}
+            initial={{ y: 30, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.4 }}
           >
-            Best Wedding Photographer in Balaghat & Katangi (Kattangi) | RS Photography
+            Weddings | Pre-Wedding | Engagements | Films 📸
           </motion.p>
           <motion.div
-            className="flex flex-col sm:flex-row gap-4 justify-center"
-            initial={{ y: 50, opacity: 0 }}
+            className="flex flex-col sm:flex-row gap-3 justify-center"
+            initial={{ y: 30, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.6 }}
           >
             <Link
               to="/portfolio"
-              className="bg-wedding-gold text-wedding-black px-8 py-4 rounded-lg font-semibold hover:bg-red-700 hover:text-white transition-all flex items-center justify-center gap-2"
+              className="bg-gradient-to-r from-wedding-gold to-wedding-soft-gold text-wedding-black px-6 py-3 rounded-lg font-semibold hover:shadow-lg hover:shadow-wedding-gold/50 transition-all flex items-center justify-center gap-2 text-sm md:text-base shadow-md"
             >
               View Portfolio <FaArrowRight />
             </Link>
             <Link
               to="/contact"
-              className="bg-transparent border-2 border-wedding-gold text-wedding-gold px-8 py-4 rounded-lg font-semibold hover:bg-wedding-gold hover:text-wedding-black transition-all"
+              className="bg-transparent backdrop-blur-sm border-2 border-white text-white px-6 py-3 rounded-lg font-semibold hover:bg-white hover:text-wedding-black hover:border-white transition-all text-sm md:text-base shadow-md"
             >
               Book Your Date
             </Link>
           </motion.div>
         </div>
 
-        {/* Slider Indicators */}
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20 flex space-x-2">
+        {/* Slider indicators */}
+        <div className="absolute bottom-4 md:bottom-6 left-1/2 -translate-x-1/2 z-20 flex space-x-2">
           {heroImages.map((_, index) => (
             <button
               key={index}
               onClick={() => setCurrentSlide(index)}
-              className={`h-3 rounded-full transition-all duration-300 ${
-                currentSlide === index ? 'bg-wedding-gold w-8' : 'bg-white/50 w-3'
+              className={`h-2.5 rounded-full transition-all duration-300 ${
+                currentSlide === index ? 'bg-wedding-gold w-10 shadow-lg shadow-wedding-gold/50' : 'bg-white/40 w-2.5 hover:bg-white/60'
               }`}
               aria-label={`Go to slide ${index + 1}`}
             />
@@ -138,7 +142,7 @@ const Home = () => {
       </section>
 
       {/* Featured Galleries */}
-      <section className="py-20 bg-white">
+      <section className="py-20 bg-wedding-ivory">
         <div className="container mx-auto px-4">
           <motion.div
             className="text-center mb-12"
@@ -146,10 +150,10 @@ const Home = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
-            <h2 className="text-4xl md:text-5xl font-elegant font-bold mb-4">
+            <h2 className="text-4xl md:text-5xl font-elegant font-bold mb-4 text-wedding-charcoal">
               Featured Galleries
             </h2>
-            <p className="text-gray-600 text-lg">
+            <p className="text-wedding-light-gray text-lg">
               Explore our stunning collection of wedding moments
             </p>
           </motion.div>
@@ -186,9 +190,9 @@ const Home = () => {
                     alt={category.name}
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-br from-wedding-black/60 to-wedding-gold/40 group-hover:from-wedding-black/70 group-hover:to-wedding-gold/50 transition-all duration-300" />
+                  <div className="absolute inset-0 bg-gradient-to-br from-wedding-black/50 to-wedding-gold/30 group-hover:from-wedding-black/60 group-hover:to-wedding-gold/40 transition-all duration-300" />
                   <div className="absolute inset-0 flex flex-col items-center justify-center p-6">
-                    <h3 className="text-3xl font-elegant font-bold text-white z-10 mb-4 group-hover:mb-6 transition-all duration-300">
+                    <h3 className="text-3xl font-elegant font-bold text-white z-10 mb-4 group-hover:mb-6 transition-all duration-300 drop-shadow-lg">
                       {category.name}
                     </h3>
                     <div className="opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300">
@@ -198,7 +202,7 @@ const Home = () => {
                       >
                         <Link
                           to={category.path}
-                          className="bg-wedding-gold text-wedding-black px-6 py-3 rounded-lg font-semibold hover:bg-red-700 hover:text-white transition-all z-10 flex items-center gap-2 group/btn shadow-lg"
+                          className="bg-wedding-gold text-wedding-black px-6 py-3 rounded-lg font-semibold hover:bg-yellow-500 hover:text-white transition-all z-10 flex items-center gap-2 group/btn shadow-lg"
                         >
                           <span>View Gallery</span>
                           <motion.span
@@ -231,7 +235,7 @@ const Home = () => {
             <h2 className="text-4xl md:text-5xl font-elegant font-bold mb-4 text-wedding-gold">
               Our Services
             </h2>
-            <p className="text-gray-300 text-lg">
+            <p className="text-wedding-light-gray text-lg">
               Comprehensive wedding photography and videography services
             </p>
           </motion.div>
@@ -247,7 +251,7 @@ const Home = () => {
             ].map((service, index) => (
               <motion.div
                 key={service}
-                className="bg-wedding-black border border-wedding-gold/30 p-6 rounded-lg hover:border-wedding-gold transition-all"
+                className="bg-wedding-black/80 border-2 border-wedding-gold/30 p-6 rounded-lg hover:border-wedding-gold hover:bg-wedding-black/90 transition-all shadow-lg backdrop-blur-sm"
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -256,7 +260,7 @@ const Home = () => {
                 <h3 className="text-xl font-elegant font-semibold mb-2 text-wedding-gold">
                   {service}
                 </h3>
-                <p className="text-gray-300">
+                <p className="text-wedding-light-gray">
                   Professional {service.toLowerCase()} services tailored to your needs
                 </p>
               </motion.div>
@@ -271,7 +275,7 @@ const Home = () => {
           >
             <Link
               to="/services"
-              className="inline-block bg-wedding-gold text-wedding-black px-8 py-4 rounded-lg font-semibold hover:bg-gold-400 transition-all"
+              className="inline-block bg-gradient-to-r from-wedding-gold to-wedding-soft-gold text-wedding-black px-8 py-4 rounded-lg font-semibold hover:shadow-lg hover:shadow-wedding-gold/50 transition-all shadow-md"
             >
               View All Services
             </Link>
@@ -281,7 +285,7 @@ const Home = () => {
 
       {/* Testimonials Preview */}
       {featuredTestimonials.length > 0 && (
-        <section className="py-20 bg-white">
+        <section className="py-20 bg-wedding-ivory">
           <div className="container mx-auto px-4">
             <motion.div
               className="text-center mb-12"
@@ -289,7 +293,7 @@ const Home = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
             >
-              <h2 className="text-4xl md:text-5xl font-elegant font-bold mb-4">
+              <h2 className="text-4xl md:text-5xl font-elegant font-bold mb-4 text-wedding-charcoal">
                 What Our Clients Say
               </h2>
             </motion.div>
@@ -298,7 +302,7 @@ const Home = () => {
               {featuredTestimonials.slice(0, 3).map((testimonial, index) => (
               <motion.div
                 key={testimonial._id}
-                className="bg-gray-50 p-6 rounded-lg shadow-lg"
+                className="bg-white border border-wedding-light-gold/30 p-6 rounded-lg shadow-lg"
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
@@ -316,7 +320,7 @@ const Home = () => {
                       </span>
                     ))}
                   </div>
-                  <p className="text-gray-700 mb-4 italic">"{testimonial.review}"</p>
+                  <p className="text-wedding-charcoal mb-4 italic">"{testimonial.review}"</p>
                   <p className="font-semibold text-wedding-black">
                     - {testimonial.coupleName}
                   </p>
@@ -332,7 +336,7 @@ const Home = () => {
             >
               <Link
                 to="/testimonials"
-                className="inline-block bg-wedding-black text-white px-8 py-4 rounded-lg font-semibold hover:bg-wedding-gold hover:text-wedding-black transition-all"
+                className="inline-block bg-wedding-black text-white px-8 py-4 rounded-lg font-semibold hover:bg-gradient-to-r hover:from-wedding-gold hover:to-wedding-soft-gold hover:text-wedding-black transition-all shadow-md"
               >
                 Read More Testimonials
               </Link>
@@ -342,7 +346,7 @@ const Home = () => {
       )}
 
       {/* Instagram Reel Section */}
-      <section className="relative py-20 bg-gradient-to-br from-wedding-black to-wedding-gold text-white overflow-hidden">
+      <section className="relative py-20 bg-wedding-black text-white overflow-hidden">
         {/* Camera Lens Background Image */}
         <div 
           className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-30"
@@ -353,15 +357,10 @@ const Home = () => {
             filter: 'blur(1px)'
           }}
         />
-        <div 
-            className="absolute inset-0 bg-cover bg-center"
-            style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=1920&q=80)' }}
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-wedding-black/80 to-wedding-gold/60" />
-          <div className="absolute inset-0 bg-black/50" />
+        <div className="absolute inset-0 bg-gradient-to-r from-wedding-black/90 to-wedding-gold/20" />
         <div className="relative z-10 container mx-auto px-4 text-center">
           <motion.h2
-            className="text-4xl md:text-5xl font-elegant font-bold mb-6"
+            className="text-4xl md:text-5xl font-elegant font-bold mb-6 text-wedding-gold"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -369,7 +368,7 @@ const Home = () => {
             Follow Our Journey
           </motion.h2>
           <motion.p
-            className="text-xl mb-8"
+            className="text-xl mb-8 text-gray-200"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -378,7 +377,7 @@ const Home = () => {
             See our latest work on Instagram and YouTube
           </motion.p>
           <motion.div
-            className="flex justify-center gap-6"
+            className="flex justify-center gap-6 flex-wrap"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -388,7 +387,7 @@ const Home = () => {
               href="https://www.instagram.com/rs____photography___/"
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-white text-wedding-black px-8 py-4 rounded-lg font-semibold hover:bg-gray-100 transition-all flex items-center gap-2"
+              className="bg-gradient-to-r from-pink-500 to-purple-600 text-white px-8 py-4 rounded-lg font-semibold hover:from-pink-600 hover:to-purple-700 transition-all flex items-center gap-2 shadow-lg hover:shadow-xl"
             >
               <FaPlay /> Follow on Instagram
             </a>
@@ -396,9 +395,9 @@ const Home = () => {
               href="https://youtube.com/@rs__photography?si=-dbc30qn6M_6xVQH"
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-red-700 text-white px-8 py-4 rounded-lg font-semibold  transition-all flex items-center gap-2"
+              className="bg-red-600 text-white px-8 py-4 rounded-lg font-semibold hover:bg-red-700 transition-all flex items-center gap-2 shadow-lg hover:shadow-xl"
             >
-               <FaYoutube className="text-wedding-gold text-4xl lg:text-2xl  " /> Watch on YouTube
+               <FaYoutube className="text-2xl" /> Watch on YouTube
             </a>
           </motion.div>
         </div>

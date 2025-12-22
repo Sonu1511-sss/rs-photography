@@ -1,314 +1,320 @@
-import { useState } from 'react'
-import { motion } from 'framer-motion'
-import { FaMapMarkerAlt, FaPhone, FaEnvelope, FaCalendarAlt, FaUser, FaCity } from 'react-icons/fa'
-import api from '../utils/api'
-import SEO from '../components/SEO'
+import { useState } from 'react';
+import { motion } from 'framer-motion';
+import SEO from '../components/SEO';
+import api from '../utils/api';
 
 const Contact = () => {
   const [formData, setFormData] = useState({
     name: '',
-    phone: '',
     email: '',
-    eventDate: '',
+    phone: '',
     city: '',
-    message: ''
-  })
-  const [loading, setLoading] = useState(false)
-  const [success, setSuccess] = useState(false)
-  const [error, setError] = useState('')
+    eventDate: '',
+    message: '',
+  });
+  const [image, setImage] = useState(null);
+  const [imagePreview, setImagePreview] = useState(null);
+  const [submitting, setSubmitting] = useState(false);
+  const [success, setSuccess] = useState('');
+  const [error, setError] = useState('');
 
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    })
-    setError('')
-  }
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+    setError('');
+    setSuccess('');
+  };
+
+  const handleImageChange = (e) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setImage(file);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
-    setError('')
-    setSuccess(false)
-
-    // Validation
-    if (!formData.name || !formData.phone || !formData.email || !formData.eventDate || !formData.city) {
-      setError('Please fill in all required fields')
-      return
-    }
-
-    setLoading(true)
-
+    e.preventDefault();
+    setSubmitting(true);
+    setError('');
+    setSuccess('');
     try {
-      await api.post('/contact', formData)
-      setSuccess(true)
+      const submitData = new FormData();
+      Object.keys(formData).forEach((key) => {
+        submitData.append(key, formData[key]);
+      });
+      if (image) {
+        submitData.append('image', image);
+      }
+
+      await api.post('/contact', submitData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      setSuccess('Thank you for your enquiry! We will contact you soon.');
       setFormData({
         name: '',
-        phone: '',
         email: '',
-        eventDate: '',
+        phone: '',
         city: '',
-        message: ''
-      })
-      setTimeout(() => setSuccess(false), 5000)
+        eventDate: '',
+        message: '',
+      });
+      setImage(null);
+      setImagePreview(null);
+      // Reset file input
+      const fileInput = document.querySelector('input[type="file"]');
+      if (fileInput) fileInput.value = '';
     } catch (err) {
-      setError(err.response?.data?.message || 'Something went wrong. Please try again.')
+      setError(
+        err.response?.data?.message ||
+          'Something went wrong. Please try again later.'
+      );
     } finally {
-      setLoading(false)
+      setSubmitting(false);
     }
-  }
+  };
 
   return (
     <>
       <SEO
-        title="Contact Us - RS Photography | Book Your Wedding Date"
-        description="Contact RS Photography for your wedding photography needs in Balaghat and Katangi. Book your date today and let us capture your special moments."
-        keywords="contact rs photography, book wedding photographer, wedding photography booking, contact photographer balaghat, contact photographer katangi"
+        title="Contact - RS Photography"
+        description="Contact RS Photography for wedding photography, pre-wedding shoots, engagement shoots and wedding films in Balaghat and Katangi."
+        keywords="contact rs photography, book wedding photographer, enquiry"
       />
-      <div className="pt-20">
-        {/* Hero Section */}
-        <section className="relative bg-wedding-black text-white py-20">
-        <div 
-            className="absolute inset-0 bg-cover bg-center"
-            style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=1920&q=80)' }}
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-wedding-black/80 to-wedding-gold/60" />
-          <div className="container mx-auto px-4">
-            <motion.div
-              className="text-center"
+      <div className="pt-20 min-h-screen bg-gradient-to-b from-wedding-black via-[#060712] to-wedding-black text-white">
+        {/* Hero */}
+        <section className="py-16">
+          <div className="container mx-auto px-4 max-w-6xl text-center">
+            <motion.h1
+              className="text-4xl md:text-5xl font-elegant text-wedding-gold font-bold mb-3"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
             >
-              <h1 className="text-5xl md:text-6xl font-elegant font-bold mb-4 text-wedding-gold">
-                Contact Us
-              </h1>
-              <p className="text-xl text-gray-300">
-                Let's capture your special moments together
-              </p>
-            </motion.div>
+              CONTACT US
+            </motion.h1>
+            <motion.p
+              className="text-sm md:text-base text-gray-300 max-w-2xl mx-auto"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.15 }}
+            >
+              Share a few details about your wedding or event and we&apos;ll get back to you
+              with packages, availability and ideas to make your day unforgettable.
+            </motion.p>
           </div>
         </section>
 
-        {/* Contact Section */}
-        <section className="py-20 bg-white">
-          <div className="container mx-auto px-4">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-              {/* Contact Form */}
-              <motion.div
-                initial={{ opacity: 0, x: -30 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.2 }}
-              >
-                <h2 className="text-3xl font-elegant font-bold mb-6 text-wedding-black">
-                  Book Your Date
+        {/* Main content: Get in touch + form card over dark background */}
+        <section className="pb-16">
+          <div className="container mx-auto px-4 max-w-6xl">
+            <div className="grid gap-10 lg:grid-cols-[1.3fr,1.7fr]">
+              {/* Left: Get in touch list */}
+              <div>
+                <h2 className="text-2xl md:text-3xl font-elegant font-bold mb-4">
+                  Get In Touch
                 </h2>
-                <p className="text-gray-600 mb-8">
-                  Fill out the form below and we'll get back to you as soon as possible to discuss your wedding photography needs.
+                <p className="text-sm md:text-base text-gray-300 mb-8">
+                  We shoot weddings and events across Balaghat, Katangi (Kattangi) and nearby
+                  cities. Call us directly or send a message – our team replies within 24 hours.
                 </p>
+                <div className="space-y-5">
+                  <div className="flex items-start gap-4">
+                    <div className="h-10 w-10 rounded-full bg-wedding-gold/15 flex items-center justify-center">
+                      <span className="text-wedding-gold text-lg">📍</span>
+                    </div>
+                    <div>
+                      <h3 className="text-sm font-semibold text-white">
+                        Tekadighat Sukdighat, Balaghat
+                      </h3>
+                      <p className="text-xs md:text-sm text-gray-300">
+                        RS Photography Studio, Tekadighat Sukdighat, Balaghat, Madhya Pradesh.
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-4">
+                    <div className="h-10 w-10 rounded-full bg-wedding-gold/15 flex items-center justify-center">
+                      <span className="text-wedding-gold text-lg">📞</span>
+                    </div>
+                    <div>
+                      <h3 className="text-sm font-semibold text-white">Call / WhatsApp</h3>
+                      <p className="text-xs md:text-sm text-gray-300">
+                        +91 62646 20716
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-4">
+                    <div className="h-10 w-10 rounded-full bg-wedding-gold/15 flex items-center justify-center">
+                      <span className="text-wedding-gold text-lg">@</span>
+                    </div>
+                    <div>
+                      <h3 className="text-sm font-semibold text-white">Email</h3>
+                      <p className="text-xs md:text-sm text-gray-300">
+                        info@rsphotography.com
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
 
-                <form onSubmit={handleSubmit} className="space-y-6">
+              {/* Right: floating gradient form card */}
+              <div className="relative">
+                <div className="absolute inset-0 blur-3xl bg-gradient-to-br from-wedding-gold via-red-400 to-transparent opacity-60 pointer-events-none" />
+                <div className="relative bg-gradient-to-br from-[#171628] via-[#111322] to-[#050611] rounded-3xl shadow-2xl border border-white/10 px-6 py-6 md:px-8 md:py-8">
+                  <h2 className="text-lg md:text-xl font-elegant font-bold mb-4 text-white">
+                    Your Details
+                  </h2>
+
+                  {success && (
+                    <div className="mb-4 rounded bg-green-500/10 text-green-300 px-4 py-3 text-xs md:text-sm">
+                      {success}
+                    </div>
+                  )}
                   {error && (
-                    <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+                    <div className="mb-4 rounded bg-red-500/10 text-red-300 px-4 py-3 text-xs md:text-sm">
                       {error}
                     </div>
                   )}
 
-                  {success && (
-                    <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded">
-                      Thank you for your enquiry! We will contact you soon.
+                  <form onSubmit={handleSubmit} className="grid gap-4 md:grid-cols-2 text-xs md:text-sm">
+                    <div className="md:col-span-1">
+                      <label className="block mb-1 font-semibold text-gray-200">
+                        Name *
+                      </label>
+                      <input
+                        type="text"
+                        name="name"
+                        value={formData.name}
+                        onChange={handleChange}
+                        className="w-full bg-transparent border border-white/15 rounded-md px-3 py-2 text-white placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-wedding-gold"
+                        placeholder="Your Name"
+                        required
+                      />
                     </div>
-                  )}
-
-                  <div>
-                    <label htmlFor="name" className="block text-sm font-semibold mb-2">
-                      <FaUser className="inline mr-2" /> Name <span className="text-red-500">*</span>
-                    </label>
-                    <input
-                      type="text"
-                      id="name"
-                      name="name"
-                      value={formData.name}
-                      onChange={handleChange}
-                      required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:border-wedding-gold focus:ring-wedding-gold"
-                      placeholder="Your full name"
-                    />
-                  </div>
-
-                  <div>
-                    <label htmlFor="phone" className="block text-sm font-semibold mb-2">
-                      <FaPhone className="inline mr-2" /> Phone <span className="text-red-500">*</span>
-                    </label>
-                    <input
-                      type="tel"
-                      id="phone"
-                      name="phone"
-                      value={formData.phone}
-                      onChange={handleChange}
-                      required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:border-wedding-gold focus:ring-wedding-gold"
-                      placeholder="+91 12345 67890"
-                    />
-                  </div>
-
-                  <div>
-                    <label htmlFor="email" className="block text-sm font-semibold mb-2">
-                      <FaEnvelope className="inline mr-2" /> Email <span className="text-red-500">*</span>
-                    </label>
-                    <input
-                      type="email"
-                      id="email"
-                      name="email"
-                      value={formData.email}
-                      onChange={handleChange}
-                      required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:border-wedding-gold focus:ring-wedding-gold"
-                      placeholder="your.email@example.com"
-                    />
-                  </div>
-
-                  <div>
-                    <label htmlFor="eventDate" className="block text-sm font-semibold mb-2">
-                      <FaCalendarAlt className="inline mr-2" /> Event Date <span className="text-red-500">*</span>
-                    </label>
-                    <input
-                      type="date"
-                      id="eventDate"
-                      name="eventDate"
-                      value={formData.eventDate}
-                      onChange={handleChange}
-                      required
-                      min={new Date().toISOString().split('T')[0]}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:border-wedding-gold focus:ring-wedding-gold"
-                    />
-                  </div>
-
-                  <div>
-                    <label htmlFor="city" className="block text-sm font-semibold mb-2">
-                      <FaCity className="inline mr-2" /> City <span className="text-red-500">*</span>
-                    </label>
-                    <input
-                      type="text"
-                      id="city"
-                      name="city"
-                      value={formData.city}
-                      onChange={handleChange}
-                      required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:border-wedding-gold focus:ring-wedding-gold"
-                      placeholder="Your city"
-                    />
-                  </div>
-
-                  <div>
-                    <label htmlFor="message" className="block text-sm font-semibold mb-2">
-                      Message (Optional)
-                    </label>
-                    <textarea
-                      id="message"
-                      name="message"
-                      value={formData.message}
-                      onChange={handleChange}
-                      rows="4"
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:border-wedding-gold focus:ring-wedding-gold"
-                      placeholder="Tell us about your event or any special requirements..."
-                    />
-                  </div>
-
-                  <button
-                    type="submit"
-                    disabled={loading}
-                    className="w-full bg-wedding-gold text-wedding-black px-8 py-4 rounded-lg font-semibold hover:bg-red-700 hover:text-white transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-                  >
-                    {loading ? 'Submitting...' : 'Send Message'}
-                  </button>
-                </form>
-              </motion.div>
-
-              {/* Contact Information */}
-              <motion.div
-                initial={{ opacity: 0, x: 30 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.4 }}
-                className="space-y-8"
-              >
-                <div>
-                  <h2 className="text-3xl font-elegant font-bold mb-6 text-wedding-black">
-                    Get in Touch
-                  </h2>
-                  <p className="text-gray-600 mb-8">
-                    We'd love to hear from you. Reach out to us through any of these channels.
-                  </p>
-                </div>
-
-                <div className="space-y-6">
-                  <div className="flex items-start space-x-4">
-                    <div className="bg-wedding-gold p-4 rounded-lg">
-                      <FaMapMarkerAlt className="text-wedding-black text-2xl" />
+                    <div className="md:col-span-1">
+                      <label className="block mb-1 font-semibold text-gray-200">
+                        Email Address *
+                      </label>
+                      <input
+                        type="email"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleChange}
+                        className="w-full bg-transparent border border-white/15 rounded-md px-3 py-2 text-white placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-wedding-gold"
+                        placeholder="Your Email"
+                        required
+                      />
                     </div>
-                    <div>
-                      <h3 className="font-semibold text-lg mb-2">Address</h3>
-                      <p className="text-gray-600">
-                        Balaghat, Madhya Pradesh, India
-                      </p>
+                    <div className="md:col-span-1">
+                      <label className="block mb-1 font-semibold text-gray-200">
+                        Phone *
+                      </label>
+                      <input
+                        type="tel"
+                        name="phone"
+                        value={formData.phone}
+                        onChange={handleChange}
+                        className="w-full bg-transparent border border-white/15 rounded-md px-3 py-2 text-white placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-wedding-gold"
+                        placeholder="Your Phone"
+                        required
+                      />
                     </div>
-                  </div>
-
-                  <div className="flex items-start space-x-4">
-                    <div className="bg-wedding-gold p-4 rounded-lg">
-                      <FaPhone className="text-wedding-black text-2xl" />
+                    <div className="md:col-span-1">
+                      <label className="block mb-1 font-semibold text-gray-200">
+                        Event Date *
+                      </label>
+                      <input
+                        type="date"
+                        name="eventDate"
+                        value={formData.eventDate}
+                        onChange={handleChange}
+                        className="w-full bg-transparent border border-white/15 rounded-md px-3 py-2 text-white focus:outline-none focus:ring-1 focus:ring-wedding-gold"
+                        required
+                      />
                     </div>
-                    <div>
-                      <h3 className="font-semibold text-lg mb-2">Phone</h3>
-                      <a
-                        href="tel:+916264620716"
-                        className="text-wedding-gold hover:text-red-700 transition-colors"
+                    <div className="md:col-span-2">
+                      <label className="block mb-1 font-semibold text-gray-200">
+                        City *
+                      </label>
+                      <input
+                        type="text"
+                        name="city"
+                        value={formData.city}
+                        onChange={handleChange}
+                        className="w-full bg-transparent border border-white/15 rounded-md px-3 py-2 text-white placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-wedding-gold"
+                        placeholder="City / Venue"
+                        required
+                      />
+                    </div>
+                    <div className="md:col-span-2">
+                      <label className="block mb-1 font-semibold text-gray-200">
+                        Comments / Questions *
+                      </label>
+                      <textarea
+                        name="message"
+                        value={formData.message}
+                        onChange={handleChange}
+                        className="w-full bg-transparent border border-white/15 rounded-md px-3 py-2 text-white placeholder-gray-500 h-28 resize-none focus:outline-none focus:ring-1 focus:ring-wedding-gold"
+                        placeholder="Tell us about your wedding or event..."
+                        required
+                      />
+                    </div>
+                    <div className="md:col-span-2">
+                      <label className="block mb-1 font-semibold text-gray-200">
+                        Upload Image (Optional)
+                      </label>
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={handleImageChange}
+                        className="w-full bg-transparent border border-white/15 rounded-md px-3 py-2 text-white text-xs file:mr-4 file:py-1 file:px-3 file:rounded-md file:border-0 file:text-xs file:font-semibold file:bg-wedding-gold/20 file:text-wedding-gold hover:file:bg-wedding-gold/30 focus:outline-none focus:ring-1 focus:ring-wedding-gold"
+                      />
+                      {imagePreview && (
+                        <div className="mt-3">
+                          <img
+                            src={imagePreview}
+                            alt="Preview"
+                            className="max-w-xs rounded-lg border border-white/15"
+                          />
+                        </div>
+                      )}
+                    </div>
+                    <div className="md:col-span-2 flex justify-end">
+                      <button
+                        type="submit"
+                        disabled={submitting}
+                        className="px-8 py-2 rounded-full bg-gradient-to-r from-wedding-gold to-wedding-soft-gold text-wedding-black font-semibold text-xs md:text-sm hover:shadow-lg hover:shadow-wedding-gold/50 disabled:opacity-60 shadow-md"
                       >
-                        +91 62646 20716
-                      </a>
+                        {submitting ? 'Sending...' : 'Send Message'}
+                      </button>
                     </div>
-                  </div>
-
-                  <div className="flex items-start space-x-4">
-                    <div className="bg-wedding-gold p-4 rounded-lg">
-                      <FaEnvelope className="text-wedding-black text-2xl" />
-                    </div>
-                    <div>
-                      <h3 className="font-semibold text-lg mb-2">Email</h3>
-                      <a
-                        href="mailto:info@rsphotography.com"
-                        className="text-wedding-gold hover:text-red-700 transition-colors"
-                      >
-                        info@rsphotography.com
-                      </a>
-                    </div>
-                  </div>
+                  </form>
                 </div>
-
-                {/* Google Maps Embed */}
-                <div className="mt-8">
-                  <h3 className="font-semibold text-lg mb-4">Find Us</h3>
-                  <div className="rounded-lg overflow-hidden shadow-lg">
-                    <iframe
-                      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14736.789123456789!2d80.1849!3d21.8129!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjHCsDQ4JzQ2LjQiTiA4MMKwMTEnMDUuNiJF!5e0!3m2!1sen!2sin!4v1234567890123!5m2!1sen!2sin"
-                      width="100%"
-                      height="300"
-                      style={{ border: 0 }}
-                      allowFullScreen=""
-                      loading="lazy"
-                      referrerPolicy="no-referrer-when-downgrade"
-                      title="RS Photography Location"
-                    />
-                  </div>
-                  <p className="text-sm text-gray-500 mt-2">
-                    * Update the Google Maps embed URL with your actual location coordinates
-                  </p>
-                </div>
-              </motion.div>
+              </div>
             </div>
+          </div>
+        </section>
+
+        {/* Map full width strip (under content) */}
+        <section className="bg-white">
+          <div className="h-64 md:h-72 w-full">
+            <iframe
+              title="RS Photography Tekadighat Sukdighat Location Wide"
+              src="https://www.google.com/maps?q=Tekadighat+Sukdighat,+Balaghat,+Madhya+Pradesh&output=embed"
+              className="w-full h-full border-0"
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+            />
           </div>
         </section>
       </div>
     </>
-  )
-}
+  );
+};
 
-export default Contact
+export default Contact;
+

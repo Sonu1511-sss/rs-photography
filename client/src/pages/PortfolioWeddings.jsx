@@ -33,8 +33,8 @@ const PortfolioWeddings = () => {
             className="absolute inset-0 bg-cover bg-center"
             style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1519741497674-611481863552?w=1920&q=80)' }}
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-wedding-black/80 to-wedding-gold/60" />
-          <div className="absolute inset-0 bg-black/50" />
+          <div className="absolute inset-0 bg-gradient-to-r from-wedding-black/90 to-wedding-gold/20" />
+          <div className="absolute inset-0 bg-wedding-black/65" />
           <div className="relative z-10 text-center px-4">
             <h1 className="text-5xl md:text-6xl font-elegant font-bold mb-4">
               Wedding Gallery
@@ -46,19 +46,19 @@ const PortfolioWeddings = () => {
         </section>
 
         {/* Gallery Grid */}
-        <section className="py-20 bg-white">
+        <section className="py-20 bg-wedding-ivory">
           <div className="container mx-auto px-4">
             {loading ? (
               <div className="text-center py-20">
                 <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-wedding-gold mx-auto mb-4"></div>
-                <p className="text-gray-600">Loading gallery...</p>
+                <p className="text-wedding-light-gray">Loading gallery...</p>
               </div>
             ) : portfolio.length === 0 ? (
               <div className="text-center py-20">
-                <h2 className="text-3xl font-elegant font-bold mb-4 text-wedding-black">
+                <h2 className="text-3xl font-elegant font-bold mb-4 text-wedding-charcoal">
                   No Photos Yet
                 </h2>
-                <p className="text-gray-600 text-lg">
+                <p className="text-wedding-light-gray text-lg">
                   Check back soon for our wedding photography gallery!
                 </p>
               </div>

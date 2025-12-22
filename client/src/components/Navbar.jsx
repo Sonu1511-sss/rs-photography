@@ -49,6 +49,14 @@ const Navbar = () => {
                 {link.label}
               </Link>
             ))}
+
+            {/* Small Admin button */}
+            <Link
+              to="/admin/login"
+              className="ml-4 px-3 py-2 rounded-full text-xs font-semibold bg-wedding-gold text-wedding-black hover:bg-gold-400 transition-colors"
+            >
+              Admin
+            </Link>
           </div>
 
           {/* Mobile menu button */}
@@ -79,6 +87,13 @@ const Navbar = () => {
                   {link.label}
                 </Link>
               ))}
+              <Link
+                to="/admin/login"
+                onClick={() => setIsOpen(false)}
+                className="mt-2 px-3 py-2 rounded-md text-base font-semibold text-wedding-black bg-wedding-gold hover:bg-gold-400"
+              >
+                Admin
+              </Link>
             </div>
           </div>
         )}

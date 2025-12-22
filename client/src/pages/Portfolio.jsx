@@ -177,8 +177,8 @@ const Portfolio = () => {
             className="absolute inset-0 bg-cover bg-center"
             style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=1920&q=80)' }}
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-wedding-black/80 to-wedding-gold/60" />
-          <div className="absolute inset-0 bg-black/50" />
+          <div className="absolute inset-0 bg-gradient-to-r from-wedding-black/90 to-wedding-gold/20" />
+          <div className="absolute inset-0 bg-wedding-black/65" />
           <div className="relative z-10 text-center px-4">
             <h1 className="text-5xl md:text-6xl font-elegant font-bold mb-4">
               Our Portfolio
@@ -190,17 +190,17 @@ const Portfolio = () => {
         </section>
 
         {/* Category Galleries */}
-        <section className="py-20 bg-white">
+        <section className="py-20 bg-wedding-ivory">
           <div className="container mx-auto px-4">
             <motion.div
               className="text-center mb-12"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
             >
-              <h2 className="text-4xl md:text-5xl font-elegant font-bold mb-4">
+              <h2 className="text-4xl md:text-5xl font-elegant font-bold mb-4 text-wedding-charcoal">
                 Explore Our Galleries
               </h2>
-              <p className="text-gray-600 text-lg">
+              <p className="text-wedding-light-gray text-lg">
                 Browse through our collection of beautiful wedding moments
               </p>
             </motion.div>
@@ -234,7 +234,7 @@ const Portfolio = () => {
                       >
                         <Link
                           to={category.path}
-                          className="bg-wedding-gold text-wedding-black px-6 py-3 rounded-lg font-semibold hover:bg-gold-400 transition-all z-10 flex items-center gap-2 group/btn"
+                          className="bg-gradient-to-r from-wedding-gold to-wedding-soft-gold text-wedding-black px-6 py-3 rounded-lg font-semibold hover:shadow-lg hover:shadow-wedding-gold/50 transition-all z-10 flex items-center gap-2 group/btn shadow-md"
                         >
                           <span>View Gallery</span>
                           <motion.span
@@ -256,7 +256,7 @@ const Portfolio = () => {
 
         {/* Portfolio Gallery with Filters */}
         {!loading && (
-          <section className="py-20 bg-gray-50">
+          <section className="py-20 bg-wedding-ivory">
             <div className="container mx-auto px-4">
               <motion.div
                 className="text-center mb-12"
@@ -264,10 +264,10 @@ const Portfolio = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
               >
-                <h2 className="text-4xl md:text-5xl font-elegant font-bold mb-4">
+                <h2 className="text-4xl md:text-5xl font-elegant font-bold mb-4 text-wedding-charcoal">
                   Our Portfolio Gallery
                 </h2>
-                <p className="text-gray-600 text-lg mb-8">
+                <p className="text-wedding-light-gray text-lg mb-8">
                   Browse through our collection of beautiful wedding moments
                 </p>
 
@@ -279,8 +279,8 @@ const Portfolio = () => {
                       onClick={() => setActiveFilter(filter.id)}
                       className={`px-6 py-3 rounded-lg font-semibold transition-all duration-300 ${
                         activeFilter === filter.id
-                          ? 'bg-wedding-gold text-wedding-black shadow-lg scale-105'
-                          : 'bg-white text-gray-700 hover:bg-gray-100 border border-gray-300'
+                          ? 'bg-gradient-to-r from-wedding-gold to-wedding-soft-gold text-wedding-black shadow-lg scale-105'
+                          : 'bg-white text-wedding-charcoal hover:bg-wedding-ivory border-2 border-wedding-light-gold/30 hover:border-wedding-gold/50'
                       }`}
                     >
                       {filter.label}
@@ -291,7 +291,7 @@ const Portfolio = () => {
 
               {filteredPortfolio.length === 0 ? (
                 <div className="text-center py-20">
-                  <p className="text-gray-600 text-lg">
+                  <p className="text-wedding-light-gray text-lg">
                     No portfolio items found in this category.
                   </p>
                 </div>
@@ -337,7 +337,7 @@ const Portfolio = () => {
 
         {/* Featured Portfolio */}
         {!loading && featuredPortfolio.length > 0 && (
-          <section className="py-20 bg-white">
+          <section className="py-20 bg-wedding-ivory">
             <div className="container mx-auto px-4">
               <motion.div
                 className="text-center mb-12"
@@ -345,10 +345,10 @@ const Portfolio = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
               >
-                <h2 className="text-4xl md:text-5xl font-elegant font-bold mb-4">
+                <h2 className="text-4xl md:text-5xl font-elegant font-bold mb-4 text-wedding-charcoal">
                   Featured Work
                 </h2>
-                <p className="text-gray-600 text-lg">
+                <p className="text-wedding-light-gray text-lg">
                   Some of our most cherished captures
                 </p>
               </motion.div>
@@ -402,12 +402,12 @@ const Portfolio = () => {
               <h2 className="text-4xl md:text-5xl font-elegant font-bold mb-6 text-wedding-gold">
                 Ready to Create Your Own Memories?
               </h2>
-              <p className="text-xl mb-8 text-gray-300">
+              <p className="text-xl mb-8 text-wedding-light-gray">
                 Let's discuss how we can capture your special day
               </p>
               <Link
                 to="/contact"
-                className="inline-block bg-wedding-gold text-wedding-black px-8 py-4 rounded-lg font-semibold hover:bg-gold-400 transition-all"
+                className="inline-block bg-gradient-to-r from-wedding-gold to-wedding-soft-gold text-wedding-black px-8 py-4 rounded-lg font-semibold hover:shadow-lg hover:shadow-wedding-gold/50 transition-all shadow-md"
               >
                 Book Your Session
               </Link>
