@@ -236,7 +236,7 @@ const About = () => {
               </p>
             </motion.div>
             <motion.div
-              className="bg-wedding-black/80 backdrop-blur-sm p-8 rounded-xl shadow-lg border-2 border-wedding-gold/30 hover:border-wedding-gold hover:shadow-xl transition-all duration-300"
+              className="bg-wedding-black/90 backdrop-blur-sm p-8 rounded-xl shadow-lg border-2 border-wedding-gold/30 hover:border-wedding-gold hover:shadow-xl transition-all duration-300"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
