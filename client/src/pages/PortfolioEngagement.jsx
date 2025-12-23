@@ -26,7 +26,7 @@ const PortfolioEngagement = () => {
         description="Browse our engagement photography gallery featuring beautiful engagement ceremonies captured by RS Photography."
         keywords="engagement photography, engagement photos, engagement ceremony, engagement gallery"
       />
-      <div className="pt-20">
+      <div className="pt-20 bg-wedding-black text-white">
         {/* Hero Section */}
         <section className="relative h-96 flex items-center justify-center text-white overflow-hidden">
           <div 
@@ -46,7 +46,7 @@ const PortfolioEngagement = () => {
         </section>
 
         {/* Gallery Grid */}
-        <section className="py-20 bg-wedding-ivory">
+        <section className="py-20 bg-gradient-to-b from-wedding-black via-[#0b0b0f] to-wedding-black">
           <div className="container mx-auto px-4">
             {loading ? (
               <div className="text-center py-20">

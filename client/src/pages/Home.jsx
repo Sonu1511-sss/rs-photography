@@ -48,7 +48,7 @@ const Home = () => {
         description="RS Photography - Best Wedding Photographer in Balaghat and Katangi (Kattangi), Madhya Pradesh. Professional Indian Wedding Photography, Pre-Wedding, Engagement Shoots, and Wedding Films."
         keywords="rsphotography, rs photography, balaghat, kattangi, katangi, photographer, wedding photographer, wedding photography balaghat, wedding photographer balaghat, wedding photography katangi, wedding photographer katangi, wedding photography kattangi, wedding photographer kattangi"
       />
-      <div className="pt-20">
+      <div className="pt-20 bg-wedding-black text-white">
       {/* Hero – slider with 3 images */}
       <section className="relative h-[70vh] md:h-[80vh] flex items-center justify-center overflow-hidden">
         {/* Background images */}
@@ -141,8 +141,8 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Featured Galleries */}
-      <section className="py-20 bg-wedding-ivory">
+      {/* Featured Galleries - Dark Theme */}
+      <section className="py-20 bg-gradient-to-b from-wedding-black via-[#0b0b0f] to-wedding-black">
         <div className="container mx-auto px-4">
           <motion.div
             className="text-center mb-12"
@@ -150,11 +150,14 @@ const Home = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
-            <h2 className="text-4xl md:text-5xl font-elegant font-bold mb-4 text-wedding-charcoal">
+            <p className="text-xs md:text-sm tracking-[0.25em] uppercase text-wedding-light-gray mb-2">
+              Featured Work
+            </p>
+            <h2 className="text-4xl md:text-5xl font-elegant font-bold mb-3 text-wedding-gold">
               Featured Galleries
             </h2>
-            <p className="text-wedding-light-gray text-lg">
-              Explore our stunning collection of wedding moments
+            <p className="text-wedding-light-gray text-sm md:text-base max-w-2xl mx-auto">
+              Weddings, pre-weddings and engagements we&apos;ve loved capturing for couples in Balaghat &amp; Katangi.
             </p>
           </motion.div>
 
@@ -178,7 +181,7 @@ const Home = () => {
             ].map((category, index) => (
               <motion.div
                 key={category.name}
-                className="relative group overflow-hidden rounded-lg shadow-lg"
+                className="relative group overflow-hidden rounded-2xl shadow-xl border border-wedding-gold/25 bg-wedding-black/80 backdrop-blur-sm hover:border-wedding-gold/60 hover:-translate-y-2 transition-all duration-300"
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -190,11 +193,14 @@ const Home = () => {
                     alt={category.name}
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-br from-wedding-black/50 to-wedding-gold/30 group-hover:from-wedding-black/60 group-hover:to-wedding-gold/40 transition-all duration-300" />
-                  <div className="absolute inset-0 flex flex-col items-center justify-center p-6">
-                    <h3 className="text-3xl font-elegant font-bold text-white z-10 mb-4 group-hover:mb-6 transition-all duration-300 drop-shadow-lg">
+                  <div className="absolute inset-0 bg-gradient-to-br from-wedding-black/55 to-wedding-gold/30 group-hover:from-wedding-black/70 group-hover:to-wedding-gold/45 transition-all duration-300" />
+                  <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center">
+                    <h3 className="text-2xl md:text-3xl font-elegant font-bold text-white z-10 mb-2 md:mb-3 group-hover:mb-4 transition-all duration-300 drop-shadow-lg">
                       {category.name}
                     </h3>
+                    <p className="text-wedding-light-gray text-xs md:text-sm mb-3 opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 transition-all duration-300">
+                      View curated {category.name.toLowerCase()} stories from our recent shoots.
+                    </p>
                     <div className="opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300">
                       <motion.div
                         whileHover={{ scale: 1.05 }}
@@ -202,7 +208,7 @@ const Home = () => {
                       >
                         <Link
                           to={category.path}
-                          className="bg-wedding-gold text-wedding-black px-6 py-3 rounded-lg font-semibold hover:bg-yellow-500 hover:text-white transition-all z-10 flex items-center gap-2 group/btn shadow-lg"
+                          className="bg-gradient-to-r from-wedding-gold to-wedding-soft-gold text-wedding-black px-6 py-2.5 rounded-full font-semibold hover:shadow-lg hover:shadow-wedding-gold/50 transition-all z-10 flex items-center gap-2 group/btn shadow-lg text-sm md:text-base"
                         >
                           <span>View Gallery</span>
                           <motion.span
@@ -224,7 +230,7 @@ const Home = () => {
       </section>
 
       {/* Services Preview */}
-      <section className="py-20 bg-wedding-black text-white">
+      <section className="py-20 bg-gradient-to-b from-wedding-black via-[#050509] to-wedding-black text-white">
         <div className="container mx-auto px-4">
           <motion.div
             className="text-center mb-12"
@@ -232,11 +238,14 @@ const Home = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
-            <h2 className="text-4xl md:text-5xl font-elegant font-bold mb-4 text-wedding-gold">
+            <p className="text-xs md:text-sm tracking-[0.25em] uppercase text-wedding-light-gray mb-2">
+              What We Offer
+            </p>
+            <h2 className="text-4xl md:text-5xl font-elegant font-bold mb-3 text-wedding-gold">
               Our Services
             </h2>
-            <p className="text-wedding-light-gray text-lg">
-              Comprehensive wedding photography and videography services
+            <p className="text-wedding-light-gray text-sm md:text-base max-w-2xl mx-auto">
+              Complete wedding coverage – from pre-wedding stories to the final reception, with cinematic films and premium albums.
             </p>
           </motion.div>
 
@@ -251,17 +260,22 @@ const Home = () => {
             ].map((service, index) => (
               <motion.div
                 key={service}
-                className="bg-wedding-black/80 border-2 border-wedding-gold/30 p-6 rounded-lg hover:border-wedding-gold hover:bg-wedding-black/90 transition-all shadow-lg backdrop-blur-sm"
+                className="bg-wedding-black/80 border border-wedding-gold/25 p-6 rounded-2xl shadow-xl backdrop-blur-sm hover:border-wedding-gold/60 hover:-translate-y-2 transition-all duration-300"
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
               >
-                <h3 className="text-xl font-elegant font-semibold mb-2 text-wedding-gold">
-                  {service}
-                </h3>
-                <p className="text-wedding-light-gray">
-                  Professional {service.toLowerCase()} services tailored to your needs
+                <div className="flex items-center justify-between mb-3">
+                  <h3 className="text-lg md:text-xl font-elegant font-semibold text-white">
+                    {service}
+                  </h3>
+                  <span className="text-[11px] md:text-xs px-3 py-1 rounded-full border border-wedding-gold/40 text-wedding-gold/90">
+                    Core Service
+                  </span>
+                </div>
+                <p className="text-wedding-light-gray text-sm md:text-base">
+                  Professional {service.toLowerCase()} crafted for modern Indian weddings in Balaghat, Katangi & nearby cities.
                 </p>
               </motion.div>
             ))}
@@ -275,7 +289,7 @@ const Home = () => {
           >
             <Link
               to="/services"
-              className="inline-block bg-gradient-to-r from-wedding-gold to-wedding-soft-gold text-wedding-black px-8 py-4 rounded-lg font-semibold hover:shadow-lg hover:shadow-wedding-gold/50 transition-all shadow-md"
+              className="inline-block bg-gradient-to-r from-wedding-gold to-wedding-soft-gold text-wedding-black px-8 py-3 md:px-10 md:py-4 rounded-full font-semibold hover:shadow-lg hover:shadow-wedding-gold/50 transition-all shadow-md"
             >
               View All Services
             </Link>
@@ -285,7 +299,7 @@ const Home = () => {
 
       {/* Testimonials Preview */}
       {featuredTestimonials.length > 0 && (
-        <section className="py-20 bg-wedding-ivory">
+        <section className="py-20 bg-gradient-to-b from-wedding-black via-[#050509] to-wedding-black">
           <div className="container mx-auto px-4">
             <motion.div
               className="text-center mb-12"
@@ -293,36 +307,65 @@ const Home = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
             >
-              <h2 className="text-4xl md:text-5xl font-elegant font-bold mb-4 text-wedding-charcoal">
+              <p className="text-sm md:text-base text-wedding-gold mb-2 tracking-[0.2em] uppercase">
+                Client Love
+              </p>
+              <h2 className="text-4xl md:text-5xl font-elegant font-bold mb-3 text-white">
                 What Our Clients Say
               </h2>
+              <p className="text-wedding-light-gray text-sm md:text-base max-w-2xl mx-auto">
+                Couples from Balaghat, Katangi and beyond sharing their wedding experience with RS Photography.
+              </p>
             </motion.div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {featuredTestimonials.slice(0, 3).map((testimonial, index) => (
-              <motion.div
-                key={testimonial._id}
-                className="bg-white border border-wedding-light-gold/30 p-6 rounded-lg shadow-lg"
+                <motion.div
+                  key={testimonial._id}
+                  className="relative bg-wedding-black/80 border border-wedding-gold/30 rounded-2xl p-6 md:p-7 shadow-xl backdrop-blur-sm overflow-hidden hover:border-wedding-gold/60 hover:-translate-y-2 transition-all duration-300"
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.1 }}
                 >
-                  <div className="flex mb-4">
-                    {[...Array(5)].map((_, i) => (
-                      <span
-                        key={i}
-                        className={`text-wedding-gold ${
-                          i < testimonial.rating ? 'text-wedding-gold' : 'text-gray-300'
-                        }`}
-                      >
-                        ★
-                      </span>
-                    ))}
+                  <div className="absolute -top-6 -right-4 text-[84px] text-wedding-gold/5 font-serif select-none">
+                    “
                   </div>
-                  <p className="text-wedding-charcoal mb-4 italic">"{testimonial.review}"</p>
-                  <p className="font-semibold text-wedding-black">
-                    - {testimonial.coupleName}
+
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="flex items-center gap-3">
+                      <div className="h-11 w-11 rounded-full bg-gradient-to-br from-wedding-gold/30 to-wedding-soft-gold/20 border border-wedding-gold/50 flex items-center justify-center text-wedding-black font-bold">
+                        {testimonial.coupleName?.[0]?.toUpperCase() || 'R'}
+                      </div>
+                      <div>
+                        <p className="font-semibold text-white text-sm md:text-base">
+                          {testimonial.coupleName || 'Happy Couple'}
+                        </p>
+                        {testimonial.weddingDate && (
+                          <p className="text-[11px] md:text-xs text-wedding-light-gray/80">
+                            {new Date(testimonial.weddingDate).getFullYear()} Wedding
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                    <div className="flex">
+                      {[...Array(5)].map((_, i) => (
+                        <span
+                          key={i}
+                          className={`text-sm md:text-base ${
+                            i < (testimonial.rating || 5)
+                              ? 'text-wedding-gold'
+                              : 'text-gray-600'
+                          }`}
+                        >
+                          ★
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  <p className="text-wedding-light-gray text-sm md:text-base leading-relaxed italic mb-2">
+                    “{testimonial.review || testimonial.message}”
                   </p>
                 </motion.div>
               ))}
@@ -336,7 +379,7 @@ const Home = () => {
             >
               <Link
                 to="/testimonials"
-                className="inline-block bg-wedding-black text-white px-8 py-4 rounded-lg font-semibold hover:bg-gradient-to-r hover:from-wedding-gold hover:to-wedding-soft-gold hover:text-wedding-black transition-all shadow-md"
+                className="inline-block bg-gradient-to-r from-wedding-gold to-wedding-soft-gold text-wedding-black px-8 py-3 md:px-10 md:py-4 rounded-full font-semibold hover:shadow-lg hover:shadow-wedding-gold/50 transition-all shadow-md"
               >
                 Read More Testimonials
               </Link>
@@ -351,7 +394,7 @@ const Home = () => {
         <div 
           className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-30"
           style={{ 
-            backgroundImage: 'url(https://images.unsplash.com/photo-1606983340126-99ab4feaa64a?w=1920&q=80)',
+            backgroundImage: 'url(https://i.pinimg.com/736x/2e/dc/88/2edc885cae7bca92ace48a0a1a767b67.jpg',
             backgroundSize: 'cover',
             backgroundPosition: 'center',
             filter: 'blur(1px)'

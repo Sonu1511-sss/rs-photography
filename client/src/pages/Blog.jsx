@@ -151,14 +151,14 @@ const Blog = () => {
         description="Read our latest blog posts about wedding photography, tips, stories, and insights from RS Photography."
         keywords="wedding photography blog, photography tips, wedding stories, photography advice, wedding photography guide"
       />
-      <div className="pt-20">
+      <div className="pt-20 bg-wedding-black text-white">
         {/* Hero Section */}
-        <section className="relative py-20 bg-gradient-to-br from-wedding-black to-yellow-300 text-white overflow-hidden">
+        <section className="relative py-12 md:py-16 bg-gradient-to-br from-wedding-black to-yellow-300/20 text-white overflow-hidden">
           {/* Camera Lens Background Image */}
           <div 
-            className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-30"
+            className="absolute  inset-0 bg-cover bg-center bg-no-repeat opacity-30"
             style={{ 
-              backgroundImage: 'url(https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=1920&q=80)',
+              backgroundImage: 'url(https://i.pinimg.com/736x/2e/dc/88/2edc885cae7bca92ace48a0a1a767b67.jpg)',
               backgroundSize: 'cover',
               backgroundPosition: 'center',
               filter: 'blur(1px)'
@@ -167,7 +167,7 @@ const Blog = () => {
           {/* <div className="absolute inset-0 bg-gradient-to-br from-wedding-black/70 to-wedding-gold/70" /> */}
           <div className="relative z-10 container mx-auto px-4 text-center">
             <motion.h1
-              className="text-4xl md:text-6xl font-elegant font-bold mb-6"
+              className="text-3xl md:text-5xl text-wedding-gold font-elegant font-bold mb-3 md:mb-4"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
@@ -186,7 +186,7 @@ const Blog = () => {
         </section>
 
         {/* Blog Posts Grid */}
-        <section className="relative py-20 bg-white overflow-hidden">
+        <section className="relative py-20 bg-gradient-to-b from-wedding-black via-[#050509] to-wedding-black overflow-hidden">
           {/* DSLR Lens Background Image */}
           <div 
             className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-5"
@@ -199,10 +199,10 @@ const Blog = () => {
           <div className="relative z-10 container mx-auto px-4">
             {blogs.length === 0 ? (
               <div className="text-center py-20">
-                <h2 className="text-3xl font-elegant font-bold mb-4 text-wedding-black">
+                <h2 className="text-3xl font-elegant font-bold mb-4 text-white">
                   No Blog Posts Yet
                 </h2>
-                <p className="text-gray-600 text-lg">
+                <p className="text-wedding-light-gray text-lg">
                   Check back soon for our latest wedding photography tips and stories!
                 </p>
               </div>
@@ -211,7 +211,7 @@ const Blog = () => {
                 {blogs.map((blog, index) => (
                   <motion.article
                     key={blog._id}
-                    className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 group"
+                    className="bg-wedding-black/80 border border-wedding-gold/30 rounded-2xl shadow-xl overflow-hidden hover:border-wedding-gold/60 hover:-translate-y-2 transition-all duration-300 group backdrop-blur-sm"
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, delay: index * 0.1 }}
@@ -236,13 +236,13 @@ const Blog = () => {
                     {/* Blog Content */}
                     <div className="p-6">
                       <Link to={`/blog/${blog.slug}`}>
-                        <h2 className="text-2xl font-elegant font-bold mb-3 text-wedding-black hover:text-wedding-gold transition-colors">
+                        <h2 className="text-2xl font-elegant font-bold mb-3 text-white hover:text-wedding-gold transition-colors">
                           {blog.title}
                         </h2>
                       </Link>
 
                       {/* Meta Information */}
-                      <div className="flex items-center gap-4 mb-4 text-gray-600 text-sm">
+                      <div className="flex items-center gap-4 mb-4 text-wedding-light-gray text-xs md:text-sm">
                         {blog.author && (
                           <div className="flex items-center gap-2">
                             <FaUser className="text-wedding-gold" />
@@ -259,7 +259,7 @@ const Blog = () => {
 
                       {/* Excerpt */}
                       {blog.content && (
-                        <p className="text-gray-700 mb-4 line-clamp-3">
+                        <p className="text-wedding-light-gray mb-4 line-clamp-3 text-sm">
                           {truncateContent(blog.content)}
                         </p>
                       )}

@@ -3,11 +3,15 @@ import { ThemeProvider } from './context/ThemeContext';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import WhatsAppButton from './components/WhatsAppButton';
-import ProtectedRoute from './components/ProtectedRoute';
+import ScrollToTop from './components/ScrollToTop';
+import ProtectedRoute from './context/ProtectedRoute';
 
 import Home from './pages/Home';
 import About from './pages/About';
 import Portfolio from './pages/Portfolio';
+import PortfolioWeddings from './pages/PortfolioWeddings';
+import PortfolioPreWedding from './pages/PortfolioPreWedding';
+import PortfolioEngagement from './pages/PortfolioEngagement';
 import Services from './pages/Services';
 import Packages from './pages/Packages';
 import Videos from './pages/Videos';
@@ -24,13 +28,17 @@ import AdminDashboard from './pages/AdminDashboard';
 const App = () => {
   return (
     <ThemeProvider>
-      <div className="min-h-screen flex flex-col bg-white">
+      <div className="min-h-screen flex flex-col bg-gradient-to-b from-wedding-black via-black to-wedding-black">
         <Navbar />
-        <main className="flex-1 bg-white">
+        <main className="flex-1">
+          <ScrollToTop />
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
             <Route path="/portfolio" element={<Portfolio />} />
+            <Route path="/portfolio/weddings" element={<PortfolioWeddings />} />
+            <Route path="/portfolio/pre-wedding" element={<PortfolioPreWedding />} />
+            <Route path="/portfolio/engagement" element={<PortfolioEngagement />} />
             <Route path="/services" element={<Services />} />
             <Route path="/packages" element={<Packages />} />
             <Route path="/videos" element={<Videos />} />

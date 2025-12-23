@@ -91,25 +91,36 @@ const Testimonials = () => {
         description="Read reviews and testimonials from couples who trusted RS Photography for their wedding memories."
         keywords="rs photography reviews, client testimonials, wedding photographer feedback"
       />
-      <div className="pt-20 min-h-screen">
-        {/* Hero Section - Light Theme */}
-        <section className="relative py-20 overflow-hidden bg-gradient-to-br from-wedding-ivory via-white to-wedding-ivory">
-          <div className="absolute inset-0 bg-gradient-to-br from-wedding-ivory/50 to-wedding-gold/5" />
-          <div className="relative z-10 container mx-auto px-4 text-center">
+      <div className="pt-20 min-h-screen bg-wedding-black text-white">
+        {/* Hero Section - Dark Theme */}
+        <section className="relative py-20 md:py-24 overflow-hidden bg-gradient-to-br from-wedding-black via-[#0b0b0f] to-wedding-black">
+          {/* Camera Lens Background Image */}
+          <div
+            className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-25 md:opacity-30"
+            style={{
+              backgroundImage: 'url(https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=1920&q=80)',
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+              filter: 'blur(2px)',
+            }}
+          />
+          <div className="absolute inset-0 bg-gradient-to-br from-wedding-black/90 via-wedding-black/80 to-wedding-gold/10" />
+          <div className="relative z-10 container mx-auto px-4 flex items-center justify-center">
             <motion.div
+              className="w-full max-w-3xl text-center bg-wedding-black/70 border border-wedding-gold/30 rounded-3xl px-6 py-10 md:px-10 md:py-12 shadow-2xl backdrop-blur-md"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
             >
-              <p className="text-sm md:text-base text-wedding-gold mb-3 font-medium tracking-wider uppercase">
+              <p className="text-xs md:text-sm tracking-[0.25em] text-wedding-gold mb-4 uppercase">
                 Client Stories
               </p>
-              <h1 className="text-4xl md:text-6xl lg:text-7xl font-elegant font-bold mb-4">
-                <span className="text-wedding-charcoal">What Our </span>
+              <h1 className="text-3xl md:text-5xl lg:text-6xl font-elegant font-bold mb-4 leading-tight">
+                <span className="text-white">What Our </span>
                 <span className="text-wedding-gold">Couples Say</span>
               </h1>
-              <p className="text-wedding-light-gray text-lg md:text-xl max-w-2xl mx-auto">
-                Real experiences from couples who trusted us to capture their most precious moments
+              <p className="text-wedding-light-gray text-sm md:text-lg max-w-2xl mx-auto">
+                Real experiences from couples who trusted us to capture their most precious moments.
               </p>
             </motion.div>
           </div>
@@ -145,14 +156,14 @@ const Testimonials = () => {
                   <>
                     <button
                       onClick={prevSlide}
-                      className="hidden md:flex absolute left-4 top-1/2 -translate-y-1/2 z-20 h-12 w-12 rounded-full bg-white hover:bg-wedding-gold/10 border-2 border-wedding-gold/30 hover:border-wedding-gold items-center justify-center text-wedding-gold text-2xl font-bold transition-all shadow-lg hover:scale-110"
+                      className="hidden md:flex absolute left-4 top-1/2 -translate-y-1/2 z-20 h-12 w-12 rounded-full bg-wedding-black/80 hover:bg-wedding-gold/20 border-2 border-wedding-gold/40 hover:border-wedding-gold items-center justify-center text-wedding-gold text-2xl font-bold transition-all shadow-lg hover:scale-110"
                       aria-label="Previous testimonials"
                     >
                       ‹
                     </button>
                     <button
                       onClick={nextSlide}
-                      className="hidden md:flex absolute right-4 top-1/2 -translate-y-1/2 z-20 h-12 w-12 rounded-full bg-white hover:bg-wedding-gold/10 border-2 border-wedding-gold/30 hover:border-wedding-gold items-center justify-center text-wedding-gold text-2xl font-bold transition-all shadow-lg hover:scale-110"
+                      className="hidden md:flex absolute right-4 top-1/2 -translate-y-1/2 z-20 h-12 w-12 rounded-full bg-wedding-black/80 hover:bg-wedding-gold/20 border-2 border-wedding-gold/40 hover:border-wedding-gold items-center justify-center text-wedding-gold text-2xl font-bold transition-all shadow-lg hover:scale-110"
                       aria-label="Next testimonials"
                     >
                       ›
@@ -168,7 +179,7 @@ const Testimonials = () => {
                     const primary =
                       'bg-gradient-to-br from-wedding-gold via-wedding-soft-gold to-wedding-gold text-wedding-black shadow-2xl scale-105 border-2 border-wedding-gold/50';
                     const secondary =
-                      'bg-wedding-ivory text-wedding-charcoal border-2 border-wedding-light-gold/30 hover:border-wedding-gold/50 hover:shadow-2xl';
+                      'bg-wedding-black/90 text-wedding-light-gray border-2 border-wedding-gold/20 hover:border-wedding-gold/50 hover:shadow-2xl';
 
                     return (
                       <motion.div
@@ -279,7 +290,7 @@ const Testimonials = () => {
             {/* Share your experience form below slider */}
             <div className="max-w-4xl mx-auto mt-16">
               <motion.div
-                className="bg-white rounded-3xl shadow-2xl border-2 border-wedding-light-gold/30 p-8 md:p-12 relative overflow-hidden"
+                className="bg-wedding-black/90 rounded-3xl shadow-2xl border-2 border-wedding-gold/30 p-8 md:p-12 relative overflow-hidden"
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -290,7 +301,7 @@ const Testimonials = () => {
                 
                 <div className="relative z-10">
                   <div className="text-center mb-8">
-                    <h2 className="text-2xl md:text-3xl font-elegant font-bold mb-3 text-wedding-charcoal">
+                    <h2 className="text-2xl md:text-3xl font-elegant font-bold mb-3 text-white">
                       Share Your <span className="text-wedding-gold">Experience</span>
                     </h2>
                     <p className="text-wedding-light-gray text-base md:text-lg">
@@ -302,7 +313,7 @@ const Testimonials = () => {
                     className="grid gap-5 md:grid-cols-2 text-sm md:text-base"
                   >
                   <div className="md:col-span-1">
-                    <label className="block font-semibold mb-2 text-wedding-charcoal">
+                    <label className="block font-semibold mb-2 text-white">
                       Couple Name *
                     </label>
                     <input
@@ -310,13 +321,13 @@ const Testimonials = () => {
                       name="coupleName"
                       value={form.coupleName}
                       onChange={handleChange}
-                      className="w-full bg-wedding-ivory border-2 border-wedding-light-gold/30 rounded-lg px-4 py-3 text-wedding-charcoal placeholder-wedding-light-gray focus:outline-none focus:ring-2 focus:ring-wedding-gold focus:border-wedding-gold transition-all"
+                      className="w-full bg-wedding-black/80 border-2 border-wedding-gold/30 rounded-lg px-4 py-3 text-white placeholder-wedding-light-gray focus:outline-none focus:ring-2 focus:ring-wedding-gold focus:border-wedding-gold transition-all"
                       placeholder="Enter couple name"
                       required
                     />
                   </div>
                   <div className="md:col-span-1">
-                    <label className="block font-semibold mb-2 text-wedding-charcoal">
+                    <label className="block font-semibold mb-2 text-white">
                       Wedding Date
                     </label>
                     <input
@@ -324,35 +335,35 @@ const Testimonials = () => {
                       name="weddingDate"
                       value={form.weddingDate}
                       onChange={handleChange}
-                      className="w-full bg-wedding-ivory border-2 border-wedding-light-gold/30 rounded-lg px-4 py-3 text-wedding-charcoal focus:outline-none focus:ring-2 focus:ring-wedding-gold focus:border-wedding-gold transition-all"
+                      className="w-full bg-wedding-black/80 border-2 border-wedding-gold/30 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-wedding-gold focus:border-wedding-gold transition-all"
                     />
                   </div>
                   <div className="md:col-span-1">
-                    <label className="block font-semibold mb-2 text-wedding-charcoal">
+                    <label className="block font-semibold mb-2 text-white">
                       Rating *
                     </label>
                     <select
                       name="rating"
                       value={form.rating}
                       onChange={handleChange}
-                      className="w-full bg-wedding-ivory border-2 border-wedding-light-gold/30 rounded-lg px-4 py-3 text-wedding-charcoal focus:outline-none focus:ring-2 focus:ring-wedding-gold focus:border-wedding-gold transition-all"
+                      className="w-full bg-wedding-black/80 border-2 border-wedding-gold/30 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-wedding-gold focus:border-wedding-gold transition-all"
                     >
                       {[5, 4, 3, 2, 1].map((r) => (
-                        <option key={r} value={r} className="bg-white text-wedding-charcoal">
+                        <option key={r} value={r} className="bg-wedding-black text-white">
                           {r} {r === 1 ? 'Star' : 'Stars'}
                         </option>
                       ))}
                     </select>
                   </div>
                   <div className="md:col-span-2">
-                    <label className="block font-semibold mb-2 text-wedding-charcoal">
+                    <label className="block font-semibold mb-2 text-white">
                       Your Review *
                     </label>
                     <textarea
                       name="review"
                       value={form.review}
                       onChange={handleChange}
-                      className="w-full bg-wedding-ivory border-2 border-wedding-light-gold/30 rounded-lg px-4 py-3 h-32 resize-none text-wedding-charcoal placeholder-wedding-light-gray focus:outline-none focus:ring-2 focus:ring-wedding-gold focus:border-wedding-gold transition-all"
+                      className="w-full bg-wedding-black/80 border-2 border-wedding-gold/30 rounded-lg px-4 py-3 h-32 resize-none text-white placeholder-wedding-light-gray focus:outline-none focus:ring-2 focus:ring-wedding-gold focus:border-wedding-gold transition-all"
                       placeholder="Share your experience with RS Photography..."
                       required
                     />

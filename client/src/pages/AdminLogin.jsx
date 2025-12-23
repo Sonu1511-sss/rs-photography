@@ -3,10 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { FaUser, FaLock, FaEye, FaEyeSlash } from 'react-icons/fa'
 import { toast } from 'react-toastify'
-
-// Static credentials
-const ADMIN_EMAIL = 'rsphotography0@gmail.com'
-const ADMIN_PASSWORD = 'Rsphoto@321'
+import api from '../utils/api'
 
 const AdminLogin = () => {
   const [formData, setFormData] = useState({
@@ -26,7 +23,7 @@ const AdminLogin = () => {
     setError('')
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
     
     // Basic validation
@@ -51,68 +48,61 @@ const AdminLogin = () => {
     setLoading(true)
     setError('')
 
-    // Simulate API call delay for better UX
-    setTimeout(() => {
-      // Strict credential check - exact match required
-      const emailMatch = trimmedEmail.toLowerCase() === ADMIN_EMAIL.toLowerCase()
-      // Password must match exactly (case-sensitive)
-      const passwordMatch = formData.password === ADMIN_PASSWORD
-      
-      if (emailMatch && passwordMatch) {
-        // Store admin data in localStorage
-        const adminData = {
-          email: ADMIN_EMAIL,
-          name: 'RS Photography Admin',
-          role: 'admin'
-        }
-        const token = 'admin-token-' + Date.now()
-        localStorage.setItem('adminToken', token)
-        localStorage.setItem('adminData', JSON.stringify(adminData))
-        
-        // Show success toast
-        toast.success('Login successful! Redirecting to dashboard...', {
-          position: 'top-right',
-          autoClose: 2000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-        })
-        
-        // Navigate to dashboard after a short delay
-        setTimeout(() => {
-          console.log('Navigating to dashboard...')
-          console.log('Token:', localStorage.getItem('adminToken'))
-          console.log('AdminData:', localStorage.getItem('adminData'))
-          
-          // Use window.location as fallback if navigate doesn't work
-          try {
-            navigate('/admin/dashboard', { replace: true })
-            // Double check after navigation
-            setTimeout(() => {
-              if (window.location.pathname !== '/admin/dashboard') {
-                console.log('Navigation failed, using window.location')
-                window.location.href = '/admin/dashboard'
-              }
-            }, 100)
-          } catch (navError) {
-            console.error('Navigation error:', navError)
-            window.location.href = '/admin/dashboard'
-          }
-        }, 500)
-      } else {
-        setError('Invalid email or password. Please check your credentials.')
-        toast.error('Invalid email or password. Please check your credentials.', {
-          position: 'top-right',
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-        })
-        setLoading(false)
+    try {
+      const response = await api.post('/admin/login', {
+        email: trimmedEmail,
+        password: formData.password,
+      })
+
+      const { token, admin } = response.data
+
+      if (!token || !admin) {
+        throw new Error('Invalid response from server')
       }
-    }, 500)
+
+      localStorage.setItem('adminToken', token)
+      localStorage.setItem('adminData', JSON.stringify(admin))
+
+      toast.success('Login successful! Redirecting to dashboard...', {
+        position: 'top-right',
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      })
+
+      setTimeout(() => {
+        try {
+          navigate('/admin/dashboard', { replace: true })
+          setTimeout(() => {
+            if (window.location.pathname !== '/admin/dashboard') {
+              window.location.href = '/admin/dashboard'
+            }
+          }, 150)
+        } catch (navError) {
+          console.error('Navigation error:', navError)
+          window.location.href = '/admin/dashboard'
+        }
+      }, 500)
+    } catch (err) {
+      console.error('Admin login error:', err)
+      const msg =
+        err.response?.data?.message ||
+        err.message ||
+        'Login failed. Please check your credentials.'
+      setError(msg)
+      toast.error(msg, {
+        position: 'top-right',
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      })
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (

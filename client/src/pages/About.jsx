@@ -58,7 +58,7 @@ const About = () => {
         description="RS Photography - Professional wedding photography service in Balaghat and Katangi (Kattangi), Madhya Pradesh with over 10 years of experience in Indian wedding photography."
         keywords="rs photography, wedding photographer, photographer balaghat, photographer katangi, photographer kattangi"
       />
-      <div className="pt-20">
+      <div className="pt-16">
       {/* About Us Section with Grid Background */}
       <section className="relative min-h-screen bg-wedding-black text-white overflow-hidden">
         {/* Grid Background Pattern */}
@@ -76,22 +76,28 @@ const About = () => {
           ))}
         </div>
 
-        <div className="relative z-10 container mx-auto px-4 py-20">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <div className="relative z-10 container mx-auto px-4 py-10 md:py-16">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center justify-items-center">
             {/* Left Side - Content */}
             <motion.div
               initial={{ opacity: 0, x: -50 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8 }}
-              className="space-y-8"
+              className="space-y-8 text-center lg:text-left max-w-xl"
             >
               {/* Heading */}
-              <h1 className="text-6xl md:text-7xl lg:text-8xl font-elegant font-bold text-white">
-                ABOUT US
-              </h1>
+              <div className="space-y-3">
+                <span className="inline-flex items-center gap-2 rounded-full bg-wedding-black/70 border border-wedding-gold/40 px-4 py-1 text-[11px] md:text-xs uppercase tracking-[0.25em] text-wedding-light-gray">
+                  RS Photography • Since 2014
+                </span>
+                <h1 className="text-4xl md:text-5xl lg:text-6xl font-elegant font-bold text-white leading-tight">
+                  About <span className="text-wedding-gold">US</span>
+                </h1>
+               
+              </div>
 
               {/* Stats/Tags */}
-              <div className="flex flex-wrap items-center gap-4">
+              <div className="flex flex-wrap items-center justify-center lg:justify-start gap-4">
                 <span className="text-wedding-gold text-2xl font-bold">10+</span>
                 <span className="bg-gradient-to-r from-wedding-gold to-wedding-soft-gold text-wedding-black px-4 py-2 rounded-md text-sm font-semibold shadow-md">
                   Years Experience
@@ -137,7 +143,7 @@ const About = () => {
               transition={{ duration: 0.8, delay: 0.2 }}
               className="relative z-20"
             >
-              <div className="relative rounded-2xl overflow-hidden shadow-2xl max-w-md mx-auto">
+              <div className="relative rounded-2xl -mt-10 md:-mt-16 overflow-hidden shadow-2xl max-w-md mx-auto">
                 <div className="aspect-[4/5] relative">
                   <img
                     src={raju}

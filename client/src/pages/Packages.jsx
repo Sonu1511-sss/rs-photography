@@ -97,39 +97,41 @@ const Packages = () => {
         description="Choose from our affordable wedding photography packages in Balaghat and Katangi. From basic to luxury packages, we have options for every budget."
         keywords="wedding photography packages, photography pricing, wedding photographer cost, photography packages balaghat, affordable wedding photography"
       />
-      <div className="pt-20">
+      <div className="pt-20 bg-wedding-black text-white">
         {/* Hero Section */}
-        <section className="relative h-96 flex items-center justify-center text-white overflow-hidden">
+        <section className="relative h-52 md:h-60 flex items-center justify-center text-white overflow-hidden">
           <div 
             className="absolute inset-0 bg-cover bg-center"
-            style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=1920&q=80)' }}
+            style={{ backgroundImage: 'url(https://i.pinimg.com/736x/2e/dc/88/2edc885cae7bca92ace48a0a1a767b67.jpg)' }}
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-wedding-black/80 to-wedding-gold/60" />
-          <div className="absolute inset-0 bg-black/50" />
+          <div className="absolute inset-0 bg-gradient-to-r from-wedding-black/85 to-wedding-gold/35" />
+          <div className="absolute inset-0 bg-black/55" />
           <div className="relative z-10 text-center px-4">
-            <h1 className="text-5xl md:text-6xl font-elegant font-bold mb-4">
-              Our Packages
+            <p className="text-xs md:text-sm tracking-[0.25em] uppercase text-wedding-light-gray mb-2">
+              Pricing &amp; Plans
+            </p>
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-elegant font-bold mb-3">
+              Our <span className="text-wedding-gold">Packages</span>
             </h1>
-            <p className="text-xl text-wedding-gold">
-              Choose the Perfect Package for Your Special Day
+            <p className="text-sm md:text-base text-wedding-light-gray max-w-2xl mx-auto">
+              Choose from curated wedding, pre-wedding and engagement packages designed for every style and budget.
             </p>
           </div>
         </section>
 
         {/* Packages Grid */}
-        <section className="py-20 bg-wedding-black">
+        <section className="py-20 bg-gradient-to-b from-wedding-black via-[#050509] to-wedding-black">
           <div className="container mx-auto px-4">
             <motion.div
               className="text-center mb-12"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
             >
-              <h2 className="text-4xl text-white md:text-5xl font-elegant font-bold mb-4">
+              <h2 className="text-4xl md:text-5xl font-elegant font-bold mb-3 text-wedding-gold">
                 Wedding Photography Packages
               </h2>
-              <p className="text-gray-400 text-lg max-w-2xl mx-auto">
-                We offer flexible packages to suit every budget and requirement. 
-                All packages can be customized according to your needs.
+              <p className="text-wedding-light-gray text-sm md:text-base max-w-2xl mx-auto">
+                Thoughtfully crafted collections for every celebration – from intimate gatherings to grand weddings.
               </p>
             </motion.div>
 
@@ -137,10 +139,8 @@ const Packages = () => {
               {packages.map((pkg, index) => (
                 <motion.div
                   key={pkg.name}
-                  className={`relative bg-white rounded-lg shadow-lg overflow-hidden border-2 ${
-                    pkg.popular 
-                      ? 'border-wedding-gold scale-105 md:scale-110' 
-                      : 'border-gray-200'
+                  className={`relative bg-wedding-black/80 border border-wedding-gold/30 rounded-2xl overflow-hidden shadow-xl backdrop-blur-sm transition-all duration-300 hover:border-wedding-gold/60 hover:-translate-y-2 ${
+                    pkg.popular ? 'ring-2 ring-wedding-gold/50 scale-105 md:scale-110' : ''
                   }`}
                   initial={{ opacity: 0, y: 50 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -167,12 +167,12 @@ const Packages = () => {
                   </div>
 
                   {/* Package Features */}
-                  <div className="p-6">
+                  <div className="p-6 bg-wedding-black/90">
                     <ul className="space-y-3 mb-6">
                       {pkg.features.map((feature, idx) => (
                         <li key={idx} className="flex items-start">
                           <FaCheck className="text-wedding-gold mr-2 mt-1 flex-shrink-0" />
-                          <span className="text-gray-700 text-sm">{feature}</span>
+                          <span className="text-wedding-light-gray text-sm">{feature}</span>
                         </li>
                       ))}
                     </ul>
@@ -195,7 +195,7 @@ const Packages = () => {
         </section>
 
         {/* Additional Services */}
-        <section className="py-20 bg-gray-50">
+        <section className="py-20 bg-gradient-to-b from-wedding-black via-[#050509] to-wedding-black text-white">
           <div className="container mx-auto px-4">
             <motion.div
               className="text-center mb-12"
@@ -203,35 +203,55 @@ const Packages = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
             >
-              <h2 className="text-4xl md:text-5xl font-elegant font-bold mb-4">
+              <p className="text-xs md:text-sm tracking-[0.25em] uppercase text-wedding-light-gray mb-2">
+                Upgrade Your Experience
+              </p>
+              <h2 className="text-4xl md:text-5xl font-elegant font-bold mb-3 text-wedding-gold">
                 Add-On Services
               </h2>
-              <p className="text-gray-600 text-lg">
-                Enhance your package with these additional services
+              <p className="text-wedding-light-gray text-sm md:text-base max-w-2xl mx-auto">
+                Flexible extras you can attach to any package for even more cinematic coverage and premium deliverables.
               </p>
             </motion.div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {[
-                { icon: FaPlane, title: 'Drone Coverage', price: '₹5,000' },
-                { icon: FaBook, title: 'Premium Album', price: '₹8,000' },
-                { icon: FaCamera, title: 'Extra Photographer', price: '₹10,000/day' }
+                { icon: FaPlane, title: 'Drone Coverage', price: '₹5,000', note: 'Aerial venue & procession shots' },
+                { icon: FaBook, title: 'Premium Album', price: '₹8,000', note: 'Custom designed luxury album' },
+                { icon: FaCamera, title: 'Extra Photographer', price: '₹10,000/day', note: 'Additional candid coverage' }
               ].map((service, index) => (
                 <motion.div
                   key={service.title}
-                  className="bg-white p-6 rounded-lg shadow-lg border border-gray-200"
+                  className="relative bg-wedding-black/80 border border-wedding-gold/30 rounded-2xl p-6 md:p-7 shadow-xl backdrop-blur-sm overflow-hidden hover:border-wedding-gold/60 hover:-translate-y-2 transition-all duration-300"
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.1 }}
                 >
-                  <service.icon className="text-wedding-gold text-3xl mb-4" />
-                  <h3 className="text-xl font-elegant font-bold mb-2">
-                    {service.title}
-                  </h3>
-                  <p className="text-wedding-gold font-semibold text-lg">
-                    {service.price}
-                  </p>
+                  <div className="absolute inset-0 bg-gradient-to-br from-wedding-gold/10 via-transparent to-transparent pointer-events-none" />
+                  <div className="relative z-10">
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="flex items-center gap-3">
+                        <div className="h-12 w-12 rounded-full bg-wedding-gold/20 border border-wedding-gold/50 flex items-center justify-center">
+                          <service.icon className="text-wedding-gold text-2xl" />
+                        </div>
+                        <h3 className="text-lg md:text-xl font-elegant font-bold">
+                          {service.title}
+                        </h3>
+                      </div>
+                      <div className="text-right">
+                        <p className="text-wedding-gold font-semibold text-base md:text-lg">
+                          {service.price}
+                        </p>
+                        <p className="text-[11px] md:text-xs text-wedding-light-gray/80">
+                          Per event add-on
+                        </p>
+                      </div>
+                    </div>
+                    <p className="text-wedding-light-gray text-sm md:text-base">
+                      {service.note}
+                    </p>
+                  </div>
                 </motion.div>
               ))}
             </div>
@@ -264,7 +284,7 @@ const Packages = () => {
         </section>
 
         {/* FAQ Section */}
-        <section className="py-20 bg-white">
+        <section className="py-20 bg-gradient-to-b from-wedding-black via-[#050509] to-wedding-black text-white">
           <div className="container mx-auto px-4">
             <motion.div
               className="text-center mb-12"
@@ -272,12 +292,18 @@ const Packages = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
             >
-              <h2 className="text-4xl md:text-5xl font-elegant font-bold mb-4">
+              <p className="text-xs md:text-sm tracking-[0.25em] uppercase text-wedding-light-gray mb-2">
+                Questions About Pricing
+              </p>
+              <h2 className="text-4xl md:text-5xl font-elegant font-bold mb-3 text-wedding-gold">
                 Package FAQs
               </h2>
+              <p className="text-wedding-light-gray text-sm md:text-base max-w-2xl mx-auto">
+                Clear answers to the most common questions couples ask us about booking and payments.
+              </p>
             </motion.div>
 
-            <div className="max-w-3xl mx-auto space-y-6">
+            <div className="max-w-3xl mx-auto space-y-4 md:space-y-6">
               {[
                 {
                   q: 'Can I customize a package?',
@@ -285,7 +311,7 @@ const Packages = () => {
                 },
                 {
                   q: 'What is included in the price?',
-                  a: 'All packages include professional photography/videography, editing, and digital delivery. Premium packages include physical albums and prints.'
+                  a: 'All packages include professional photography/videography, editing, and digital delivery. Premium packages can include albums and prints based on your selection.'
                 },
                 {
                   q: 'Do you require a deposit?',
@@ -298,16 +324,16 @@ const Packages = () => {
               ].map((faq, index) => (
                 <motion.div
                   key={index}
-                  className="bg-gray-50 p-6 rounded-lg"
+                  className="bg-wedding-black/80 border border-wedding-gold/25 p-5 md:p-6 rounded-2xl shadow-lg backdrop-blur-sm"
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.1 }}
                 >
-                  <h3 className="text-xl font-elegant font-bold mb-2 text-wedding-black">
+                  <h3 className="text-lg md:text-xl font-elegant font-bold mb-2 text-white">
                     {faq.q}
                   </h3>
-                  <p className="text-gray-700">
+                  <p className="text-wedding-light-gray text-sm md:text-base">
                     {faq.a}
                   </p>
                 </motion.div>

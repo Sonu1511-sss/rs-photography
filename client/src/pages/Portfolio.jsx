@@ -170,34 +170,37 @@ const Portfolio = () => {
         description="Explore our stunning wedding photography portfolio featuring weddings, pre-wedding shoots, and engagement ceremonies captured by RS Photography in Balaghat and Katangi."
         keywords="wedding photography portfolio, wedding photos, pre-wedding photos, engagement photos, photography gallery"
       />
-      <div className="pt-20">
+      <div className="pt-20 bg-wedding-black text-white">
         {/* Hero Section */}
-        <section className="relative h-96 flex items-center justify-center text-white overflow-hidden">
+        <section className="relative h-52 md:h-60 flex items-center justify-center text-white overflow-hidden">
           <div 
             className="absolute inset-0 bg-cover bg-center"
             style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=1920&q=80)' }}
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-wedding-black/90 to-wedding-gold/20" />
-          <div className="absolute inset-0 bg-wedding-black/65" />
+          <div className="absolute inset-0 bg-gradient-to-r from-wedding-black/90 to-wedding-gold/25" />
+          <div className="absolute inset-0 bg-wedding-black/70" />
           <div className="relative z-10 text-center px-4">
-            <h1 className="text-5xl md:text-6xl font-elegant font-bold mb-4">
-              Our Portfolio
+            <p className="text-xs md:text-sm tracking-[0.25em] uppercase text-wedding-light-gray mb-2">
+              Signature Work
+            </p>
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-elegant font-bold mb-3">
+              Our <span className="text-wedding-gold">Portfolio</span>
             </h1>
-            <p className="text-xl text-wedding-gold">
-              Capturing Life's Most Precious Moments
+            <p className="text-sm md:text-base text-wedding-light-gray max-w-2xl mx-auto">
+              Handpicked weddings, pre-weddings and engagements we&apos;ve captured across Balaghat, Katangi and nearby cities.
             </p>
           </div>
         </section>
 
-        {/* Category Galleries */}
-        <section className="py-20 bg-wedding-ivory">
+        {/* Category Galleries - Dark Theme */}
+        <section className="py-20 bg-gradient-to-b from-wedding-black via-[#0b0b0f] to-wedding-black">
           <div className="container mx-auto px-4">
             <motion.div
               className="text-center mb-12"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
             >
-              <h2 className="text-4xl md:text-5xl font-elegant font-bold mb-4 text-wedding-charcoal">
+              <h2 className="text-4xl md:text-5xl font-elegant font-bold mb-4 text-white">
                 Explore Our Galleries
               </h2>
               <p className="text-wedding-light-gray text-lg">
@@ -254,9 +257,9 @@ const Portfolio = () => {
           </div>
         </section>
 
-        {/* Portfolio Gallery with Filters */}
+        {/* Portfolio Gallery with Filters - Dark Theme */}
         {!loading && (
-          <section className="py-20 bg-wedding-ivory">
+          <section className="py-20 bg-gradient-to-b from-wedding-black via-[#0b0b0f] to-wedding-black">
             <div className="container mx-auto px-4">
               <motion.div
                 className="text-center mb-12"
@@ -264,7 +267,7 @@ const Portfolio = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
               >
-                <h2 className="text-4xl md:text-5xl font-elegant font-bold mb-4 text-wedding-charcoal">
+                <h2 className="text-4xl md:text-5xl font-elegant font-bold mb-4 text-white">
                   Our Portfolio Gallery
                 </h2>
                 <p className="text-wedding-light-gray text-lg mb-8">
@@ -280,7 +283,7 @@ const Portfolio = () => {
                       className={`px-6 py-3 rounded-lg font-semibold transition-all duration-300 ${
                         activeFilter === filter.id
                           ? 'bg-gradient-to-r from-wedding-gold to-wedding-soft-gold text-wedding-black shadow-lg scale-105'
-                          : 'bg-white text-wedding-charcoal hover:bg-wedding-ivory border-2 border-wedding-light-gold/30 hover:border-wedding-gold/50'
+                          : 'bg-wedding-black/80 text-wedding-light-gray hover:bg-wedding-black border-2 border-wedding-gold/30 hover:border-wedding-gold/60'
                       }`}
                     >
                       {filter.label}
@@ -337,7 +340,7 @@ const Portfolio = () => {
 
         {/* Featured Portfolio */}
         {!loading && featuredPortfolio.length > 0 && (
-          <section className="py-20 bg-wedding-ivory">
+          <section className="py-20 bg-wedding-black">
             <div className="container mx-auto px-4">
               <motion.div
                 className="text-center mb-12"
@@ -345,7 +348,7 @@ const Portfolio = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
               >
-                <h2 className="text-4xl md:text-5xl font-elegant font-bold mb-4 text-wedding-charcoal">
+                <h2 className="text-4xl md:text-5xl font-elegant font-bold mb-4 text-wedding-gold">
                   Featured Work
                 </h2>
                 <p className="text-wedding-light-gray text-lg">

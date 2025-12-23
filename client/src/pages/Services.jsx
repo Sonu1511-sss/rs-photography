@@ -78,47 +78,76 @@ const Services = () => {
   ]
 
   return (
-    <div className="pt-20">
+    <div className="pt-20 bg-gradient-to-b from-wedding-black via-[#050509] to-wedding-black text-white">
       {/* Hero Section */}
-      <section className="relative h-96 flex items-center justify-center bg-gradient-to-r from-wedding-black to-wedding-gold text-white">
-        <div className="absolute inset-0 bg-black/50" />
+      <section className="relative h-52 md:h-60 flex items-center justify-center bg-gradient-to-r from-wedding-black to-wedding-gold text-white overflow-hidden">
+         {/* Camera Lens Background Image */}
+         <div 
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-30"
+          style={{ 
+            backgroundImage: 'url(https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=1920&q=80)',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            filter: 'blur(2px)'
+          }}
+        />
+        <div className="absolute inset-0 bg-black/55" />
         <div className="relative z-10 text-center px-4">
-          <h1 className="text-5xl md:text-6xl font-elegant font-bold mb-4">
-            Our Services
+          <p className="text-xs md:text-sm tracking-[0.25em] uppercase text-wedding-light-gray mb-2">
+            What We Do
+          </p>
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-elegant font-bold mb-3">
+            Our <span className="text-wedding-gold">Services</span>
           </h1>
-          <p className="text-xl text-wedding-gold">
-            Comprehensive wedding photography and videography solutions
+          <p className="text-sm md:text-base text-wedding-light-gray max-w-2xl mx-auto">
+            Wedding photography, pre-wedding, engagement and cinematic films crafted for beautiful Indian weddings.
           </p>
         </div>
       </section>
 
       {/* Services Grid */}
-      <section className="py-20 bg-white">
+      <section className="py-20">
         <div className="container mx-auto px-4">
+          <motion.div
+            className="text-center mb-12"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
+            <h2 className="text-4xl md:text-5xl font-elegant font-bold mb-3 text-wedding-gold">
+              Wedding Services
+            </h2>
+            <p className="text-sm md:text-base text-wedding-light-gray max-w-2xl mx-auto">
+              Premium photography and cinematography packages designed for Indian weddings, pre-weddings and engagements.
+            </p>
+          </motion.div>
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {services.map((service, index) => (
               <motion.div
                 key={service.title}
-                className="bg-white border border-gray-200 rounded-lg p-8 shadow-lg hover:shadow-2xl transition-all hover:border-wedding-gold"
+                className="bg-wedding-black/80 border border-wedding-gold/30 rounded-2xl p-8 shadow-xl backdrop-blur-sm hover:border-wedding-gold/60 hover:-translate-y-2 transition-all duration-300"
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
               >
-                <div className="text-wedding-gold mb-4">
-                  <service.icon size={48} />
-                </div>
-                <h3 className="text-2xl font-elegant font-bold mb-4">
+                <div className="mb-5 flex items-center gap-3">
+                  <div className="h-14 w-14 rounded-full bg-wedding-gold/15 border border-wedding-gold/40 flex items-center justify-center shadow-inner">
+                    <service.icon size={28} className="text-wedding-gold" />
+                  </div>
+                  <h3 className="text-2xl font-elegant text-white font-bold">
                   {service.title}
-                </h3>
-                <p className="text-gray-600 mb-6 leading-relaxed">
+                  </h3>
+                </div>
+                <p className="text-gray-200 mb-6 leading-relaxed text-sm md:text-base">
                   {service.description}
                 </p>
                 <ul className="space-y-2">
                   {service.features.map((feature, idx) => (
                     <li key={idx} className="flex items-start">
                       <span className="text-wedding-gold mr-2">✓</span>
-                      <span className="text-gray-700">{feature}</span>
+                      <span className="text-white">{feature}</span>
                     </li>
                   ))}
                 </ul>
@@ -129,7 +158,7 @@ const Services = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-wedding-black text-white">
+      <section className="py-20 border-t border-white/10">
         <div className="container mx-auto px-4 text-center">
           <motion.h2
             className="text-4xl md:text-5xl font-elegant font-bold mb-6"
@@ -140,7 +169,7 @@ const Services = () => {
             Ready to Book Your Wedding?
           </motion.h2>
           <motion.p
-            className="text-xl mb-8 text-gray-300"
+            className="text-lg md:text-xl mb-8 text-wedding-light-gray"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -150,7 +179,7 @@ const Services = () => {
           </motion.p>
           <motion.a
             href="/contact"
-            className="inline-block bg-wedding-gold text-wedding-black px-8 py-4 rounded-lg font-semibold hover:bg-gold-400 transition-all"
+            className="inline-block bg-gradient-to-r from-wedding-gold to-wedding-soft-gold text-wedding-black px-10 py-4 rounded-full font-semibold shadow-lg hover:shadow-wedding-gold/60 hover:scale-105 transition-all"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
