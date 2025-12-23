@@ -5,6 +5,8 @@ import Footer from './components/Footer';
 import WhatsAppButton from './components/WhatsAppButton';
 import ScrollToTop from './components/ScrollToTop';
 import ProtectedRoute from './context/ProtectedRoute';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import Home from './pages/Home';
 import About from './pages/About';
@@ -77,6 +79,7 @@ const App = () => {
         </main>
         <Footer />
         <WhatsAppButton />
+        <ToastContainer />
       </div>
     </ThemeProvider>
   );
