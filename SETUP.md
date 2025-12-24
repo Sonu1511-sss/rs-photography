@@ -11,11 +11,21 @@ npm install
 
 Create a `.env` file in the `server` directory:
 
+**For Local Development:**
 ```env
 PORT=5000
-MONGODB_URI=mongodb://localhost:27017/rs-photography
+MONGODB_URI=mongodb+srv://shubhamuprade0_db_user:Shubham%40123@cluster0.3hbv4oo.mongodb.net/rs-photography?retryWrites=true&w=majority
 JWT_SECRET=your_super_secret_jwt_key_change_this_in_production
 NODE_ENV=development
+CORS_ORIGIN=http://localhost:3001
+```
+
+**For Production (Render):**
+```env
+NODE_ENV=production
+MONGODB_URI=mongodb+srv://shubhamuprade0_db_user:Shubham%40123@cluster0.3hbv4oo.mongodb.net/rs-photography?retryWrites=true&w=majority
+CORS_ORIGIN=https://rs-photography.vercel.app
+JWT_SECRET=your_strong_secret_key_here
 ```
 
 Start MongoDB (if running locally):
@@ -36,8 +46,21 @@ node scripts/createAdmin.js username email password
 ```
 
 Option 2: Using API (after server is running)
+
+**Local Development:**
 ```bash
 curl -X POST http://localhost:5000/api/admin/register \
+  -H "Content-Type: application/json" \
+  -d '{
+    "username": "admin",
+    "email": "admin@rsphotography.com",
+    "password": "your_secure_password"
+  }'
+```
+
+**Production:**
+```bash
+curl -X POST https://rs-photography-7.onrender.com/api/admin/register \
   -H "Content-Type: application/json" \
   -d '{
     "username": "admin",
@@ -51,10 +74,26 @@ curl -X POST http://localhost:5000/api/admin/register \
 ```bash
 cd client
 npm install
+```
+
+Create a `.env` file in the `client` directory:
+
+**For Local Development:**
+```env
+VITE_API_URL=http://localhost:5000/api
+```
+
+**For Production (Vercel):**
+```env
+VITE_API_URL=https://rs-photography-7.onrender.com/api
+```
+
+Start the development server:
+```bash
 npm run dev
 ```
 
-The website will be available at `http://localhost:3000`
+The website will be available at `http://localhost:3001`
 
 ## Configuration
 
@@ -92,36 +131,47 @@ Replace placeholder images with actual wedding photos:
 
 ## Production Deployment
 
-### Backend (Heroku/Railway example)
+### Production URLs
 
-1. Set environment variables:
-   - `MONGODB_URI` - Your MongoDB connection string
-   - `JWT_SECRET` - A secure random string
+- **Frontend**: https://rs-photography.vercel.app/
+- **Backend**: https://rs-photography-7.onrender.com/
+
+### Backend Deployment (Render)
+
+1. **Set Environment Variables in Render Dashboard:**
    - `NODE_ENV=production`
+   - `MONGODB_URI=mongodb+srv://shubhamuprade0_db_user:Shubham%40123@cluster0.3hbv4oo.mongodb.net/rs-photography?retryWrites=true&w=majority`
+   - `CORS_ORIGIN=https://rs-photography.vercel.app`
+   - `JWT_SECRET=your_strong_secret_key_here`
 
-2. Deploy the server folder
+2. **Render Settings:**
+   - Root Directory: `server`
+   - Build Command: `npm install`
+   - Start Command: `npm start`
 
-### Frontend (Vercel/Netlify example)
+3. Backend API will be available at: `https://rs-photography-7.onrender.com/api`
 
-1. Build the project:
+### Frontend Deployment (Vercel)
+
+1. **Set Environment Variable in Vercel Dashboard:**
+   - `VITE_API_URL=https://rs-photography-7.onrender.com/api`
+
+2. **Build the project:**
 ```bash
 cd client
 npm run build
 ```
 
-2. Deploy the `dist` folder
+3. Deploy to Vercel (automatic with GitHub integration)
 
-3. Update API URL in `vite.config.js` for production:
-```js
-server: {
-  proxy: {
-    '/api': {
-      target: 'https://your-backend-url.com',
-      changeOrigin: true
-    }
-  }
-}
-```
+4. Frontend will be available at: `https://rs-photography.vercel.app/`
+
+### Important Notes
+
+- ✅ All API routes use `/api` base path
+- ✅ CORS is configured to allow only production frontend
+- ✅ No localhost references in production code
+- ✅ Environment variables are properly configured
 
 ## Troubleshooting
 

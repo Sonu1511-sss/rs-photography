@@ -71,9 +71,10 @@ npm install
 3. Create `.env` file:
 ```env
 PORT=5000
-MONGODB_URI=mongodb://localhost:27017/rs-photography
+MONGODB_URI=mongodb+srv://shubhamuprade0_db_user:Shubham%40123@cluster0.3hbv4oo.mongodb.net/rs-photography?retryWrites=true&w=majority
 JWT_SECRET=your_super_secret_jwt_key_change_this_in_production
 NODE_ENV=development
+CORS_ORIGIN=http://localhost:3001
 ```
 
 4. Start the server:
@@ -95,12 +96,17 @@ cd client
 npm install
 ```
 
-3. Start the development server:
+3. Create `.env` file (for local development):
+```env
+VITE_API_URL=http://localhost:5000/api
+```
+
+4. Start the development server:
 ```bash
 npm run dev
 ```
 
-The client will run on `http://localhost:3000`
+The client will run on `http://localhost:3001`
 
 ## 🔐 Admin Setup
 
@@ -160,26 +166,51 @@ The client will run on `http://localhost:3000`
 
 ## 🚀 Deployment
 
-### Backend Deployment
-1. Set up MongoDB Atlas or use a cloud MongoDB service
-2. Update `MONGODB_URI` in `.env`
-3. Deploy to Heroku, Railway, or similar platform
-4. Set environment variables in your hosting platform
+### Production URLs
 
-### Frontend Deployment
-1. Build the production bundle:
+- **Frontend (Vercel)**: https://rs-photography.vercel.app/
+- **Backend (Render)**: https://rs-photography-7.onrender.com/
+
+### Backend Deployment (Render)
+
+1. **Set Environment Variables in Render Dashboard:**
+```env
+NODE_ENV=production
+MONGODB_URI=mongodb+srv://shubhamuprade0_db_user:Shubham%40123@cluster0.3hbv4oo.mongodb.net/rs-photography?retryWrites=true&w=majority
+CORS_ORIGIN=https://rs-photography.vercel.app
+JWT_SECRET=your_strong_secret_key_here
+```
+
+2. **Render Settings:**
+   - Root Directory: `server`
+   - Build Command: `npm install`
+   - Start Command: `npm start`
+
+3. Backend will be available at: `https://rs-photography-7.onrender.com/api`
+
+### Frontend Deployment (Vercel)
+
+1. **Set Environment Variable in Vercel Dashboard:**
+```env
+VITE_API_URL=https://rs-photography-7.onrender.com/api
+```
+
+2. **Build the production bundle:**
 ```bash
 cd client
 npm run build
 ```
 
-2. Deploy the `dist` folder to:
-   - Vercel
-   - Netlify
-   - AWS S3 + CloudFront
-   - Any static hosting service
+3. Deploy to Vercel (automatic with GitHub integration)
 
-3. Update API URLs in `vite.config.js` for production
+4. Frontend will be available at: `https://rs-photography.vercel.app/`
+
+### Important Notes
+
+- ✅ All API routes use `/api` base path
+- ✅ CORS is configured to allow only production frontend
+- ✅ No localhost references in production code
+- ✅ Environment variables are properly configured
 
 ## 📝 Notes
 

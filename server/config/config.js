@@ -9,14 +9,14 @@ module.exports = {
   nodeEnv: process.env.NODE_ENV || 'development',
   
   // Database Configuration
-  mongoURI: process.env.MONGODB_URI || 'mongodb+srv://shubhamuprade0_db_user:Shubham%40123@cluster0.3hbv4oo.mongodb.net/rs-photography?retryWrites=true&w=majority',
+  mongoURI: process.env.MONGODB_URI || 'mongodb://localhost:27017/rs-photography',
   
   // JWT Configuration
   jwtSecret: process.env.JWT_SECRET || 'default_secret_key_change_in_production',
   jwtExpiresIn: process.env.JWT_EXPIRES_IN || '7d',
   
   // CORS Configuration
-  corsOrigin: process.env.CORS_ORIGIN || 'http://localhost:3001',
+  corsOrigin: process.env.CORS_ORIGIN || 'https://rs-photography.vercel.app',
   
   // File Upload Configuration
   maxFileSize: process.env.MAX_FILE_SIZE || 5242880, // 5MB

@@ -13,7 +13,16 @@ const app = express();
 connectDB();
 
 // Middleware
-app.use(cors());
+const config = require('./config/config');
+
+// CORS Configuration - Allow only production frontend
+app.use(cors({
+  origin: config.corsOrigin,
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
@@ -32,18 +41,20 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'OK', message: 'RS Photography API is running' });
 });
 
-const config = require('./config/config');
-
 const PORT = config.port;
 
 app.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
   console.log(`📝 Environment: ${config.nodeEnv}`);
-  console.log(`🔗 API URL: http://localhost:${PORT}/api`);
+  const apiUrl = config.nodeEnv === 'production' 
+    ? 'https://rs-photography-7.onrender.com/api'
+    : `http://localhost:${PORT}/api`;
+  console.log(`🔗 API URL: ${apiUrl}`);
   const dbInfo = config.mongoURI.includes('@') 
     ? config.mongoURI.split('@')[1]?.split('/')[1] || 'rs-photography'
     : config.mongoURI.split('/').pop() || 'rs-photography';
   console.log(`💾 Database: ${dbInfo}`);
+  console.log(`🌐 CORS Origin: ${config.corsOrigin}`);
   if (!config.jwtSecret || config.jwtSecret.includes('change_this') || config.jwtSecret.includes('default_secret')) {
     console.log('⚠️  Warning: Please change JWT_SECRET in .env file for production!');
   }

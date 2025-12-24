@@ -94,16 +94,16 @@ const Testimonials = () => {
       <div className="pt-20 min-h-screen bg-wedding-black text-white">
         {/* Hero Section - Dark Theme */}
         <section className="relative py-20 md:py-24 overflow-hidden bg-gradient-to-br from-wedding-black via-[#0b0b0f] to-wedding-black">
-          {/* Camera Lens Background Image */}
-          <div
+           {/* Camera Lens Background Image */}
+        <div 
             className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-25 md:opacity-30"
-            style={{
-              backgroundImage: 'url(https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=1920&q=80)',
-              backgroundSize: 'cover',
-              backgroundPosition: 'center',
+          style={{ 
+            backgroundImage: 'url(https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=1920&q=80)',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
               filter: 'blur(2px)',
-            }}
-          />
+          }}
+        />
           <div className="absolute inset-0 bg-gradient-to-br from-wedding-black/90 via-wedding-black/80 to-wedding-gold/10" />
           <div className="relative z-10 container mx-auto px-4 flex items-center justify-center">
             <motion.div

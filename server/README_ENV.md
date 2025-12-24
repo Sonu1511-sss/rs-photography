@@ -10,7 +10,28 @@ Server folder mein `.env` file create karein (agar nahi hai to).
 
 ### Step 2: Required Variables
 
+#### Production Environment (Render)
+
 `.env` file mein ye variables add karein:
+
+```env
+# Server Port (Render automatically sets this)
+PORT=10000
+
+# Environment
+NODE_ENV=production
+
+# MongoDB Connection String
+MONGODB_URI=mongodb+srv://shubhamuprade0_db_user:Shubham%40123@cluster0.3hbv4oo.mongodb.net/rs-photography?retryWrites=true&w=majority
+
+# CORS Origin (Production Frontend URL)
+CORS_ORIGIN=https://rs-photography.vercel.app
+
+# JWT Secret (Production mein strong random string use karein)
+JWT_SECRET=your_strong_secret_key_here
+```
+
+#### Development Environment (Local)
 
 ```env
 # Server Port
@@ -20,9 +41,12 @@ PORT=5000
 NODE_ENV=development
 
 # MongoDB Connection String
-MONGODB_URI=mongodb+srv://shubhamuprade0_db_user:Shubham%40123@cluster0.3hbv4oo.mongodb.net/rsphotography?retryWrites=true&w=majority
+MONGODB_URI=mongodb+srv://shubhamuprade0_db_user:Shubham%40123@cluster0.3hbv4oo.mongodb.net/rs-photography?retryWrites=true&w=majority
 
-# JWT Secret (Production mein strong random string use karein)
+# CORS Origin (Local Frontend)
+CORS_ORIGIN=http://localhost:3001
+
+# JWT Secret
 JWT_SECRET=your_secret_key_here
 ```
 
@@ -79,12 +103,23 @@ npm run dev
 - `.env` mein PORT change karein
 - Ya running process ko stop karein
 
-### Example .env File
+### Example .env File (Production - Render)
+
+```env
+PORT=10000
+NODE_ENV=production
+MONGODB_URI=mongodb+srv://shubhamuprade0_db_user:Shubham%40123@cluster0.3hbv4oo.mongodb.net/rs-photography?retryWrites=true&w=majority
+CORS_ORIGIN=https://rs-photography.vercel.app
+JWT_SECRET=my_super_secret_jwt_key_12345
+```
+
+### Example .env File (Development - Local)
 
 ```env
 PORT=5000
 NODE_ENV=development
-MONGODB_URI=mongodb+srv://shubhamuprade0_db_user:Shubham%40123@cluster0.3hbv4oo.mongodb.net/rsphotography?retryWrites=true&w=majority
+MONGODB_URI=mongodb+srv://shubhamuprade0_db_user:Shubham%40123@cluster0.3hbv4oo.mongodb.net/rs-photography?retryWrites=true&w=majority
+CORS_ORIGIN=http://localhost:3001
 JWT_SECRET=my_super_secret_jwt_key_12345
 ```
 
