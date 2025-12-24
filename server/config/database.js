@@ -7,7 +7,7 @@ const mongoose = require('mongoose');
 
 const connectDB = async () => {
   try {
-    const mongoURI = process.env.MONGODB_URI || 'mongodb+srv://shubhamuprade0_db_user:Rp2ZcPBsbuNuUh1U@cluster0.3hbv4oo.mongodb.net/rs-photography?retryWrites=true&w=majority';
+    const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/rs-photography';
     
     const conn = await mongoose.connect(mongoURI, {
       useNewUrlParser: true,
@@ -41,13 +41,12 @@ const connectDB = async () => {
   } catch (error) {
     console.error('❌ MongoDB Connection Error:', error.message);
     console.log('\n💡 Please check your MONGODB_URI in .env file');
-    console.log('📝 Example: MONGODB_URI=mongodb+srv://username:password@cluster0.xxxxx.mongodb.net/rs-photography?retryWrites=true&w=majority\n');
+    console.log('📝 Example: MONGODB_URI=mongodb://localhost:27017/rs-photography\n');
     process.exit(1);
   }
 };
 
 module.exports = connectDB;
-
 
 
 

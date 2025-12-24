@@ -20,7 +20,7 @@ PORT=5000
 NODE_ENV=development
 
 # MongoDB Connection String
-MONGODB_URI=mongodb+srv://shubhamuprade0_db_user:Rp2ZcPBsbuNuUh1U@cluster0.3hbv4oo.mongodb.net/rs-photography?retryWrites=true&w=majority
+MONGODB_URI=mongodb+srv://shubhamuprade0_db_user:Shubham%40123@cluster0.3hbv4oo.mongodb.net/rsphotography?retryWrites=true&w=majority
 
 # JWT Secret (Production mein strong random string use karein)
 JWT_SECRET=your_secret_key_here
@@ -35,7 +35,7 @@ MONGODB_URI=mongodb://localhost:27017/rs-photography
 
 #### Option 2: MongoDB Atlas (Cloud) - Current Default
 ```env
-MONGODB_URI=mongodb+srv://shubhamuprade0_db_user:Rp2ZcPBsbuNuUh1U@cluster0.3hbv4oo.mongodb.net/rs-photography?retryWrites=true&w=majority
+MONGODB_URI=mongodb+srv://shubhamuprade0_db_user:Shubham%40123@cluster0.3hbv4oo.mongodb.net/rsphotography?retryWrites=true&w=majority
 ```
 
 **MongoDB Atlas Setup:**
@@ -84,7 +84,7 @@ npm run dev
 ```env
 PORT=5000
 NODE_ENV=development
-MONGODB_URI=mongodb+srv://shubhamuprade0_db_user:Rp2ZcPBsbuNuUh1U@cluster0.3hbv4oo.mongodb.net/rs-photography?retryWrites=true&w=majority
+MONGODB_URI=mongodb+srv://shubhamuprade0_db_user:Shubham%40123@cluster0.3hbv4oo.mongodb.net/rsphotography?retryWrites=true&w=majority
 JWT_SECRET=my_super_secret_jwt_key_12345
 ```
 
