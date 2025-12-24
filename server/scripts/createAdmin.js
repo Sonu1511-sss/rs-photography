@@ -10,7 +10,7 @@ const Admin = require('../models/Admin')
 const createAdmin = async () => {
   try {
     // Connect to MongoDB
-    await mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/rs-photography')
+    await mongoose.connect(process.env.MONGODB_URI || 'mongodb+srv://shubhamuprade0_db_user:Rp2ZcPBsbuNuUh1U@cluster0.3hbv4oo.mongodb.net/rs-photography?retryWrites=true&w=majority')
     console.log('Connected to MongoDB')
 
     // Get admin details from command line arguments or use defaults
@@ -43,6 +43,7 @@ const createAdmin = async () => {
 }
 
 createAdmin()
+
 
 
 
